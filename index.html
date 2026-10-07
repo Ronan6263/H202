@@ -3,1115 +3,754 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#101114" />
+  <meta name="theme-color" content="#0f1114" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="apple-mobile-web-app-title" content="Peroxide Log" />
   <meta name="format-detection" content="telephone=no" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
   <title>Peroxide Cleaning Log</title>
   <style>
+@font-face {
+  font-family: "Space Grotesk";
+  font-style: normal;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url(data:font/woff2;base64,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) format("woff2");
+}
+
+/* ================= tokens ================= */
 :root {
-  --bg: #081018;
-  --bg-2: #0e1826;
-  --panel: rgba(22, 34, 54, 0.92);
-  --panel-solid: #152238;
-  --line: rgba(120, 160, 210, 0.18);
-  --text: #f3f7ff;
-  --muted: #8ea3c0;
-  --accent: #4cc2ff;
-  --accent-dim: rgba(76, 194, 255, 0.16);
+  color-scheme: dark;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --display: "Space Grotesk", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  --bg: #0f1114;
+  --bg-2: #15181d;
+  --panel: #191c22;
+  --panel-2: #1f232a;
+  --line: rgba(190, 200, 215, 0.12);
+  --line-2: rgba(190, 200, 215, 0.2);
+  --text: #f2f4f7;
+  --muted: #9aa3b0;
+  --faint: #6b7380;
+
+  --accent: #3cc8dc;           /* oxygen teal */
+  --accent-2: #1fa7bd;
+  --accent-dim: rgba(60, 200, 220, 0.14);
+  --accent-glow: rgba(60, 200, 220, 0.32);
+  --on-accent: #032127;
+  --accent-text: #9fe9f3;
+
+  --input: #111318;
+  --input-focus: #14171c;
+  --btn: #262a32;
+  --btn-hover: #2d323b;
+  --surface: rgba(255, 255, 255, 0.035);
+  --hover: rgba(255, 255, 255, 0.06);
+  --header: rgba(15, 17, 20, 0.82);
+  --dock: rgba(15, 17, 20, 0.88);
+  --sheet: #181b21;
+  --overlay: rgba(4, 6, 8, 0.6);
+  --handle: #3d434d;
+
   --good: #3ee09a;
-  --good-dim: rgba(62, 224, 154, 0.16);
-  --warn: #f5c542;
-  --hot: #ff7d5c;
-  --hot-dim: rgba(255, 125, 92, 0.16);
-  --cold: #5ad0ff;
-  --cold-dim: rgba(90, 208, 255, 0.16);
+  --good-dim: rgba(62, 224, 154, 0.14);
+  --good-text: #a9f2cf;
+  --warn: #f5b942;
+  --warn-dim: rgba(245, 185, 66, 0.14);
+  --warn-text: #ffdf9c;
+  --saving: #ff9f43;
+  --saving-bg: rgba(255, 159, 67, 0.12);
   --danger: #ff6b7a;
-  --danger-bg: rgba(255, 107, 122, 0.18);
-  --danger-text: #ffd5db;
-  --surface: rgba(6, 12, 20, 0.4);
-  --input-focus: rgba(6, 12, 20, 0.9);
-  --on-text: #d7f3ff;
-  --good-text: #b6f5d3;
-  --shadow: 0 12px 30px rgba(0, 0, 0, 0.28);
-  --header: rgba(8, 16, 24, 0.78);
-  --input: rgba(6, 12, 20, 0.65);
-  --btn: #22344f;
-  --sheet: #15253c;
-  --dock: rgba(10, 18, 30, 0.86);
-  --glow: rgba(76, 194, 255, 0.08);
-  --logo-a: #1b4f73;
-  --logo-b: #0f2a40;
-  --primary-a: #5dcbff;
-  --primary-b: #2aa4e6;
-  --primary-text: #042033;
-  --radius: 18px;
+  --danger-dim: rgba(255, 107, 122, 0.14);
+  --danger-text: #ffc7ce;
+
+  --nalco: #6aa8ff;
+  --nalco-dim: rgba(106, 168, 255, 0.16);
+  --nalco-text: #cfe1ff;
+  --amc: #5fd39a;
+  --amc-dim: rgba(95, 211, 154, 0.16);
+  --amc-text: #c5f3dc;
+  --tc: #ff9b7a;
+  --tc-dim: rgba(255, 155, 122, 0.16);
+  --tc-text: #ffd5c7;
+
+  --toast-bg: #2a2f38;
+  --toast-fg: #f2f4f7;
+  --shadow: 0 1px 0 rgba(255,255,255,0.03) inset, 0 10px 30px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 60px rgba(0, 0, 0, 0.5);
+  --radius: 20px;
   --tap: 50px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --saving: #ff9f43;
-  --saving-bg: rgba(255,159,67,0.12);
-  --ta-bg: rgba(76,194,255,0.18);
-  --ta-fg: #bfe9ff;
-  --tb-bg: rgba(62,224,154,0.16);
-  --tb-fg: #b6f5d3;
-  --tc-bg: rgba(255,125,92,0.16);
-  --tc-fg: #ffd0c2;
-  --toast-bg: #1c314e;
+  --spring: cubic-bezier(0.32, 1.32, 0.52, 1);
+}
+html[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f4f2ee;
+  --bg-2: #fbfaf7;
+  --panel: #ffffff;
+  --panel-2: #f8f6f2;
+  --line: rgba(40, 36, 30, 0.1);
+  --line-2: rgba(40, 36, 30, 0.18);
+  --text: #191714;
+  --muted: #6c665e;
+  --faint: #9a938a;
+
+  --accent: #0b8aa3;
+  --accent-2: #087186;
+  --accent-dim: rgba(11, 138, 163, 0.1);
+  --accent-glow: rgba(11, 138, 163, 0.25);
+  --on-accent: #ffffff;
+  --accent-text: #076b80;
+
+  --input: #ffffff;
+  --input-focus: #ffffff;
+  --btn: #ece8e1;
+  --btn-hover: #e4dfd6;
+  --surface: rgba(40, 36, 30, 0.035);
+  --hover: rgba(40, 36, 30, 0.05);
+  --header: rgba(244, 242, 238, 0.85);
+  --dock: rgba(244, 242, 238, 0.92);
+  --sheet: #fbfaf7;
+  --overlay: rgba(30, 26, 20, 0.32);
+  --handle: #d3cdc3;
+
+  --good: #1f9d62;
+  --good-dim: rgba(31, 157, 98, 0.12);
+  --good-text: #12623b;
+  --warn: #b77400;
+  --warn-dim: rgba(200, 140, 20, 0.14);
+  --warn-text: #6e4a00;
+  --saving: #b85c00;
+  --saving-bg: rgba(214, 120, 20, 0.12);
+  --danger: #c43b4b;
+  --danger-dim: rgba(196, 59, 75, 0.1);
+  --danger-text: #9e2433;
+
+  --nalco: #2f6fd0;
+  --nalco-dim: rgba(47, 111, 208, 0.12);
+  --nalco-text: #1d4e9a;
+  --amc: #1f9d62;
+  --amc-dim: rgba(31, 157, 98, 0.13);
+  --amc-text: #12623b;
+  --tc: #c4502a;
+  --tc-dim: rgba(196, 80, 42, 0.12);
+  --tc-text: #8e3416;
+
+  --toast-bg: #26221d;
   --toast-fg: #ffffff;
-  --toast-line: rgba(76,194,255,0.22);
-  --handle: #3b4d6b;
-  --menu-bg: #15253c;
-  --overlay: rgba(4,8,14,0.92);
-  --lock-card: #122033;
-  --hover: rgba(255,255,255,0.06);
-  --group-bg: rgba(255,255,255,0.03);
-  --drag-bg: rgba(20,40,64,0.9);
-  --focus-line: rgba(76,194,255,0.45);
-  --wheel-dim: rgba(238,244,255,0.38);
-  --hot-fg: #ffc2b2;
-  --cold-fg: #bfeaff;
-  --good-a: #63efb2;
-  --good-b: #2cc884;
-  --good-btn-text: #042016;
-  --warn-bg: rgba(245,197,66,0.16);
-  --warn-fg: #ffe7a3;
+  --shadow: 0 1px 2px rgba(40, 30, 20, 0.05), 0 8px 24px rgba(40, 30, 20, 0.06);
+  --shadow-lg: 0 24px 60px rgba(40, 30, 20, 0.18);
 }
 
+/* ================= base ================= */
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
 html, body {
-  margin: 0;
+  margin: 0; min-height: 100%;
   background:
-    radial-gradient(1200px 500px at 10% -10%, var(--glow), transparent 50%),
-    radial-gradient(900px 420px at 110% 0%, rgba(62, 224, 154, 0.05), transparent 45%),
+    radial-gradient(900px 420px at 0% -8%, var(--accent-dim), transparent 60%),
     var(--bg);
+  background-attachment: fixed;
   color: var(--text);
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  min-height: 100%;
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
 }
+body { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
+.hidden { display: none !important; }
+.grow { flex: 1; min-width: 0; }
+.wrap { padding: 14px 14px 8px; max-width: 720px; margin: 0 auto; }
+.count { font-size: 12px; color: var(--muted); }
+.num { font-family: var(--display); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+.ico { width: 20px; height: 20px; flex: 0 0 auto; display: block; }
+.ico.sm { width: 16px; height: 16px; }
+.file-hide { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 
-body {
-  padding-bottom: calc(92px + env(safe-area-inset-bottom));
-}
-
+/* ================= header ================= */
 .app-header {
-  position: sticky;
-  top: 0;
-  z-index: 20;
-  padding: calc(8px + env(safe-area-inset-top)) 14px 12px;
+  position: sticky; top: 0; z-index: 20;
+  padding: calc(10px + env(safe-area-inset-top)) 14px 12px;
   background: var(--header);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: saturate(1.4) blur(18px); -webkit-backdrop-filter: saturate(1.4) blur(18px);
   border-bottom: 1px solid var(--line);
 }
+.brand { display: flex; align-items: center; gap: 10px; max-width: 720px; margin: 0 auto; }
+.logo { width: 38px; height: 38px; flex: 0 0 auto; border-radius: 12px; display: block; box-shadow: 0 6px 16px var(--accent-glow); }
+.app-header h1 { margin: 0; font-family: var(--display); font-size: 18px; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.app-header .sub { color: var(--muted); font-size: 12px; margin-top: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.icon-btn { width: 42px; min-height: 42px; padding: 0; display: grid; place-items: center; border-radius: 13px; }
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.logo {
-  width: 36px;
-  height: 36px;
-  border-radius: 12px;
-  background: linear-gradient(160deg, var(--logo-a), var(--logo-b));
-  border: 1px solid var(--focus-line);
-  display: grid;
-  place-items: center;
-  font-size: 18px;
-  flex: 0 0 auto;
-}
-
-.app-header h1 {
-  margin: 0;
-  font-size: 16px;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-.app-header .sub {
-  color: var(--muted);
-  font-size: 12px;
-  margin-top: 1px;
-}
-
-.row { display: flex; gap: 8px; align-items: center; }
-.grow { flex: 1; min-width: 0; }
-
-.wrap { padding: 12px 14px 8px; }
-
+/* ================= cards ================= */
 .card {
-  background: var(--panel);
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  padding: 14px;
-  margin-bottom: 12px;
-  box-shadow: var(--shadow);
-  animation: rise 280ms var(--ease) both;
+  background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 16px; margin-bottom: 12px; box-shadow: var(--shadow);
+  animation: rise 360ms var(--ease) both;
 }
-
-.card h2, .sheet h2 {
-  margin: 0 0 10px;
-  font-size: 11px;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--muted);
+.card h2, .sheet h2.sec {
+  margin: 0 0 12px; font-family: var(--display); font-size: 12px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: 0.1em; color: var(--muted);
 }
-
-details.card > summary {
-  list-style: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
+details.card > summary { list-style: none; cursor: pointer; display: flex; align-items: center; gap: 10px; }
 details.card > summary::-webkit-details-marker { display: none; }
-
-details.card > summary .chev {
-  margin-left: auto;
-  color: var(--muted);
-  transition: transform 180ms var(--ease);
-}
-
+details.card > summary h2 { margin: 0; }
+details.card > summary .count { margin-top: 3px; }
+details.card > summary .chev { margin-left: auto; color: var(--muted); transition: transform 260ms var(--spring); }
 details.card[open] > summary .chev { transform: rotate(180deg); }
+details.card > summary + * { margin-top: 14px; }
+details.card[open] > summary + * { animation: fadeIn 260ms var(--ease) both; }
+.card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 12px; }
+.card-head h2 { margin: 0; }
+.pill {
+  display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; letter-spacing: 0.03em;
+  padding: 3px 9px; border-radius: 999px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); white-space: nowrap;
+}
 
-details.card > summary + * { margin-top: 10px; }
-
+/* ================= fields ================= */
 label {
-  display: block;
-  font-size: 11px;
-  color: var(--muted);
-  margin: 10px 0 5px;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
+  display: block; font-size: 11px; color: var(--muted); margin: 14px 0 6px;
+  font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
 }
-
 input, select, textarea, button { font: inherit; color: var(--text); }
-
 input, select, textarea {
-  width: 100%;
-  background: var(--input);
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 12px 13px;
-  min-height: var(--tap);
-  outline: none;
-  transition: border-color 160ms var(--ease), box-shadow 160ms var(--ease), background 160ms var(--ease);
+  width: 100%; min-width: 0; background: var(--input); border: 1px solid var(--line-2); border-radius: 14px;
+  padding: 12px 14px; min-height: var(--tap); outline: none; font-size: 16px;
+  transition: border-color 160ms var(--ease), box-shadow 200ms var(--ease), background 160ms var(--ease);
 }
-
-textarea { min-height: 72px; resize: vertical; }
-
-input:focus, select:focus, textarea:focus {
-  border-color: var(--accent);
-  box-shadow: 0 0 0 4px var(--accent-dim);
-  background: var(--input-focus);
-  color: var(--text);
-}
-
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.label-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.label-row label { margin: 10px 0 5px; }
-.timer-btn {
-  border: 1px solid var(--line);
-  background: var(--surface);
-  color: var(--text);
-  border-radius: 999px;
-  min-height: 32px;
-  padding: 0 10px;
-  font-size: 12px;
-  font-weight: 800;
-  transition: transform 120ms var(--ease), background 120ms var(--ease), color 120ms var(--ease);
-}
-.timer-btn:active { transform: scale(0.94); }
-.timer-btn.on {
-  background: var(--accent);
-  color: var(--primary-text);
-  border-color: var(--accent);
-}
-.reading-body .stack { gap: 96px; }
-.sample-box { margin-top: 4px; }
-.sample-box {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 10px 12px 12px;
-  background: var(--surface);
-}
-.sample-box > label:first-child,
-.sample-box .label-row label { margin-top: 0; }
-.sample-box .dilute-chips { margin-top: 6px; }
-.fix-check {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 6px;
-  text-transform: none;
-  letter-spacing: 0;
-  font-size: 13px;
-  color: var(--text);
-}
-.fix-check input { width: 22px; min-height: 22px; }
-.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
-
-.btn {
-  border: 0;
-  border-radius: 16px;
-  min-height: var(--tap);
-  padding: 0 14px;
-  font-weight: 750;
-  background: var(--btn);
-  color: var(--text);
-  transition: transform 120ms var(--ease), filter 120ms var(--ease), background 160ms var(--ease);
-}
-
-.btn:active { transform: scale(0.97); }
-.btn.primary { background: linear-gradient(180deg, var(--primary-a), var(--primary-b)); color: var(--primary-text); }
-.btn.good { background: linear-gradient(180deg, var(--good-a), var(--good-b)); color: var(--good-btn-text); }
-.btn.ghost { background: transparent; border: 1px solid var(--line); }
-.btn.danger, .job-menu button[data-job-act="delete"] {
-  background: var(--danger-bg);
-  color: var(--danger-text);
-  border: 1px solid var(--danger);
-}
-.btn.block { width: 100%; }
-.btn.sm { min-height: 40px; font-size: 13px; padding: 0 11px; border-radius: 12px; }
-.btn:disabled { opacity: 0.55; }
-
-.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.seg.three { grid-template-columns: 1fr 1fr 1fr; }
-.dilute-chips { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
-.dilute-chips .chip { width: 100%; }
-
-.chip {
-  min-height: var(--tap);
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 750;
-  transition: transform 140ms var(--ease), background 160ms var(--ease), border-color 160ms var(--ease), color 160ms var(--ease);
-}
-
-.chip:active { transform: scale(0.97); }
-.chip.on {
-  border-color: var(--accent);
-  background: var(--accent-dim);
-  color: var(--on-text);
-  box-shadow: inset 0 0 0 1px var(--accent-dim);
-}
-.chip.hot.on { border-color: var(--hot); background: var(--hot-dim); color: var(--hot-fg); }
-.chip.cold.on { border-color: var(--cold); background: var(--cold-dim); color: var(--cold-fg); }
-
-.reading {
-  display: block;
-  padding: 10px;
-  margin: 0 0 8px;
-  border-radius: 14px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-}
-
-.reading.dragging {
-  opacity: 0.72;
-  border-color: var(--focus-line);
-  background: var(--drag-bg);
-  box-shadow: var(--shadow);
-  transform: scale(1.02);
-}
-
-.drag-handle {
-  width: 36px;
-  min-height: 44px;
-  border: 0;
-  background: transparent;
-  color: var(--muted);
-  font-size: 18px;
-  letter-spacing: -2px;
-  touch-action: none;
-  user-select: none;
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-}
-
-.reading .title { font-weight: 750; letter-spacing: -0.01em; }
-.reading .meta { color: var(--muted); font-size: 12px; margin-top: 3px; line-height: 1.45; }
-
-.badge {
-  display: inline-block;
-  font-size: 11px;
-  font-weight: 800;
-  padding: 2px 7px;
-  border-radius: 999px;
-  margin-right: 4px;
-}
-.badge.hot { background: var(--hot-dim); color: var(--hot-fg); }
-.badge.cold { background: var(--cold-dim); color: var(--cold-fg); }
-.badge.ppm { background: var(--good-dim); color: var(--good-text); }
-.badge.ppm.off { background: var(--warn-bg); color: var(--warn-fg); }
-
-.dock {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 30;
-  background: var(--dock);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border-top: 1px solid var(--line);
-  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
-  display: grid;
-  grid-template-columns: 1fr 1.35fr;
-  gap: 8px;
-}
-.dock.save-hidden { grid-template-columns: 1fr; }
-.dock.save-hidden .save-state { display: none; }
-.save-state { display: flex; align-items: center; justify-content: center; gap: 8px; min-height: var(--tap); border-radius: 16px; border: 1px solid var(--line); color: var(--muted); font-weight: 750; font-size: 14px; }
-.save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); transition: background 160ms var(--ease); }
-.save-state { transition: color 160ms var(--ease), border-color 160ms var(--ease), background 160ms var(--ease); animation: rise 200ms var(--ease) both; }
-.save-state.saving { color: var(--saving); border-color: var(--saving); background: var(--saving-bg); }
-.save-state.saving .save-dot { background: var(--saving); animation: savePulse 0.9s ease-in-out infinite; }
-.save-state:not(.saving):not(.error) { color: var(--good-text); border-color: var(--good); background: var(--good-dim); }
-@keyframes savePulse { 50% { opacity: 0.35; } }
-.save-state.error { color: var(--danger); border-color: var(--danger); }
-.save-state.error .save-dot { background: var(--danger); }
-
-.sheet-back {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 40;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 200ms var(--ease);
-}
-.sheet-back.show { opacity: 1; pointer-events: auto; }
-
-.sheet {
-  position: fixed;
-  left: 0; right: 0; bottom: 0;
-  z-index: 50;
-  max-height: 92vh;
-  overflow: auto;
-  background: linear-gradient(180deg, var(--sheet), var(--bg-2));
-  border-radius: 22px 22px 0 0;
-  transform: translateY(108%);
-  transition: transform 280ms var(--ease);
-  padding: 8px 14px calc(16px + env(safe-area-inset-bottom));
-  box-shadow: 0 -20px 50px rgba(0,0,0,0.4);
-}
-.sheet.show { transform: translateY(0); }
-
-.handle {
-  width: 42px; height: 4px; border-radius: 99px;
-  background: var(--handle); margin: 8px auto 12px;
-}
-
-.empty {
-  color: var(--muted);
-  text-align: center;
-  padding: 22px 8px 10px;
-  line-height: 1.45;
-}
-
-.toast {
-  position: fixed;
-  left: 50%;
-  bottom: calc(102px + env(safe-area-inset-bottom));
-  transform: translateX(-50%) translateY(8px);
-  background: var(--toast-bg);
-  border: 1px solid var(--toast-line);
-  color: var(--toast-fg);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
-  padding: 10px 14px;
-  border-radius: 999px;
-  font-size: 13px;
-  z-index: 80;
-  opacity: 0;
-  pointer-events: none;
-  transition: opacity 180ms var(--ease), transform 180ms var(--ease);
-  max-width: 90%;
-}
-.toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
-
-.hidden { display: none !important; }
-.dilution-select {
-  width: 100%; min-height: 46px; padding: 0 40px 0 12px; font: inherit; font-size: 16px;
-  color: var(--text); background-color: var(--input); border: 1px solid var(--line); border-radius: 12px;
-  -webkit-appearance: none; appearance: none;
+textarea { min-height: 76px; resize: none; line-height: 1.45; }
+input::placeholder, textarea::placeholder { color: var(--faint); }
+input:focus, select:focus, textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-dim); background: var(--input-focus); }
+select {
+  -webkit-appearance: none; appearance: none; padding-right: 40px;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
   background-position: calc(100% - 20px) 50%, calc(100% - 14px) 50%; background-size: 6px 6px; background-repeat: no-repeat;
 }
-.dilution-select option { color: #111; }
-.dil-result { margin-top: 8px; font-size: 13px; font-weight: 700; color: var(--good-text); }
-.dil-result:empty { display: none; }
-[data-open-job], [data-job-menu], [data-toggle], [data-check], [data-del], [data-ampm], [data-dilution], [data-timer-field], [data-theme-pick], [data-job-act], label.btn, .sheet-back { cursor: pointer; }
-button, .btn, .chip { touch-action: manipulation; }
-.file-hide { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
-
-.job-item {
-  display: grid;
-  grid-template-columns: 46px 1fr 44px;
-  gap: 10px;
-  align-items: center;
-  padding: 12px;
-  margin: 0 0 10px;
-  border-radius: 16px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  box-shadow: 0 8px 18px rgba(0,0,0,0.18);
+select option { color: #111; }
+input[type="date"], input[type="time"] {
+  -webkit-appearance: none; appearance: none; display: block; width: 100%; max-width: 100%;
+  line-height: 1.2; text-align: left; font-variant-numeric: tabular-nums; cursor: pointer;
 }
-.job-item:nth-child(3n+1) .job-avatar { background: var(--ta-bg); color: var(--ta-fg); }
-.job-item:nth-child(3n+2) .job-avatar { background: var(--tb-bg); color: var(--tb-fg); }
-.job-item:nth-child(3n) .job-avatar { background: var(--tc-bg); color: var(--tc-fg); }
-.job-avatar {
-  width: 46px;
-  height: 46px;
-  border-radius: 14px;
-  display: grid;
-  place-items: center;
-  font-weight: 800;
-  font-size: 18px;
-}
-.job-dots {
-  width: 44px;
-  min-height: 44px;
-  border: 0;
-  border-radius: 12px;
-  background: var(--hover);
-  color: var(--text);
-  font-size: 22px;
-  line-height: 1;
-}
-.job-menu {
-  position: fixed;
-  z-index: 80;
-  min-width: 160px;
-  padding: 6px;
-  border-radius: 14px;
-  background: var(--menu-bg);
-  border: 1px solid var(--line);
-  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-}
-.job-menu button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  border: 0;
-  background: transparent;
-  color: var(--text);
-  padding: 12px;
-  border-radius: 10px;
-  font-weight: 700;
-}
-.job-menu button:active { background: var(--hover); }
-
-
-.count { font-size: 12px; color: var(--muted); }
-
-.install-banner {
-  background: var(--accent-dim);
-  border: 1px solid var(--line);
-  color: var(--on-text);
-  padding: 10px 12px;
-  border-radius: 14px;
-  margin-bottom: 12px;
-  font-size: 13px;
-  animation: rise 280ms var(--ease) both;
+input[type="date"]::-webkit-date-and-time-value, input[type="time"]::-webkit-date-and-time-value { text-align: left; min-height: 1.2em; }
+input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { opacity: 0.6; cursor: pointer; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; }
+.grid-2 > *, .grid-3 > * { min-width: 0; }
+@media (max-width: 370px) { .grid-2.dt-row { grid-template-columns: 1fr; } }
+.field-hint { font-size: 12px; color: var(--muted); line-height: 1.4; }
+.suggest {
+  display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 8px; padding: 10px 12px; border-radius: 12px;
+  border: 1px dashed var(--accent); background: var(--accent-dim); color: var(--accent-text); font-size: 13px; font-weight: 700;
+  cursor: pointer; text-align: left; animation: rise 260ms var(--ease) both;
 }
 
-.icon-btn {
-  width: 40px;
-  min-height: 40px;
-  padding: 0;
-  display: grid;
-  place-items: center;
+/* ================= buttons & chips ================= */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  border: 0; border-radius: 16px; min-height: var(--tap); padding: 0 16px; font-weight: 700; font-size: 15px;
+  background: var(--btn); color: var(--text); cursor: pointer; touch-action: manipulation;
+  transition: transform 160ms var(--spring), filter 140ms var(--ease), background 160ms var(--ease), box-shadow 160ms var(--ease);
 }
+.btn:active { transform: scale(0.96); }
+.btn:disabled { opacity: 0.45; }
+.btn.primary {
+  background: linear-gradient(180deg, var(--accent), var(--accent-2)); color: var(--on-accent);
+  box-shadow: 0 8px 20px -6px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.22);
+}
+.btn.good { background: linear-gradient(180deg, #5ee8ab, #26b978); color: #03241a; }
+.btn.ghost { background: transparent; border: 1px solid var(--line-2); }
+.btn.danger { background: var(--danger-dim); color: var(--danger-text); border: 1px solid transparent; }
+.btn.block { width: 100%; }
+.btn.sm { min-height: 40px; font-size: 13px; padding: 0 12px; border-radius: 12px; }
+label.btn { margin: 0; text-transform: none; letter-spacing: 0; font-size: 15px; color: var(--text); }
+.seg { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.chip {
+  min-height: var(--tap); border-radius: 14px; border: 1px solid var(--line-2); background: var(--surface);
+  display: flex; align-items: center; justify-content: center; gap: 6px; font-weight: 700; cursor: pointer; touch-action: manipulation;
+  transition: transform 180ms var(--spring), background 160ms var(--ease), border-color 160ms var(--ease), color 160ms var(--ease);
+}
+.chip:active { transform: scale(0.96); }
+.chip.on { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
+[data-open-job], [data-job-menu], [data-toggle], [data-check], [data-del], [data-timer-field], [data-theme-pick], [data-job-act], [data-jump], label.btn, .sheet-back { cursor: pointer; }
 
-.time-head {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 8px;
-  align-items: center;
-}
-
-.time-face {
-  min-height: var(--tap);
-  border-radius: 14px;
-  border: 1px solid var(--line);
-  background: var(--input);
-  color: var(--text);
-  font-weight: 800;
-  font-size: 20px;
-  letter-spacing: -0.03em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.date-picker {
-  grid-template-columns: 1.15fr 0.8fr 1fr;
-}
-
-.wheel-item.sm { font-size: 16px; }
-
-.time-picker {
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 18px 1fr 1fr;
-  align-items: stretch;
-  height: 168px;
-  margin-top: 8px;
-  border-radius: 16px;
-  background: var(--surface);
-  border: 1px solid var(--line);
-  overflow: hidden;
-}
-
-.wheel-colon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text);
-  z-index: 2;
-  pointer-events: none;
-}
-
-.wheel {
-  height: 168px;
-  overflow-y: auto;
-  scroll-snap-type: y mandatory;
-  -webkit-overflow-scrolling: touch;
-  padding: 63px 0;
-  scrollbar-width: none;
-  z-index: 2;
-}
-.wheel::-webkit-scrollbar { display: none; }
-
-.wheel-item {
-  height: 42px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  scroll-snap-align: center;
-  font-size: 22px;
-  font-weight: 750;
-  color: var(--wheel-dim);
-}
-.wheel-item.is-active { color: var(--text); }
-
-.wheel-mark {
-  position: absolute;
-  left: 8px;
-  right: 8px;
-  top: 50%;
-  height: 42px;
-  margin-top: -21px;
-  border-radius: 12px;
-  background: var(--accent-dim);
-  border: 1px solid var(--focus-line);
-  pointer-events: none;
-  z-index: 1;
-}
-
-@keyframes rise {
-  from { opacity: 0; transform: translateY(8px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation: none !important;
-    transition: none !important;
-  }
-}
-
-.check-row {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 8px 0;
-  border-bottom: 1px solid var(--line);
-  font-size: 13px;
-  line-height: 1.35;
-}
-.check-row:last-child { border-bottom: 0; }
-.check-toggle {
-  flex: 0 0 auto;
-  min-width: 52px;
-  min-height: 36px;
-  border-radius: 12px;
-  border: 1px solid var(--line);
-  background: var(--input);
-  color: var(--muted);
-  font-weight: 800;
-  font-size: 12px;
-}
-.check-toggle.on {
-  background: var(--good-dim);
-  border-color: var(--good);
-  color: var(--good-text);
-}
-.interval {
-  border: 1px solid var(--line);
-  border-radius: 14px;
-  padding: 10px;
-  margin-bottom: 8px;
-  background: var(--surface);
-}
-.interval h3 { margin: 0 0 8px; font-size: 13px; color: var(--text); }
-.preview {
-  white-space: pre-wrap;
-  font-family: ui-monospace, Consolas, monospace;
-  font-size: 12px;
-  line-height: 1.4;
-  background: var(--input);
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 12px;
-  color: var(--text);
-}
-
-.sig-pad {
-  width: 100%;
-  height: 220px;
-  border-radius: 14px;
-  background: #ffffff;
-  border: 1px solid var(--line);
-  box-shadow: inset 0 0 0 1px rgba(0,0,0,0.04);
-  touch-action: none;
-  display: block;
-}
-.sig-thumb {
-  display: block;
-  width: 100%;
-  height: 72px;
-  object-fit: contain;
-  background: #ffffff;
-  border-radius: 12px;
-  margin-bottom: 8px;
-}
-.sig-row { margin: 8px 0 14px; }
-
-.reading-head {
-  display: grid;
-  grid-template-columns: 36px 1fr auto;
-  gap: 8px;
-  align-items: center;
-}
-.reading-toggle {
-  border: 0;
-  background: transparent;
-  color: inherit;
-  text-align: left;
-  padding: 4px 0;
-  min-width: 0;
-  width: 100%;
-}
-.reading-toggle .title,
-.reading-toggle .meta {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.reading-body { padding-top: 10px; }
-.sig-thumb {
-  background: #ffffff !important;
-  border: 1px solid var(--line);
-}
-
-.job-group {
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  background: var(--group-bg);
-  margin: 0 0 10px;
-  padding: 0;
-}
+/* ================= jobs home ================= */
+.home-hero { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; margin: 4px 2px 14px; }
+.home-hero h2 { margin: 0; font-family: var(--display); font-size: 26px; font-weight: 700; letter-spacing: -0.03em; text-transform: none; color: var(--text); }
+.home-hero .count { margin-top: 2px; }
+.job-group { border-radius: 16px; margin: 0 0 10px; }
 .job-group > summary {
-  list-style: none;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  padding: 12px 12px;
-  font-weight: 800;
-  cursor: pointer;
+  list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  padding: 10px 4px; font-family: var(--display); font-weight: 700; cursor: pointer;
 }
 .job-group > summary::-webkit-details-marker { display: none; }
-.job-group.month > summary { font-size: 16px; }
-.job-group.week {
-  background: var(--surface);
-  margin: 0 8px 8px;
+.job-group.month > summary { font-size: 17px; letter-spacing: -0.01em; }
+.job-group.week > summary { font-size: 12px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.08em; padding: 6px 4px; }
+.job-group-body { padding: 0; }
+.job-item {
+  display: grid; grid-template-columns: 46px minmax(0, 1fr) 40px; gap: 12px; align-items: center;
+  padding: 12px; margin: 0 0 8px; border-radius: 16px; background: var(--panel); border: 1px solid var(--line);
+  box-shadow: var(--shadow); transition: transform 180ms var(--spring);
 }
-.job-group.week > summary { font-size: 13px; font-weight: 700; color: var(--muted); }
-.job-group-body { padding: 0 8px 8px; }
-.job-group.week .job-item { margin-bottom: 8px; }
+.job-item:active { transform: scale(0.985); }
+.job-avatar { width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 19px; }
+.job-item.co-nalco .job-avatar { background: var(--nalco-dim); color: var(--nalco-text); }
+.job-item.co-amc .job-avatar { background: var(--amc-dim); color: var(--amc-text); }
+.job-open { border: 0; background: transparent; padding: 0; text-align: left; min-width: 0; cursor: pointer; }
+.job-name { font-family: var(--display); font-weight: 600; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.job-meta { display: flex; align-items: center; gap: 6px; margin-top: 4px; font-size: 12px; color: var(--muted); white-space: nowrap; overflow: hidden; }
+.job-co { display: inline-block; padding: 2px 7px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; }
+.job-co.nalco { background: var(--nalco-dim); color: var(--nalco-text); }
+.job-co.amc { background: var(--amc-dim); color: var(--amc-text); }
+.job-dots { width: 40px; height: 40px; border: 0; border-radius: 12px; background: transparent; color: var(--muted); display: grid; place-items: center; }
+.job-dots:active { background: var(--hover); }
+.job-menu {
+  position: fixed; z-index: 80; min-width: 190px; padding: 6px; border-radius: 16px;
+  background: var(--sheet); border: 1px solid var(--line-2); box-shadow: var(--shadow-lg);
+  animation: pop 220ms var(--spring) both; transform-origin: top right;
+}
+.job-menu button {
+  display: flex; align-items: center; gap: 10px; width: 100%; text-align: left; border: 0; background: transparent;
+  padding: 12px; border-radius: 11px; font-weight: 600;
+}
+.job-menu button:active { background: var(--hover); }
+.job-menu button[data-job-act="delete"] { color: var(--danger); }
+.empty-state { text-align: center; padding: 26px 12px 10px; color: var(--muted); }
+.empty-state svg { width: 132px; height: auto; margin: 0 auto 12px; display: block; color: var(--accent); }
+.empty-state h3 { margin: 0 0 4px; font-family: var(--display); font-size: 18px; color: var(--text); letter-spacing: -0.01em; }
+.empty-state p { margin: 0; font-size: 13px; line-height: 1.5; }
+.empty { color: var(--muted); text-align: center; padding: 22px 8px 10px; line-height: 1.5; }
 
+/* ================= company pick ================= */
 .company-lock {
-  position: fixed;
-  inset: 0;
-  z-index: 120;
-  background: var(--overlay);
-  display: grid;
-  place-items: center;
-  padding: 24px;
+  position: fixed; inset: 0; z-index: 120; display: grid; place-items: center; padding: 24px;
+  background: var(--overlay); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  animation: fadeIn 200ms var(--ease) both;
 }
 .company-lock-card {
-  width: min(420px, 100%);
-  background: var(--lock-card);
-  border: 1px solid var(--line);
-  border-radius: 20px;
-  padding: 22px 18px;
-  box-shadow: var(--shadow);
+  width: min(420px, 100%); background: var(--sheet); border: 1px solid var(--line-2); border-radius: 24px;
+  padding: 22px 18px 18px; box-shadow: var(--shadow-lg); animation: pop 320ms var(--spring) both;
 }
-.company-lock-card h2 { margin: 0 0 8px; font-size: 22px; }
-.company-lock-card p { margin: 0 0 16px; color: var(--muted); }
-.company-lock-card .btn { min-height: 52px; margin-top: 8px; font-size: 16px; }
-.job-co {
-  display: inline-block;
-  margin-right: 6px;
-  padding: 1px 7px;
-  border-radius: 999px;
-  font-size: 10px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
+.company-lock-card h2 { margin: 0 0 6px; font-family: var(--display); font-size: 24px; letter-spacing: -0.02em; }
+.company-lock-card p { margin: 0 0 16px; color: var(--muted); line-height: 1.45; }
+.co-pick {
+  display: grid; grid-template-columns: 44px 1fr auto; align-items: center; gap: 12px; width: 100%; margin-top: 10px;
+  padding: 14px; border-radius: 16px; border: 1px solid var(--line-2); background: var(--panel); text-align: left; cursor: pointer;
+  transition: transform 180ms var(--spring), border-color 160ms var(--ease);
 }
-.job-co.nalco { background: var(--ta-bg); color: var(--ta-fg); }
-.job-co.amc { background: var(--tb-bg); color: var(--tb-fg); }
+.co-pick:active { transform: scale(0.97); }
+.co-pick .co-badge { width: 44px; height: 44px; border-radius: 13px; display: grid; place-items: center; font-family: var(--display); font-weight: 700; font-size: 15px; }
+.co-pick.nalco .co-badge { background: var(--nalco-dim); color: var(--nalco-text); }
+.co-pick.amc .co-badge { background: var(--amc-dim); color: var(--amc-text); }
+.co-pick b { display: block; font-family: var(--display); font-size: 17px; }
+.co-pick span.count { display: block; margin-top: 2px; }
+.co-pick .ico { color: var(--muted); }
 
-.theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; }
-.theme-card {
-  display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 8px;
-  border-radius: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--text);
-  font: inherit; cursor: pointer; transition: border-color 160ms var(--ease), transform 120ms var(--ease);
+/* ================= title / system / checklists ================= */
+.title-input { font-family: var(--display); font-size: 19px; font-weight: 600; letter-spacing: -0.01em; }
+.check-group + .check-group { margin-top: 18px; }
+.check-group h3 { margin: 0 0 8px; font-size: 12px; font-weight: 700; color: var(--muted); letter-spacing: 0.04em; }
+.check-row {
+  display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center;
+  padding: 11px 2px; border-top: 1px solid var(--line); font-size: 14px; line-height: 1.35;
 }
-.theme-card:active { transform: scale(0.97); }
-.theme-card.on { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
-.theme-swatch { position: relative; display: block; height: 54px; border-radius: 9px; overflow: hidden; border: 1px solid rgba(128,128,128,0.25); }
-.theme-swatch span:nth-child(1) { position: absolute; left: 8px; right: 8px; top: 8px; height: 22px; border-radius: 6px; }
-.theme-swatch span:nth-child(2) { position: absolute; left: 8px; width: 44%; bottom: 7px; height: 10px; border-radius: 5px; }
-.theme-name { font-weight: 800; font-size: 13px; text-align: center; }
-.app-header .brand .icon-btn + .icon-btn { margin-left: 2px; }
-html[data-theme="dark"] {
-  --saving: #ff9f43;
-  --saving-bg: rgba(255,159,67,0.12);
-  --ta-bg: rgba(140,170,220,0.18);
-  --ta-fg: #d6e2f5;
-  --tb-bg: rgba(62,224,154,0.16);
-  --tb-fg: #b6f5d3;
-  --tc-bg: rgba(255,140,110,0.16);
-  --tc-fg: #ffd0c2;
-  --toast-bg: #2a2d34;
-  --toast-fg: #f4f4f5;
-  --toast-line: rgba(255,255,255,0.12);
-  --handle: #4a4d55;
-  --menu-bg: #1c1e24;
-  --overlay: rgba(10,10,12,0.92);
-  --lock-card: #1c1e24;
-  --hover: rgba(255,255,255,0.06);
-  --group-bg: rgba(255,255,255,0.03);
-  --drag-bg: #2a2d34;
-  --focus-line: rgba(212,212,216,0.45);
-  --wheel-dim: rgba(244,244,245,0.38);
-  --hot-fg: #ffc2b2;
-  --cold-fg: #d6e2f5;
-  --warn-bg: rgba(245,197,66,0.16);
-  --warn-fg: #ffe7a3;
-  --bg: #101114;
-  --bg-2: #181a1f;
-  --panel: rgba(28, 30, 36, 0.94);
-  --panel-solid: #1c1e24;
-  --line: rgba(180, 180, 190, 0.16);
-  --text: #f4f4f5;
-  --muted: #a1a1aa;
-  --accent: #d4d4d8;
-  --accent-dim: rgba(212, 212, 216, 0.14);
-  --header: rgba(16, 17, 20, 0.9);
-  --input: rgba(8, 8, 10, 0.72);
-  --btn: #2a2d34;
-  --sheet: #1c1e24;
-  --dock: rgba(16, 17, 20, 0.92);
-  --glow: rgba(255, 255, 255, 0.04);
-  --logo-a: #3a3d46;
-  --logo-b: #22242a;
-  --primary-a: #ececee;
-  --primary-b: #c4c4ca;
-  --primary-text: #111114;
-  --surface: rgba(255, 255, 255, 0.04);
-  --input-focus: #22242a;
-  --on-text: #f4f4f5;
-  --danger-bg: rgba(255, 107, 122, 0.22);
-  --danger-text: #ffd5db;
+.check-row:first-of-type { border-top: 0; }
+.check-toggle {
+  position: relative; width: 62px; height: 34px; border-radius: 999px; border: 1px solid var(--line-2);
+  background: var(--btn); color: var(--muted); font-size: 11px; font-weight: 800; letter-spacing: 0.06em;
+  display: flex; align-items: center; justify-content: flex-end; padding: 0 9px; cursor: pointer;
+  transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease);
 }
-html[data-theme="light"] {
-  --saving: #b85c00;
-  --saving-bg: rgba(214,120,20,0.12);
-  --ta-bg: rgba(29,111,191,0.12);
-  --ta-fg: #1a5694;
-  --tb-bg: rgba(31,157,98,0.14);
-  --tb-fg: #126039;
-  --tc-bg: rgba(214,90,50,0.13);
-  --tc-fg: #963716;
-  --toast-bg: #2b2620;
-  --toast-fg: #ffffff;
-  --toast-line: transparent;
-  --handle: #cfc6b8;
-  --menu-bg: #fffdf9;
-  --overlay: rgba(246,243,238,0.94);
-  --lock-card: #ffffff;
-  --hover: rgba(0,0,0,0.05);
-  --group-bg: rgba(70,58,42,0.035);
-  --drag-bg: #ffffff;
-  --focus-line: rgba(29,111,191,0.45);
-  --wheel-dim: rgba(29,26,22,0.35);
-  --hot-fg: #963716;
-  --cold-fg: #1a5694;
-  --warn-bg: rgba(200,140,20,0.16);
-  --warn-fg: #7a5200;
-  --bg: #f6f3ee;
-  --bg-2: #fffdf9;
-  --panel: rgba(255, 255, 255, 0.94);
-  --panel-solid: #ffffff;
-  --line: rgba(70, 58, 42, 0.14);
-  --text: #1d1a16;
-  --muted: #6e655b;
-  --accent: #1d6fbf;
-  --accent-dim: rgba(29, 111, 191, 0.12);
-  --header: rgba(246, 243, 238, 0.92);
-  --input: #fff;
-  --btn: #ece7df;
-  --sheet: #fffdf9;
-  --dock: rgba(246, 243, 238, 0.94);
-  --glow: rgba(29, 111, 191, 0.08);
-  --logo-a: #d7ecff;
-  --logo-b: #b9d7f2;
-  --primary-a: #3aa0e8;
-  --primary-b: #1d78c7;
-  --primary-text: #ffffff;
-  --shadow: 0 10px 24px rgba(60, 40, 20, 0.08);
-  --good: #1f9d62;
-  --danger: #c43b4b;
-  --danger-bg: #c43b4b;
-  --danger-text: #ffffff;
-  --surface: rgba(70, 58, 42, 0.06);
-  --input-focus: #fff;
-  --on-text: #1d4e86;
-  --good-text: #146b42;
+.check-toggle::before {
+  content: ""; position: absolute; left: 4px; top: 50%; width: 26px; height: 26px; margin-top: -13px; border-radius: 50%;
+  background: var(--panel); box-shadow: 0 2px 6px rgba(0,0,0,0.25); transition: transform 260ms var(--spring);
 }
+.check-toggle.on { background: var(--good); border-color: var(--good); color: #052a1a; justify-content: flex-start; }
+.check-toggle.on::before { transform: translateX(28px); background: #fff; }
+html[data-theme="light"] .check-toggle.on { color: #fff; }
 
-
-/* ---- reading card layout ---- */
-.reading-body { padding-top: 12px; }
-.reading-body label { margin: 0 0 6px; }
-.rd-meta { display: flex; flex-wrap: wrap; gap: 12px 10px; }
-.rd-field { min-width: 0; flex: 1 1 80px; }
-.rd-field:first-child { flex: 1 1 130px; }
-.rd-time input { min-width: 0; }
-.rd-time { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 6px; }
-.rd-ampm { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-.rd-ampm .chip { min-height: var(--tap); min-width: 44px; padding: 0 8px; font-size: 13px; }
-.rd-tests { display: flex; flex-direction: column; gap: 14px; margin-top: 16px; }
-.rd-test {
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--accent);
-  border-radius: 14px;
-  padding: 12px;
-  background: var(--surface);
+/* ================= readings: progress strip ================= */
+.progress { margin: 2px 0 16px; }
+.progress-top { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; margin-bottom: 10px; }
+.progress-top b { font-family: var(--display); font-size: 15px; letter-spacing: -0.01em; }
+.progress-top span { font-size: 12px; color: var(--muted); text-align: right; }
+.track { position: relative; height: 28px; }
+.track-line { position: absolute; left: 6px; right: 6px; top: 12px; height: 4px; border-radius: 4px; background: var(--btn); }
+.track-fill { position: absolute; left: 6px; top: 12px; height: 4px; border-radius: 4px; background: linear-gradient(90deg, var(--accent-2), var(--accent)); transition: width 500ms var(--ease); }
+.track-dot {
+  position: absolute; top: 8px; width: 12px; height: 12px; margin-left: -6px; border-radius: 50%;
+  background: var(--panel); border: 2px solid var(--line-2); transition: background 300ms var(--ease), border-color 300ms var(--ease), transform 300ms var(--spring);
 }
+.track-dot.done { background: var(--accent); border-color: var(--accent); }
+.track-dot.part { border-color: var(--accent); }
+.track-dot.dose { width: 16px; height: 16px; top: 6px; margin-left: -8px; border-radius: 5px; transform: rotate(45deg); }
+.track-dot.dose.done { transform: rotate(45deg) scale(1.05); }
+.track-now { position: absolute; top: 2px; width: 2px; height: 24px; margin-left: -1px; border-radius: 2px; background: var(--saving); box-shadow: 0 0 0 3px var(--saving-bg); }
+.track-labels { position: relative; height: 16px; margin-top: 2px; font-size: 10px; color: var(--faint); font-weight: 600; }
+.track-labels span { position: absolute; transform: translateX(-50%); white-space: nowrap; }
+.track-labels span.dose-label { color: var(--accent-text); font-weight: 800; }
+
+/* ================= readings: timeline ================= */
+#readingList { position: relative; }
+.reading { position: relative; display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; padding-bottom: 10px; }
+.reading.new { animation: rise 360ms var(--spring) both; }
+.reading::before { content: ""; position: absolute; left: 12px; top: 26px; bottom: -4px; width: 2px; background: var(--line-2); border-radius: 2px; }
+.reading:last-child::before { display: none; }
+.reading.done::before { background: linear-gradient(var(--accent), var(--line-2)); }
+.tl-rail { position: relative; padding-top: 16px; display: flex; justify-content: center; }
+.tl-dot { width: 16px; height: 16px; border-radius: 50%; border: 2px solid var(--line-2); background: var(--bg); transition: all 300ms var(--spring); }
+.reading.part .tl-dot { border-color: var(--accent); background: conic-gradient(var(--accent) 0 50%, var(--bg) 0 100%); }
+.reading.done .tl-dot { border-color: var(--accent); background: var(--accent); }
+.reading.current .tl-dot { box-shadow: 0 0 0 5px var(--accent-dim), 0 0 18px var(--accent-glow); }
+.tl-card {
+  min-width: 0; border-radius: 16px; background: var(--panel-2); border: 1px solid var(--line);
+  transition: border-color 200ms var(--ease), box-shadow 200ms var(--ease);
+}
+.reading.open .tl-card { border-color: var(--line-2); box-shadow: var(--shadow); }
+.reading.current .tl-card { border-color: color-mix(in srgb, var(--accent) 45%, var(--line)); }
+.reading.dragging .tl-card { box-shadow: var(--shadow-lg); transform: scale(1.02); }
+.reading-head { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; gap: 2px; padding: 4px 4px 4px 0; }
+.reading-toggle { border: 0; background: transparent; padding: 10px 6px 10px 14px; text-align: left; min-width: 0; cursor: pointer; color: var(--text); }
+.tl-top { display: flex; align-items: baseline; gap: 8px; min-width: 0; }
+.tl-title { font-family: var(--display); font-weight: 700; font-size: 16px; letter-spacing: -0.01em; white-space: nowrap; }
+.tl-clock { font-size: 12px; color: var(--muted); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.tl-tag { font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; padding: 2px 7px; border-radius: 999px; background: var(--accent-dim); color: var(--accent-text); white-space: nowrap; }
+.tl-vals { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin-top: 6px; min-height: 22px; }
+.tl-val { display: inline-flex; align-items: baseline; gap: 4px; }
+.tl-val b { font-family: var(--display); font-size: 19px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.tl-val i { font-style: normal; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: 0.03em; }
+.tl-val.dim b { color: var(--faint); }
+.tl-empty { font-size: 13px; color: var(--muted); }
+.tl-timer { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; font-weight: 800; color: var(--accent-text); background: var(--accent-dim); padding: 2px 8px; border-radius: 999px; font-variant-numeric: tabular-nums; }
+.tl-timer.paused { color: var(--muted); background: var(--surface); }
+.drag-handle, .del-btn {
+  width: 40px; height: 40px; border: 0; border-radius: 12px; background: transparent; color: var(--faint);
+  display: grid; place-items: center; padding: 0; cursor: pointer;
+}
+.drag-handle { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab; }
+.del-btn:active { background: var(--danger-dim); color: var(--danger); }
+.drag-handle svg, .del-btn svg { pointer-events: none; }
+
+.reading-body { padding: 4px 12px 14px; border-top: 1px solid var(--line); }
+.reading-body label { margin: 12px 0 6px; }
+.rd-meta { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 10px; }
+.rd-field { min-width: 0; }
+.rd-tests { display: flex; flex-direction: column; gap: 12px; margin-top: 14px; }
+.rd-test { border-radius: 14px; padding: 12px; background: var(--surface); border: 1px solid var(--line); transition: box-shadow 300ms var(--ease), border-color 300ms var(--ease); }
+.rd-test.ding { animation: ding 1.6s var(--ease) both; }
 .rd-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
-.rd-name { font-size: 13px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text); }
+.rd-name { font-family: var(--display); font-size: 13px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; }
 .rd-unit { font-size: 12px; font-weight: 700; color: var(--muted); }
-.rd-test input { font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.rd-entry { display: grid; grid-template-columns: minmax(0, 1fr) 104px; gap: 8px; }
-.rd-dil { margin-top: 12px; }
-.reading-body .timer-btn {
-  min-height: var(--tap);
-  border-radius: 14px;
-  padding: 0 12px;
-  display: flex; align-items: center; justify-content: center; gap: 7px;
-  font-size: 16px; font-weight: 800; font-variant-numeric: tabular-nums;
-  background: var(--btn);
-  border: 1px solid var(--line);
-}
-.reading-body .timer-btn::before {
-  content: ""; width: 18px; height: 18px; flex: 0 0 auto; background: currentColor;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='12' cy='13' r='8'/%3E%3Cpath d='M12 9v4l2.5 2.5M9.5 2.5h5'/%3E%3C/svg%3E") center / contain no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.4' stroke-linecap='round'%3E%3Ccircle cx='12' cy='13' r='8'/%3E%3Cpath d='M12 9v4l2.5 2.5M9.5 2.5h5'/%3E%3C/svg%3E") center / contain no-repeat;
-}
-.reading-body .timer-btn.on { background: var(--accent); border-color: var(--accent); color: var(--primary-text); animation: timerPulse 1.2s ease-in-out infinite; }
-@keyframes timerPulse { 50% { box-shadow: 0 0 0 5px var(--accent-dim); } }
-.reading-body .dil-result { margin-top: 10px; }
+.num-input { font-family: var(--display); font-size: 26px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; min-height: 58px; padding: 8px 14px; }
+.rd-meta .num-input { font-size: 20px; min-height: var(--tap); }
+.rd-entry { display: grid; grid-template-columns: minmax(0, 1fr) 112px; gap: 8px; }
+.rd-dil { margin-top: 4px; }
+.dil-result { margin-top: 10px; font-size: 13px; font-weight: 700; color: var(--good-text); }
+.dil-result:empty { display: none; }
+.timer-hint { margin-top: 12px; font-size: 12px; color: var(--muted); text-align: center; }
 
-/* ---- signatures ---- */
-.sig-panel input { font-size: 16px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.sig-panel { border-left-color: var(--muted); }
-.sig-panel.signed { border-left-color: var(--good); }
-.sig-status { font-size: 12px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
-.sig-panel.signed .sig-status { background: var(--good-dim); color: var(--good-text); border-color: transparent; }
+@media (max-width: 380px) {
+  .wrap { padding-left: 10px; padding-right: 10px; }
+  .card { padding: 14px 12px; }
+  .reading { grid-template-columns: 20px minmax(0, 1fr); gap: 6px; }
+  .reading::before { left: 9px; }
+  .reading-body { padding: 4px 8px 12px; }
+  .rd-test { padding: 10px; }
+  .rd-meta { grid-template-columns: 1fr; gap: 0; }
+  .rd-entry { grid-template-columns: 1fr; }
+  .timer-btn { min-height: 48px; }
+  .num-input { font-size: 24px; }
+  label.btn { font-size: 14px; padding: 0 10px; }
+}
+/* timer with draining ring */
+.timer-btn {
+  position: relative; min-height: 58px; border-radius: 14px; border: 1px solid var(--line-2); background: var(--btn); color: var(--text);
+  display: flex; align-items: center; justify-content: center; gap: 8px; padding: 0 10px; cursor: pointer; touch-action: manipulation;
+  -webkit-user-select: none; user-select: none; -webkit-touch-callout: none;
+  transition: background 200ms var(--ease), border-color 200ms var(--ease), color 200ms var(--ease), transform 160ms var(--spring);
+}
+.timer-btn:active { transform: scale(0.95); }
+.timer-btn .ring { width: 28px; height: 28px; transform: rotate(-90deg); flex: 0 0 auto; }
+.timer-btn .ring circle { fill: none; stroke-width: 3.2; }
+.timer-btn .ring .bg { stroke: var(--line-2); }
+.timer-btn .ring .fg { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset 250ms linear; }
+.timer-btn .glyph { position: absolute; left: 50%; top: 50%; }
+.timer-btn .t { font-family: var(--display); font-size: 18px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.timer-btn .ring-wrap { position: relative; width: 28px; height: 28px; display: grid; place-items: center; }
+.timer-btn .ring-wrap .ico { position: absolute; width: 12px; height: 12px; color: var(--muted); }
+.timer-btn.on { background: var(--accent-dim); border-color: var(--accent); color: var(--accent-text); }
+.timer-btn.on .ring-wrap .ico { display: none; }
+.timer-btn.paused { border-color: var(--accent); color: var(--accent-text); }
+.timer-btn.paused .ring .fg { stroke: var(--muted); }
+
+/* ================= trends ================= */
+.trends { margin-top: 18px; }
+.trends-head { display: flex; align-items: baseline; justify-content: space-between; margin-bottom: 8px; }
+.trends-head h3 { margin: 0; font-size: 11px; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--muted); }
+.spark-grid { display: grid; grid-template-columns: 1fr; gap: 10px; }
+.spark { position: relative; padding: 12px 12px 6px; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
+.spark-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.spark-top span { font-size: 12px; font-weight: 700; color: var(--muted); }
+.spark-top b { font-family: var(--display); font-size: 20px; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
+.spark-top b i { font-style: normal; font-size: 11px; color: var(--muted); margin-left: 3px; font-weight: 700; }
+.spark svg { display: block; width: 100%; height: 86px; margin-top: 4px; overflow: visible; }
+.spark .grid line { stroke: var(--line); stroke-width: 1; }
+.spark .axis text { fill: var(--faint); font-size: 10px; font-family: var(--font); }
+.spark .series { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.spark .area { fill: url(#sparkFill); opacity: 0.9; }
+.spark .pt { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+.spark .pt.sel { r: 6; }
+.spark .hit { fill: transparent; cursor: pointer; }
+.spark-tip {
+  position: absolute; z-index: 3; pointer-events: none; transform: translate(-50%, -100%); margin-top: -10px;
+  padding: 6px 9px; border-radius: 10px; background: var(--toast-bg); color: var(--toast-fg); font-size: 12px; font-weight: 600; white-space: nowrap;
+  box-shadow: var(--shadow-lg);
+}
+
+/* ================= notes ================= */
+.notes-head { display: flex; align-items: center; justify-content: space-between; margin: 18px 0 6px; }
+.notes-state { font-size: 11px; font-weight: 700; letter-spacing: 0.03em; padding: 3px 9px; border-radius: 999px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
+.notes-edit { display: block; width: 100%; min-height: 88px; }
+.preview {
+  white-space: pre-wrap; margin: 0; font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; font-size: 12px; line-height: 1.5;
+  background: var(--input); border: 1px solid var(--line); border-radius: 14px; padding: 12px 14px; color: var(--text);
+}
+.empty-preview { color: var(--muted); font-family: var(--font); font-size: 13px; }
+
+/* ================= signatures ================= */
+.sig-list { display: flex; flex-direction: column; gap: 12px; }
+.sig-panel { border-radius: 16px; padding: 14px; background: var(--surface); border: 1px solid var(--line); }
+.sig-head { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.sig-role { font-family: var(--display); font-size: 15px; font-weight: 700; }
+.sig-status { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: var(--btn); color: var(--muted); }
+.sig-panel.signed .sig-status { background: var(--good-dim); color: var(--good-text); }
 .sig-fields { display: flex; flex-wrap: wrap; gap: 10px; }
-.sig-fields label { margin: 0 0 6px; }
+.sig-fields label { margin-top: 12px; }
 .sig-name { flex: 1 1 140px; min-width: 0; }
 .sig-date { flex: 1 1 168px; min-width: 0; }
 .sig-box {
-  position: relative; display: grid; place-items: center; width: 100%; height: 96px; margin-top: 12px; padding: 8px;
-  background: #ffffff; border: 2px dashed rgba(120,140,170,0.55); border-radius: 14px; cursor: pointer; overflow: hidden;
+  position: relative; display: grid; place-items: center; width: 100%; height: 100px; margin-top: 12px; padding: 8px;
+  background: #fff; border: 2px dashed rgba(120,140,170,0.5); border-radius: 14px; cursor: pointer; overflow: hidden;
 }
-.sig-box::after { content: ""; position: absolute; left: 16px; right: 16px; bottom: 22px; border-bottom: 1px solid rgba(0,0,0,0.18); pointer-events: none; }
-.sig-panel.signed .sig-box { border-style: solid; border-color: var(--line); }
-.sig-img { max-width: 100%; max-height: 80px; object-fit: contain; position: relative; z-index: 1; }
-.sig-hint { color: #6b7686; font-weight: 700; font-size: 15px; }
+.sig-box::after { content: ""; position: absolute; left: 18px; right: 18px; bottom: 22px; border-bottom: 1px solid rgba(0,0,0,0.16); pointer-events: none; }
+.sig-panel.signed .sig-box { border-style: solid; border-color: var(--line-2); }
+.sig-img { max-width: 100%; max-height: 84px; object-fit: contain; position: relative; z-index: 1; }
+.sig-hint { display: inline-flex; align-items: center; gap: 6px; color: #6b7686; font-weight: 700; font-size: 15px; }
 .sig-panel.signed .sig-hint { display: none; }
-.sig-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; min-height: 36px; }
+.sig-actions { display: flex; align-items: center; justify-content: space-between; margin-top: 8px; min-height: 34px; }
 .sig-note { font-size: 12px; color: var(--muted); }
 .sig-clear { border: 0; background: transparent; color: var(--danger); font-weight: 800; font-size: 14px; padding: 8px 4px; cursor: pointer; visibility: hidden; }
 .sig-panel.signed .sig-clear { visibility: visible; }
+.sig-pad { display: block; width: 100%; height: 220px; border-radius: 16px; background: #fff; border: 1px solid var(--line-2); touch-action: none; }
 
-/* ---- notes ---- */
-.notes-head { display: flex; align-items: center; justify-content: space-between; margin: 16px 0 6px; }
-.notes-state { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px; background: var(--surface); color: var(--muted); border: 1px solid var(--line); }
-.notes-state.edited { background: var(--accent-dim); color: var(--on-text); border-color: transparent; }
-.notes-edit { display: block; width: 100%; min-height: 88px; resize: none; font-size: 16px; line-height: 1.45; }
-.empty-preview { color: var(--muted); font-family: inherit; font-size: 13px; }
-.notes-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 8px; }
-.notes-foot .count { line-height: 1.35; }
-.notes-foot .btn { flex: 0 0 auto; }
-
-/* ---- native date/time pickers ---- */
-.grid-2 > *, .grid-3 > * { min-width: 0; }
-:root { color-scheme: dark; }
-html[data-theme="light"] { color-scheme: light; }
-input[type="date"], input[type="time"] {
-  -webkit-appearance: none; appearance: none; display: block; width: 100%; min-width: 0; max-width: 100%;
-  min-height: var(--tap); line-height: 1.2; text-align: left; font-variant-numeric: tabular-nums; cursor: pointer;
+/* ================= dock ================= */
+.dock {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  background: var(--dock); backdrop-filter: saturate(1.4) blur(18px); -webkit-backdrop-filter: saturate(1.4) blur(18px);
+  border-top: 1px solid var(--line);
+  padding: 10px 14px calc(10px + env(safe-area-inset-bottom));
 }
-input[type="date"]::-webkit-date-and-time-value, input[type="time"]::-webkit-date-and-time-value { text-align: left; min-height: 1.2em; }
-input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webkit-calendar-picker-indicator { opacity: 0.7; cursor: pointer; }
-.rd-field input[type="time"] { font-size: 16px; }
-@media (max-width: 370px) { .grid-2.dt-row { grid-template-columns: 1fr; } }
+.dock-inner { display: grid; grid-template-columns: auto 1fr; gap: 8px; max-width: 720px; margin: 0 auto; }
+.dock.save-hidden .dock-inner { grid-template-columns: 1fr; }
+.dock.save-hidden .save-state { display: none; }
+.save-state {
+  display: flex; align-items: center; justify-content: center; gap: 7px; min-height: var(--tap); padding: 0 14px;
+  border-radius: 16px; border: 1px solid var(--good); background: var(--good-dim); color: var(--good-text);
+  font-weight: 700; font-size: 14px; white-space: nowrap; animation: pop 260ms var(--spring) both;
+  transition: color 160ms var(--ease), border-color 160ms var(--ease), background 160ms var(--ease);
+}
+.save-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--good); }
+.save-state.saving { color: var(--saving); border-color: var(--saving); background: var(--saving-bg); }
+.save-state.saving .save-dot { background: var(--saving); animation: savePulse 0.9s ease-in-out infinite; }
+.save-state.error { color: var(--danger); border-color: var(--danger); background: transparent; }
+.save-state.error .save-dot { background: var(--danger); }
 
-/* ---- PDF review ---- */
+/* ================= sheets ================= */
+.sheet-back {
+  position: fixed; inset: 0; background: var(--overlay); z-index: 40;
+  opacity: 0; pointer-events: none; transition: opacity 240ms var(--ease);
+  backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px);
+}
+.sheet-back.show { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 50; max-height: 92vh; overflow: auto;
+  max-width: 720px; margin: 0 auto;
+  background: var(--sheet); border: 1px solid var(--line); border-bottom: 0; border-radius: 26px 26px 0 0;
+  transform: translateY(108%); transition: transform 420ms var(--spring);
+  padding: 8px 16px calc(18px + env(safe-area-inset-bottom)); box-shadow: var(--shadow-lg);
+}
+.sheet.show { transform: translateY(0); }
+.handle { width: 40px; height: 5px; border-radius: 99px; background: var(--handle); margin: 6px auto 12px; }
+.sheet-top { display: flex; align-items: center; gap: 10px; }
+.sheet-title { margin: 0; font-family: var(--display); font-size: 21px; font-weight: 700; letter-spacing: -0.02em; color: var(--text); }
+.sheet .sec { margin-top: 18px !important; }
+
+/* settings */
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 10px; }
+.theme-card {
+  display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 8px;
+  border-radius: 16px; border: 2px solid var(--line); background: var(--surface); color: var(--text);
+  font: inherit; cursor: pointer; transition: border-color 160ms var(--ease), transform 180ms var(--spring);
+}
+.theme-card:active { transform: scale(0.97); }
+.theme-card.on { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.theme-swatch { position: relative; display: block; height: 58px; border-radius: 10px; overflow: hidden; border: 1px solid rgba(128,128,128,0.25); }
+.theme-swatch span:nth-child(1) { position: absolute; left: 8px; right: 8px; top: 8px; height: 24px; border-radius: 6px; }
+.theme-swatch span:nth-child(2) { position: absolute; left: 8px; width: 44%; bottom: 8px; height: 10px; border-radius: 5px; }
+.theme-name { font-family: var(--display); font-weight: 700; font-size: 14px; text-align: center; }
+
+/* PDF review */
 .pdf-sheet { height: 92vh; display: flex; flex-direction: column; overflow: hidden; }
-.pdf-warn { margin: 4px 0 10px; padding: 10px 12px; border-radius: 12px; font-size: 13px; line-height: 1.45; color: var(--saving); background: var(--saving-bg); border: 1px solid var(--saving); }
-.pdf-pages { flex: 1 1 auto; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); padding: 8px; }
+.pdf-check { margin: 6px 0 10px; border-radius: 14px; border: 1px solid var(--line); overflow: hidden; flex: 0 0 auto; max-height: 34vh; overflow-y: auto; }
+.pdf-check.ok { border-color: transparent; }
+.check-ok { display: flex; align-items: center; gap: 8px; padding: 11px 12px; background: var(--good-dim); color: var(--good-text); font-size: 13px; font-weight: 700; border-radius: 14px; }
+.check-title { padding: 10px 12px 6px; font-size: 12px; font-weight: 800; color: var(--warn-text); background: var(--warn-dim); }
+.check-item {
+  display: flex; align-items: center; gap: 10px; width: 100%; padding: 11px 12px; border: 0; border-top: 1px solid var(--line);
+  background: var(--warn-dim); color: var(--text); text-align: left; font-size: 14px; cursor: pointer;
+}
+.check-item .ico { color: var(--warn); }
+.check-item .go { margin-left: auto; color: var(--muted); font-size: 12px; font-weight: 700; white-space: nowrap; }
+.pdf-pages { flex: 1 1 auto; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; border-radius: 14px; background: var(--surface); border: 1px solid var(--line); padding: 8px; }
 .pdf-page { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 4px 16px rgba(0,0,0,0.25); }
 .pdf-page + .pdf-page { margin-top: 10px; }
 .pdf-msg { padding: 40px 16px; text-align: center; color: var(--muted); line-height: 1.5; }
 .pdf-actions { display: grid; grid-template-columns: 1fr 1.35fr; gap: 8px; padding-top: 10px; }
+@media (max-width: 370px) { .pdf-actions .btn { font-size: 14px; padding: 0 8px; } }
 .pdf-share-note { margin-top: 8px; font-size: 12px; color: var(--muted); text-align: center; line-height: 1.4; }
-.btn:disabled { opacity: 0.5; }
-.field-hint { font-size: 12px; color: var(--muted); margin: 0 0 6px; line-height: 1.35; }
-.title-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
-.title-card-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
-.title-card input { font-size: 17px; font-weight: 700; }
 
-.reading-body .timer-btn.paused { background: var(--accent-dim); border-color: var(--accent); color: var(--on-text); animation: none; }
-.reading-body .timer-btn.paused::before {
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='5' width='4' height='14' rx='1'/%3E%3Crect x='14' y='5' width='4' height='14' rx='1'/%3E%3C/svg%3E") center / contain no-repeat;
-          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='5' width='4' height='14' rx='1'/%3E%3Crect x='14' y='5' width='4' height='14' rx='1'/%3E%3C/svg%3E") center / contain no-repeat;
+/* toast */
+.toast {
+  position: fixed; left: 50%; bottom: calc(104px + env(safe-area-inset-bottom)); transform: translate(-50%, 10px) scale(0.96);
+  background: var(--toast-bg); color: var(--toast-fg); padding: 11px 16px; border-radius: 999px; font-size: 13px; font-weight: 600;
+  z-index: 130; opacity: 0; pointer-events: none; max-width: 90%; box-shadow: var(--shadow-lg);
+  transition: opacity 200ms var(--ease), transform 300ms var(--spring);
 }
-.reading-body .timer-btn { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
-.timer-hint { margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; }
+.toast.show { opacity: 1; transform: translate(-50%, 0) scale(1); }
 
+/* ================= motion ================= */
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pop { from { opacity: 0; transform: scale(0.92); } to { opacity: 1; transform: none; } }
+@keyframes savePulse { 50% { opacity: 0.3; } }
+@keyframes ding {
+  0% { box-shadow: 0 0 0 0 var(--accent-glow); border-color: var(--accent); }
+  30% { box-shadow: 0 0 0 8px var(--accent-dim); border-color: var(--accent); }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
 </style>
 </head>
 <body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-rows" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+      <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></g></symbol>
+      <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-chev-r" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></g></symbol>
+      <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M18 7l-.8 12.2a1.5 1.5 0 0 1-1.5 1.3H8.3a1.5 1.5 0 0 1-1.5-1.3L6 7M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-grip" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></g></symbol>
+      <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+      <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.4 17.5a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></g></symbol>
+      <symbol id="i-share" viewBox="0 0 24 24"><path d="M4 13v6a1.5 1.5 0 0 0 1.5 1.5h13A1.5 1.5 0 0 0 20 19v-6M16 7l-4-4-4 4M12 3v12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12M7 10l5 5 5-5M5 20.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-upload" viewBox="0 0 24 24"><path d="M12 15V3M7 8l5-5 5 5M5 20.5h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4M3 11v-1a4 4 0 0 1 4-4h14M7 22l-4-4 4-4M21 13v1a4 4 0 0 1-4 4H3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pencil" viewBox="0 0 24 24"><path d="M16.9 3.6a2.1 2.1 0 0 1 3 3L8.5 18 4 19.5 5.5 15 16.9 3.6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5M12 7.5V12l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></g></symbol>
+      <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5L8 5.5z" fill="currentColor"/></symbol>
+      <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3 17c3-4 5-9 7-9s-1 9 2 9 3-3 5-3 1 3 4 3M14.5 4.5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-open" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    </defs>
+  </svg>
+
   <header class="app-header">
     <div class="brand">
-      <div class="logo" aria-hidden="true">🧪</div>
+      <svg class="logo" viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="logoGrad" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#5ee0ef"/><stop offset="1" stop-color="#1287a0"/></linearGradient></defs><rect width="40" height="40" rx="12" fill="url(#logoGrad)"/><path d="M20 9.5c-4.4 5.7-7.2 9.6-7.2 13.4a7.2 7.2 0 0 0 14.4 0c0-3.8-2.8-7.7-7.2-13.4z" fill="#fff"/><circle cx="17.6" cy="23.6" r="1.9" fill="#1287a0" fill-opacity=".45"/><circle cx="21.9" cy="26.9" r="1.3" fill="#1287a0" fill-opacity=".45"/><circle cx="21.5" cy="20.4" r="1" fill="#1287a0" fill-opacity=".4"/><circle cx="29.5" cy="10.5" r="2.1" fill="#fff" fill-opacity=".75"/><circle cx="32" cy="15.6" r="1.2" fill="#fff" fill-opacity=".55"/></svg>
       <div class="grow">
         <h1 id="jobTitle">Peroxide Log</h1>
         <div class="sub" id="jobMeta">Cooling tower H2O2 cleaning</div>
       </div>
-      <button type="button" class="btn sm icon-btn" id="btnSettings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
-      <button class="btn sm icon-btn" id="btnMenu" title="Jobs">☰</button>
+      <button type="button" class="btn icon-btn" id="btnSettings" title="Settings" aria-label="Settings"><svg class="ico"><use href="#i-gear"/></svg></button>
+      <button type="button" class="btn icon-btn" id="btnMenu" title="Jobs" aria-label="Jobs"><svg class="ico"><use href="#i-rows"/></svg></button>
     </div>
   </header>
 
+  <!-- ============ jobs list ============ -->
   <section id="listScreen" class="wrap hidden">
-    <div class="card">
-      <h2>Jobs</h2>
-      <p class="count" style="margin:0 0 10px">Tap a job to open it, or use ⋮ for more.</p>
-      <div id="homeJobList"></div>
-      <button class="btn primary block" id="btnHomeNew" style="margin-top:12px">New job</button>
-      <div class="grid-2" style="margin-top:8px">
-        <label class="btn" style="display:flex;align-items:center;justify-content:center">
-          Import JSON
-          <input type="file" id="fileImportHome" accept="application/json" class="file-hide" />
-        </label>
-        <label class="btn" style="display:flex;align-items:center;justify-content:center">
-          Import PDF
-          <input type="file" id="filePdfImportHome" accept="application/pdf" class="file-hide" />
-        </label>
+    <div class="home-hero">
+      <div>
+        <h2>Jobs</h2>
+        <div class="count" id="homeCount">Tap a job to open it</div>
       </div>
+      <button type="button" class="btn primary" id="btnHomeNew"><svg class="ico sm"><use href="#i-plus"/></svg>New job</button>
+    </div>
+    <div id="homeJobList"></div>
+    <div class="grid-2" style="margin-top:14px">
+      <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import JSON<input type="file" id="fileImportHome" accept="application/json,.json" class="file-hide" /></label>
+      <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import PDF<input type="file" id="filePdfImportHome" accept="application/pdf,.pdf" class="file-hide" /></label>
     </div>
   </section>
-  <div class="job-menu hidden" id="jobActionMenu">
-    <button type="button" data-job-act="open">Open</button>
-    <button type="button" data-job-act="rename">Rename</button>
-    <button type="button" data-job-act="delete">Delete</button>
+  <div class="job-menu hidden" id="jobActionMenu" role="menu">
+    <button type="button" data-job-act="open"><svg class="ico sm"><use href="#i-open"/></svg>Open</button>
+    <button type="button" data-job-act="repeat"><svg class="ico sm"><use href="#i-repeat"/></svg>Repeat job</button>
+    <button type="button" data-job-act="rename"><svg class="ico sm"><use href="#i-pencil"/></svg>Rename</button>
+    <button type="button" data-job-act="delete"><svg class="ico sm"><use href="#i-trash"/></svg>Delete</button>
   </div>
+
+  <!-- ============ job ============ -->
   <main class="wrap" id="jobScreen">
-    <section class="card title-card">
-      <div class="title-card-head">
-        <h2 style="margin:0"><label for="f_title" style="all:inherit">Job title</label></h2>
-      </div>
-      <input id="f_title" placeholder="Display name in your job list" />
-      <div class="field-hint" style="margin:8px 0 0">Shown in your job list only – not printed on the PDF</div>
+    <section class="card">
+      <h2><label for="f_title" style="all:inherit">Job title</label></h2>
+      <input id="f_title" class="title-input" placeholder="Display name in your job list" />
+      <div class="field-hint" style="margin-top:8px">Shown in your job list only – not printed on the PDF</div>
     </section>
-    <details class="card" open>
+
+    <details class="card" id="cardHeader" open>
       <summary>
-        <div>
-          <h2 style="margin:0">Job header</h2>
-          <div class="count" id="siteSummary">Customer, site, times</div>
-        </div>
-        <span class="chev">▾</span>
+        <div><h2>Job header</h2><div class="count" id="siteSummary">Customer, site, times</div></div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div>
-        <label>Customer</label><input id="f_customer" />
-        <label>Address</label><input id="f_address" />
+        <label for="f_customer" style="margin-top:0">Customer</label><input id="f_customer" list="dl_customer" autocomplete="off" />
+        <div id="lastVisit"></div>
+        <label for="f_address">Address</label><input id="f_address" list="dl_address" autocomplete="off" />
         <div class="grid-3">
-          <div><label>City</label><input id="f_city" /></div>
-          <div><label>State</label><input id="f_state" /></div>
-          <div><label>ZIP</label><input id="f_zip" /></div>
+          <div><label for="f_city">City</label><input id="f_city" list="dl_city" autocomplete="off" /></div>
+          <div><label for="f_state">State</label><input id="f_state" list="dl_state" autocomplete="off" /></div>
+          <div><label for="f_zip">ZIP</label><input id="f_zip" list="dl_zip" inputmode="numeric" autocomplete="off" /></div>
         </div>
         <div class="grid-2">
-          <div><label>Attention</label><input id="f_attention" /></div>
-          <div><label>Copies to</label><input id="f_copies" /></div>
+          <div><label for="f_attention">Attention</label><input id="f_attention" list="dl_attention" autocomplete="off" /></div>
+          <div><label for="f_copies">Copies to</label><input id="f_copies" list="dl_copies" autocomplete="off" /></div>
         </div>
-        <label>SOR#</label><input id="f_sor" />
+        <label for="f_sor">SOR#</label><input id="f_sor" />
         <div class="grid-2 dt-row">
-          <div><label>Start date</label><input id="f_startDate" type="date" /></div>
-          <div><label>Finish date</label><input id="f_finishDate" type="date" /></div>
+          <div><label for="f_startDate">Start date</label><input id="f_startDate" type="date" /></div>
+          <div><label for="f_finishDate">Finish date</label><input id="f_finishDate" type="date" /></div>
         </div>
         <div class="grid-2 dt-row">
-          <div>
-            <label>Start time</label>
-            <input id="f_startTime" type="time" />
-          </div>
-          <div>
-            <label>Finish time</label>
-            <input id="f_finishTime" type="time" />
-          </div>
+          <div><label for="f_startTime">Start time</label><input id="f_startTime" type="time" /></div>
+          <div><label for="f_finishTime">Finish time</label><input id="f_finishTime" type="time" /></div>
         </div>
       </div>
     </details>
 
-    <details class="card">
+    <details class="card" id="cardSystem">
       <summary>
-        <div><h2 style="margin:0">System</h2><div class="count">Tower info and duration</div></div>
-        <span class="chev">▾</span>
+        <div><h2>System</h2><div class="count">Tower info and duration</div></div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div>
-        <label>System ID</label><input id="f_systemId" />
-        <label>Location</label><input id="f_location" />
-        <label>No. cells</label><input id="f_cells" inputmode="numeric" />
+        <label for="f_systemId" style="margin-top:0">System ID</label><input id="f_systemId" list="dl_systemId" autocomplete="off" />
+        <label for="f_location">Location</label><input id="f_location" list="dl_location" autocomplete="off" />
+        <label for="f_cells">No. cells</label><input id="f_cells" inputmode="numeric" class="num" />
         <label>Total disinfection period</label>
         <div class="seg">
           <button type="button" class="chip on" id="dur4">4-Hrs</button>
@@ -1121,21 +760,23 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
       </div>
     </details>
 
-    <details class="card">
+    <details class="card" id="cardChecks">
       <summary>
-        <div><h2 style="margin:0">Checklists</h2><div class="count">Pre-job, customer, post-job</div></div>
-        <span class="chev">▾</span>
+        <div><h2>Checklists</h2><div class="count" id="checkSummary">Pre-job, customer, post-job</div></div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div id="checkLists"></div>
     </details>
 
-    <section class="card">
-      <div class="brand" style="margin-bottom:8px">
-        <h2 class="grow" style="margin:0">Readings</h2>
-        <span class="count" id="readingCount">0</span>
+    <section class="card" id="cardReadings">
+      <div class="card-head">
+        <h2>Readings</h2>
+        <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
       </div>
+      <div class="progress" id="progress"></div>
       <div id="readingList"></div>
-      <button class="btn primary block" id="btnAddReading" style="margin-top:8px">Add reading</button>
+      <button type="button" class="btn primary block" id="btnAddReading" style="margin-top:4px"><svg class="ico sm"><use href="#i-plus"/></svg>Add reading</button>
+      <div class="trends hidden" id="trends"></div>
       <div class="notes-head">
         <label style="margin:0" for="notesExtra">Inspection notes</label>
         <span class="notes-state">Above readings on PDF</span>
@@ -1148,128 +789,120 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
       <pre class="preview" id="commentsPreview"></pre>
     </section>
 
-    <details class="card">
+    <details class="card" id="cardSigs">
       <summary>
-        <div><h2 style="margin:0">Signatures</h2><div class="count">Print names and date</div></div>
-        <span class="chev">▾</span>
+        <div><h2>Signatures</h2><div class="count" id="sigSummary">Print names and date</div></div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
-      <div>
-        <div class="rd-tests" style="margin-top:4px">
-        <section class="rd-test sig-panel" id="sigPanel_cust">
-          <div class="rd-head"><span class="rd-name">Customer</span><span class="sig-status" data-sig-status>Not signed</span></div>
+      <div class="sig-list">
+        <section class="sig-panel" id="sigPanel_cust">
+          <div class="sig-head"><span class="sig-role">Customer</span><span class="sig-status" data-sig-status>Not signed</span></div>
           <div class="sig-fields">
-            <div class="sig-name"><label>Print name</label><input id="f_custName" autocomplete="name" /></div>
-            <div class="sig-date"><label>Date</label><input id="f_custDate" type="date" /></div>
+            <div class="sig-name"><label for="f_custName">Print name</label><input id="f_custName" autocomplete="name" /></div>
+            <div class="sig-date"><label for="f_custDate">Date</label><input id="f_custDate" type="date" /></div>
           </div>
           <button type="button" class="sig-box" id="btnCustSign" aria-label="Customer signature">
             <img id="custSigImg" class="sig-img hidden" alt="Customer signature" />
-            <span class="sig-hint">Tap to sign</span>
+            <span class="sig-hint"><svg class="ico sm"><use href="#i-sign"/></svg>Tap to sign</span>
           </button>
           <div class="sig-actions">
             <span class="sig-note">Signature appears on the PDF</span>
             <button type="button" class="sig-clear" id="btnCustSignClear">Clear</button>
           </div>
         </section>
-        <section class="rd-test sig-panel" id="sigPanel_nalco">
-          <div class="rd-head"><span class="rd-name">Technician</span><span class="sig-status" data-sig-status>Not signed</span></div>
+        <section class="sig-panel" id="sigPanel_nalco">
+          <div class="sig-head"><span class="sig-role">Technician</span><span class="sig-status" data-sig-status>Not signed</span></div>
           <div class="sig-fields">
-            <div class="sig-name"><label>Print name</label><input id="f_nalcoName" autocomplete="name" /></div>
-            <div class="sig-date"><label>Date</label><input id="f_nalcoDate" type="date" /></div>
+            <div class="sig-name"><label for="f_nalcoName">Print name</label><input id="f_nalcoName" autocomplete="name" /></div>
+            <div class="sig-date"><label for="f_nalcoDate">Date</label><input id="f_nalcoDate" type="date" /></div>
           </div>
           <button type="button" class="sig-box" id="btnNalcoSign" aria-label="Technician signature">
             <img id="nalcoSigImg" class="sig-img hidden" alt="Technician signature" />
-            <span class="sig-hint">Tap to sign</span>
+            <span class="sig-hint"><svg class="ico sm"><use href="#i-sign"/></svg>Tap to sign</span>
           </button>
           <div class="sig-actions">
             <span class="sig-note">Signature appears on the PDF</span>
             <button type="button" class="sig-clear" id="btnNalcoSignClear">Clear</button>
           </div>
         </section>
-        </div>
       </div>
     </details>
   </main>
 
+  <datalist id="dl_customer"></datalist><datalist id="dl_address"></datalist><datalist id="dl_city"></datalist>
+  <datalist id="dl_state"></datalist><datalist id="dl_zip"></datalist><datalist id="dl_attention"></datalist>
+  <datalist id="dl_copies"></datalist><datalist id="dl_systemId"></datalist><datalist id="dl_location"></datalist>
+
   <div class="dock save-hidden">
-    <div class="save-state" id="saveState" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveText">Saved</span></div>
-    <button class="btn primary" id="btnExport">Export PDF</button>
+    <div class="dock-inner">
+      <div class="save-state" id="saveState" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveText">Saved</span></div>
+      <button type="button" class="btn primary" id="btnExport"><svg class="ico sm"><use href="#i-share"/></svg>Export PDF</button>
+    </div>
   </div>
 
+  <!-- ============ jobs sheet ============ -->
   <div class="sheet-back" id="menuBack"></div>
-  <section class="sheet" id="menuSheet">
+  <section class="sheet" id="menuSheet" aria-label="Jobs">
     <div class="handle"></div>
-    <div class="brand">
-      <h2 class="grow" style="margin:0;color:var(--text);text-transform:none;letter-spacing:-0.02em;font-size:18px">Jobs</h2>
-      <button class="btn sm ghost" id="btnCloseMenu">Close</button>
-    </div>
-    <div id="jobList"></div>
-    <button class="btn primary block" id="btnNewJob" style="margin-top:12px">New job</button>
-    <button class="btn ghost block" id="btnCloseJob" style="margin-top:8px">Close job</button>
-    <button class="btn danger block" id="btnDeleteJob" style="margin-top:8px">Delete job</button>
+    <div class="sheet-top"><h2 class="grow sheet-title">Jobs</h2><button type="button" class="btn sm ghost" id="btnCloseMenu">Close</button></div>
+    <div id="jobList" style="margin-top:10px"></div>
+    <button type="button" class="btn primary block" id="btnNewJob" style="margin-top:12px"><svg class="ico sm"><use href="#i-plus"/></svg>New job</button>
+    <button type="button" class="btn ghost block" id="btnCloseJob" style="margin-top:8px">Close job</button>
+    <button type="button" class="btn danger block" id="btnDeleteJob" style="margin-top:8px">Delete job</button>
     <div class="grid-2" style="margin-top:8px">
-      <label class="btn" style="display:flex;align-items:center;justify-content:center">
-        Import JSON
-        <input type="file" id="fileImport" accept="application/json" class="file-hide" />
-      </label>
-      <label class="btn primary" style="display:flex;align-items:center;justify-content:center">
-        Import PDF
-        <input type="file" id="filePdfImport" accept="application/pdf" class="file-hide" />
-      </label>
+      <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import JSON<input type="file" id="fileImport" accept="application/json,.json" class="file-hide" /></label>
+      <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import PDF<input type="file" id="filePdfImport" accept="application/pdf,.pdf" class="file-hide" /></label>
     </div>
-    <button class="btn ghost block" id="btnJson" style="margin-top:8px">Backup as JSON</button>
+    <button type="button" class="btn ghost block" id="btnJson" style="margin-top:8px"><svg class="ico sm"><use href="#i-download"/></svg>Backup as JSON</button>
   </section>
 
+  <!-- ============ settings ============ -->
   <div class="sheet-back" id="settingsBack"></div>
   <section class="sheet" id="settingsSheet" aria-label="Settings">
     <div class="handle"></div>
-    <div class="brand">
-      <h2 class="grow" style="margin:0;color:var(--text);text-transform:none;letter-spacing:-0.02em;font-size:18px">Settings</h2>
-      <button type="button" class="btn sm ghost" id="btnCloseSettings">Close</button>
-    </div>
-    <h2 style="margin:14px 0 10px">Theme</h2>
+    <div class="sheet-top"><h2 class="grow sheet-title">Settings</h2><button type="button" class="btn sm ghost" id="btnCloseSettings">Close</button></div>
+    <h2 class="sec">Theme</h2>
     <div class="theme-grid" id="themeGrid" role="radiogroup" aria-label="Theme"></div>
     <p class="count" style="margin:12px 0 4px">Saved on this phone.</p>
   </section>
 
+  <!-- ============ PDF review ============ -->
   <div class="sheet-back" id="pdfBack"></div>
   <section class="sheet pdf-sheet" id="pdfSheet" aria-label="Review PDF">
     <div class="handle"></div>
-    <div class="brand">
-      <h2 class="grow" style="margin:0;color:var(--text);text-transform:none;letter-spacing:-0.02em;font-size:18px">Review PDF</h2>
-      <button type="button" class="btn sm ghost" id="btnPdfClose">Close</button>
-    </div>
-    <div class="pdf-warn hidden" id="pdfWarn"></div>
+    <div class="sheet-top"><h2 class="grow sheet-title">Review PDF</h2><button type="button" class="btn sm ghost" id="btnPdfClose">Close</button></div>
+    <div class="pdf-check" id="pdfCheck"></div>
     <div class="pdf-pages" id="pdfPages"></div>
     <div class="pdf-actions" id="pdfActions">
-      <button type="button" class="btn" id="btnPdfDownload" disabled>Save to device</button>
-      <button type="button" class="btn primary" id="btnPdfShare" disabled>Share…</button>
+      <button type="button" class="btn" id="btnPdfDownload" disabled><svg class="ico sm"><use href="#i-download"/></svg>Save</button>
+      <button type="button" class="btn primary" id="btnPdfShare" disabled><svg class="ico sm"><use href="#i-share"/></svg>Share…</button>
     </div>
-    <div class="pdf-share-note hidden" id="pdfShareNote">Sharing isn't available in this browser. It works on iPhone and Android – here, use Save to device.</div>
+    <div class="pdf-share-note hidden" id="pdfShareNote">Sharing isn't available in this browser. It works on iPhone and Android – here, use Save.</div>
   </section>
 
+  <!-- ============ signature pad ============ -->
   <div class="sheet-back" id="sigBack"></div>
   <section class="sheet" id="sigSheet" aria-label="Signature pad">
     <div class="handle"></div>
-    <div class="brand">
-      <h2 class="grow" style="margin:0;color:var(--text);text-transform:none;letter-spacing:-0.02em;font-size:18px" id="sigTitle">Sign here</h2>
-      <button class="btn sm ghost" id="btnCloseSig">Close</button>
-    </div>
-    <p class="count" style="margin:0 0 8px">Sign with a finger like you would in Acrobat.</p>
+    <div class="sheet-top"><h2 class="grow sheet-title" id="sigTitle">Sign here</h2><button type="button" class="btn sm ghost" id="btnCloseSig">Close</button></div>
+    <p class="count" style="margin:6px 0 10px">Sign with a finger like you would in Acrobat.</p>
     <canvas id="sigPad" class="sig-pad" width="640" height="280"></canvas>
     <div class="grid-2" style="margin-top:10px">
-      <button class="btn" id="btnSigRedo">Clear pad</button>
-      <button class="btn good" id="btnSigSave">Save signature</button>
+      <button type="button" class="btn" id="btnSigRedo">Clear pad</button>
+      <button type="button" class="btn good" id="btnSigSave"><svg class="ico sm"><use href="#i-check"/></svg>Save signature</button>
     </div>
   </section>
+
+  <!-- ============ company pick ============ -->
   <div class="company-lock hidden" id="companyLock" role="dialog" aria-modal="true" aria-labelledby="companyLockTitle">
     <div class="company-lock-card">
       <h2 id="companyLockTitle">Whose paperwork?</h2>
-      <p>Pick the form before this job can start. This step cannot be skipped.</p>
-      <button type="button" class="btn primary block" id="pickNalco">Nalco</button>
-      <button type="button" class="btn good block" id="pickAmc">AMC</button>
+      <p>Pick the form before this job can start. This step can't be skipped.</p>
+      <button type="button" class="co-pick nalco" id="pickNalco"><span class="co-badge">N</span><span><b>Nalco</b><span class="count">Nalco Water service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
+      <button type="button" class="co-pick amc" id="pickAmc"><span class="co-badge">A</span><span><b>AMC</b><span class="count">AMC service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
     </div>
   </div>
-  <div class="toast" id="toast"></div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script>!function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"function"==typeof define&&define.amd?define(["exports"],e):e((t=t||self).PDFLib={})}(this,(function(t){"use strict";
 /*! *****************************************************************************
     Copyright (c) Microsoft Corporation. All rights reserved.
@@ -1295,6 +928,8 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 /* On-Line Hydrogen Peroxide Cleaning log */
 const STORAGE_KEY = "h2o2-log-v2";
 const $ = (id) => document.getElementById(id);
+const icon = (id, cls = "ico sm") => `<svg class="${cls}" aria-hidden="true"><use href="#i-${id}"/></svg>`;
+const TOWER_SVG = `<svg viewBox="0 0 160 120" fill="none" aria-hidden="true"><g stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M52 106C60 80 60 60 54 36h52c-6 24-6 44 2 70z" fill="currentColor" fill-opacity=".08"/><path d="M40 106h80"/><path d="M59 54h42M58 72h44M57 90h46" opacity=".35"/><path d="M66 28c-6-6 4-10-2-16M80 26c-6-6 4-10-2-16M94 28c-6-6 4-10-2-16" opacity=".5"/></g><path d="M130 66c-5 6-8 10-8 14a8 8 0 0 0 16 0c0-4-3-8-8-14z" fill="currentColor" fill-opacity=".9"/></svg>`;
 
 const PDF_SLOTS = [
   { time: "Text1", turb: "Text16", gal: "Hydrogen Peroxide Added GallonsTime Zero AM PM", am: "AM_3", pm: "PM_3" },
@@ -1494,7 +1129,10 @@ function setSaveStatus(mode) {
   if (!box || !txt) return;
   box.classList.toggle("saving", mode === "saving");
   box.classList.toggle("error", mode === "error");
+  const wasSaving = box.classList.contains("was-saving");
   txt.textContent = mode === "saving" ? "Saving…" : mode === "error" ? "Not saved" : "Saved";
+  box.classList.toggle("was-saving", mode === "saving");
+  if (mode === "saved" && wasSaving) { box.style.animation = "none"; void box.offsetWidth; box.style.animation = ""; }
   if (dock) dock.classList.toggle("save-hidden", mode === "hidden");
 }
 // call on every user edit: orange "Saving…" -> green "Saved" -> hides after 5s without edits
@@ -1528,8 +1166,8 @@ function activeJob() { return state.jobs.find((j) => j.id === state.activeJobId)
 // To add a theme: add an entry here (in the order it should appear) and an
 // html[data-theme="<id>"] { ... } colour block in the <style> section.
 const THEMES = [
-  { id: "light", name: "Light", bar: "#f6f3ee", swatch: ["#f6f3ee", "#ffffff", "#1d78c7"] },
-  { id: "dark",  name: "Dark",  bar: "#101114", swatch: ["#101114", "#1c1e24", "#d4d4d8"] }
+  { id: "light", name: "Light", bar: "#f4f2ee", swatch: ["#f4f2ee", "#ffffff", "#0b8aa3"] },
+  { id: "dark",  name: "Dark",  bar: "#0f1114", swatch: ["#0f1114", "#1f232a", "#3cc8dc"] }
 ];
 const DEFAULT_THEME = "dark";
 function renderThemeGrid() {
@@ -1721,8 +1359,9 @@ function applyMode() {
   if (jobScreen) jobScreen.classList.toggle("hidden", list);
   if (dock) dock.classList.toggle("hidden", list);
   if (list) {
-    $("jobTitle").textContent = "Jobs";
-    $("jobMeta").textContent = `${state.jobs.length} saved`;
+    $("jobTitle").textContent = "Peroxide Log";
+    $("jobMeta").textContent = "Cooling tower H2O2 cleaning";
+    if ($("homeCount")) $("homeCount").textContent = state.jobs.length ? `${state.jobs.length} saved · tap one to open it` : "Nothing saved yet";
   }
 }
 function jobInitial(job) {
@@ -1736,16 +1375,16 @@ function createdLabel(job) {
   return `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}/${d.getFullYear()}`;
 }
 function jobRowHtml(j) {
-  const current = !state.listMode && j.id === state.activeJobId;
-  const date = createdLabel(j);
+  const co = j.company === "amc" ? "amc" : "nalco";
+  const n = Array.isArray(j.readings) ? j.readings.length : 0;
   return `
-    <div class="job-item" data-job-id="${j.id}">
+    <div class="job-item co-${co}" data-job-id="${j.id}">
       <div class="job-avatar" data-open-job="${j.id}">${escapeHtml(jobInitial(j))}</div>
-      <button type="button" class="reading-toggle" data-open-job="${j.id}">
-        <div class="title">${escapeHtml(jobName(j))}${current ? " · current" : ""}</div>
-        <div class="meta"><span class="job-co ${(j.company === "amc" ? "amc" : "nalco")}">${j.company === "amc" ? "AMC" : "NALCO"}</span>${escapeHtml(date)}</div>
+      <button type="button" class="job-open" data-open-job="${j.id}">
+        <div class="job-name">${escapeHtml(jobName(j))}</div>
+        <div class="job-meta"><span class="job-co ${co}">${co === "amc" ? "AMC" : "NALCO"}</span><span>${escapeHtml(createdLabel(j))}</span><span>· ${n} reading${n === 1 ? "" : "s"}</span></div>
       </button>
-      <button type="button" class="job-dots" data-job-menu="${j.id}" aria-label="Job options">⋮</button>
+      <button type="button" class="job-dots" data-job-menu="${j.id}" aria-label="Job options">${icon("more", "ico")}</button>
     </div>`;
 }
 const closedGroups = new Set();
@@ -1762,7 +1401,7 @@ function md(d) {
   return `${String(d.getMonth() + 1).padStart(2, "0")}/${String(d.getDate()).padStart(2, "0")}`;
 }
 function groupedJobsHtml(jobs) {
-  if (!jobs.length) return `<div class="empty">No saved jobs</div>`;
+  if (!jobs.length) return `<div class="empty-state">${TOWER_SVG}<h3>No jobs yet</h3><p>Start a job when you arrive on site.<br>Everything saves on this phone as you go.</p></div>`;
   const months = new Map();
   jobs.forEach((job) => {
     const d = jobDate(job);
@@ -1789,12 +1428,12 @@ function groupedJobsHtml(jobs) {
         .map(jobRowHtml)
         .join("");
       return `<details class="job-group week" data-group="w:${weekKey}" ${weekOpen ? "open" : ""}>
-        <summary><span>Week of ${md(week.date)} – ${md(end)}</span><span class="count">${week.jobs.length}</span></summary>
+        <summary><span>Week of ${md(week.date)} – ${md(end)}</span><span class="pill">${week.jobs.length}</span></summary>
         <div class="job-group-body">${jobsHtml}</div>
       </details>`;
     }).join("");
     return `<details class="job-group month" data-group="m:${monthKey}" ${monthOpen ? "open" : ""}>
-      <summary><span>${monthName}</span><span class="count">${[...month.weeks.values()].reduce((n, w) => n + w.jobs.length, 0)}</span></summary>
+      <summary><span>${monthName}</span><span class="pill">${((c) => `${c} job${c === 1 ? "" : "s"}`)([...month.weeks.values()].reduce((n, w) => n + w.jobs.length, 0))}</span></summary>
       <div class="job-group-body">${weeks}</div>
     </details>`;
   }).join("");
@@ -1817,6 +1456,7 @@ function renderJobs() {
   }
   if ($("siteSummary") && job) $("siteSummary").textContent = [job.header.title, job.header.customer, job.header.location].filter(Boolean).join(" · ") || "Customer, site, times";
   const html = groupedJobsHtml(state.jobs || []);
+  buildDatalists();
   if ($("jobList")) $("jobList").innerHTML = html;
   if ($("homeJobList")) $("homeJobList").innerHTML = html;
   bindJobGroupToggles($("jobList"));
@@ -1874,6 +1514,67 @@ function deleteJobById(id) {
   toast(state.jobs.length ? "Job deleted" : "All jobs deleted");
 }
 
+const SITE_FIELDS = ["customer", "address", "city", "state", "zip", "attention", "copies", "systemId", "location"];
+function buildDatalists() {
+  const sorted = (state.jobs || []).slice().sort((a, b) => (b.updated || 0) - (a.updated || 0));
+  SITE_FIELDS.forEach((f) => {
+    const dl = $("dl_" + f);
+    if (!dl) return;
+    const seen = new Set(), vals = [];
+    sorted.forEach((j) => {
+      const v = String((j.header || {})[f] || "").trim();
+      if (v && !seen.has(v.toLowerCase())) { seen.add(v.toLowerCase()); vals.push(v); }
+    });
+    dl.innerHTML = vals.slice(0, 40).map((v) => `<option value="${escapeHtml(v)}"></option>`).join("");
+  });
+}
+function previousVisit() {
+  const job = activeJob();
+  const cust = String(job.header.customer || "").trim().toLowerCase();
+  if (!cust) return null;
+  return (state.jobs || [])
+    .filter((j) => j.id !== job.id && String((j.header || {}).customer || "").trim().toLowerCase() === cust)
+    .sort((a, b) => (b.created || 0) - (a.created || 0))[0] || null;
+}
+function renderLastVisit() {
+  const box = $("lastVisit");
+  if (!box || !activeJob()) return;
+  const prev = previousVisit();
+  const h = activeJob().header;
+  const empty = !h.address && !h.systemId && !h.location;
+  if (!prev || !empty) { box.innerHTML = ""; return; }
+  const bits = [createdLabel(prev), prev.header.systemId, prev.header.location].filter(Boolean).join(" · ");
+  box.innerHTML = `<button type="button" class="suggest" id="btnFillLast">${icon("history")}<span>Fill from last visit<br><span class="count" style="font-weight:600">${escapeHtml(bits)}</span></span></button>`;
+}
+function fillFromLastVisit() {
+  const prev = previousVisit();
+  if (!prev) return;
+  const h = activeJob().header, p = prev.header;
+  ["address", "city", "state", "zip", "attention", "copies", "systemId", "location", "cells", "otherHrs"].forEach((f) => { if (!h[f] && p[f]) h[f] = p[f]; });
+  h.duration4 = p.duration4 !== false;
+  fillHeader();
+  saveState(); markEdited(); renderJobs(); renderLastVisit(); renderProgress();
+  toast("Filled from last visit");
+}
+function repeatJob(id) {
+  const src = state.jobs.find((j) => j.id === id);
+  if (!src) return;
+  persist();
+  const job = newJob();
+  job.company = src.company === "amc" ? "amc" : "nalco";
+  ["customer", "address", "city", "state", "zip", "attention", "copies", "systemId", "location", "cells", "otherHrs", "nalcoName"].forEach((f) => { job.header[f] = (src.header || {})[f] || job.header[f] || ""; });
+  job.header.duration4 = (src.header || {}).duration4 !== false;
+  job.checks = { ...defaultChecks(), ...(src.checks || {}) };
+  job.header.titleAuto = true;
+  state.jobs.unshift(job);
+  state.activeJobId = job.id;
+  state.listMode = false;
+  saveState();
+  fillAll();
+  applyAutoTitle();
+  persist();
+  toast(`New job from ${jobName(src)}`);
+}
 function fillHeader() {
   const h = activeJob().header;
   const set = (id, v) => { if ($(id)) $(id).value = v || ""; };
@@ -1889,6 +1590,7 @@ function fillHeader() {
   $("dur4").classList.toggle("on", h.duration4 !== false);
   $("durOther").classList.toggle("on", h.duration4 === false);
   syncOtherHrs();
+  renderLastVisit();
 }
 function syncOtherHrs() {
   const other = $("durOther") && $("durOther").classList.contains("on");
@@ -1922,82 +1624,260 @@ function readHeader() {
 
 function renderChecks() {
   const checks = activeJob().checks;
+  let on = 0, total = 0;
   $("checkLists").innerHTML = CHECKS.map((g) => `
-    <h2 style="margin-top:12px">${escapeHtml(g.group)}</h2>
-    ${g.items.map((i) => `
-      <div class="check-row">
-        <button type="button" class="check-toggle ${checks[i.id] ? "on" : ""}" data-check="${i.id}">${checks[i.id] ? "YES" : "NO"}</button>
-        <div>${escapeHtml(i.label)}</div>
-      </div>`).join("")}
-  `).join("");
+    <div class="check-group">
+      <h3>${escapeHtml(g.group)}</h3>
+      ${g.items.map((i) => { total++; if (checks[i.id]) on++; return `
+        <div class="check-row">
+          <div>${escapeHtml(i.label)}</div>
+          <button type="button" class="check-toggle ${checks[i.id] ? "on" : ""}" data-check="${i.id}" role="switch" aria-checked="${checks[i.id] ? "true" : "false"}" aria-label="${escapeHtml(i.label)}">${checks[i.id] ? "YES" : "NO"}</button>
+        </div>`; }).join("")}
+    </div>`).join("");
+  if ($("checkSummary")) $("checkSummary").textContent = `${on} of ${total} marked yes`;
 }
 
 const openReadingIds = new Set();
 
+let justAddedId = null;
+function readingStatus(r) {
+  const has = (v) => String(v || "").trim() !== "";
+  const any = has(r.turbidity) || has(r.iron) || has(r.copper);
+  const done = has(r.turbidity) && (!metalUsed("iron") || has(r.iron)) && (!metalUsed("copper") || has(r.copper));
+  return done ? "done" : any ? "part" : "";
+}
+function readingValsHtml(r) {
+  const v = (val, unit, dim) => `<span class="tl-val ${dim ? "dim" : ""}"><b>${escapeHtml(val)}</b><i>${unit}</i></span>`;
+  const out = [];
+  if (String(r.turbidity || "").trim()) out.push(v(r.turbidity, "FAU"));
+  if (String(r.iron || "").trim()) out.push(v(correctedValue(r.iron, r, true), "Fe"));
+  if (String(r.copper || "").trim()) out.push(v(r.copper, "Cu"));
+  ["iron", "copper"].forEach((f) => {
+    const t = timers.get(timerKey(r.id, f));
+    if (t) out.push(`<span class="tl-timer ${t.paused ? "paused" : ""}">${icon(t.paused ? "pause" : "play")}${f === "iron" ? "Fe" : "Cu"} ${timerLabel(r.id, f)}</span>`);
+  });
+  return out.length ? out.join("") : `<span class="tl-empty">Tap to enter turbidity, iron, copper</span>`;
+}
+const RING_C = 2 * Math.PI * 15;
+function timerInner(id, field) {
+  const t = timers.get(timerKey(id, field));
+  const frac = t ? Math.max(0, Math.min(1, timerRemaining(t) / TIMER_MS)) : 0;
+  const glyph = !t ? "play" : t.paused ? "pause" : "";
+  return `<span class="ring-wrap"><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="bg" cx="18" cy="18" r="15"/><circle class="fg" cx="18" cy="18" r="15" stroke-dasharray="${RING_C.toFixed(2)}" stroke-dashoffset="${(RING_C * (1 - frac)).toFixed(2)}"/></svg>${glyph ? `<svg class="ico" aria-hidden="true"><use href="#i-${glyph}"/></svg>` : ""}</span><span class="t">${timerLabel(id, field)}</span>`;
+}
 function renderReadings() {
   const list = readingsOf();
   const box = $("readingList");
+  renderProgress();
   if (!list.length) {
-    box.innerHTML = `<div class="empty">No readings yet. Tap Add reading after each sample.</div>`;
+    box.innerHTML = `<div class="empty">No readings yet.<br>Tap <b>Add reading</b> as you pull each sample.</div>`;
     updatePreview();
+    renderTrends();
     return;
   }
+  const lastIdx = list.length - 1;
   box.innerHTML = list.map((r, i) => {
     const open = openReadingIds.has(r.id);
-    const bits = [r.turbidity && `${r.turbidity} FAU`, r.iron && `Fe ${correctedValue(r.iron, r, true)}`, r.copper && `Cu ${r.copper}`, timerBit(r.id, "iron", "Fe"), timerBit(r.id, "copper", "Cu")].filter(Boolean).join(" · ");
+    const st = readingStatus(r);
+    const enter = (next) => `enterkeyhint="${next}"`;
     return `
-    <div class="interval reading" data-id="${r.id}">
-      <div class="reading-head">
-        <button type="button" class="drag-handle" data-drag="${r.id}" aria-label="Drag to reorder">⋮⋮</button>
-        <button type="button" class="reading-toggle grow" data-toggle="${r.id}">
-          <div class="title">${open ? "▾" : "▸"} ${i + 1}. ${escapeHtml(intervalTitle(i))}</div>
-          <div class="meta">${escapeHtml(bits || "Tap to enter turbidity, iron, copper")}</div>
-        </button>
-        <button type="button" class="btn sm danger" data-del="${r.id}">Del</button>
-      </div>
-      <div class="reading-body ${open ? "" : "hidden"}">
-        <div class="rd-meta">
-          <div class="rd-field">
-            <label>Clock time</label>
-            <input type="time" data-field="time" value="${to24(r.time, r.ampm)}" />
-          </div>
-          <div class="rd-field">
-            <label>H2O2 gal</label>
-            <input data-field="gallons" inputmode="decimal" value="${escapeHtml(r.gallons)}" />
-          </div>
+    <div class="reading ${st} ${open ? "open" : ""} ${i === lastIdx ? "current" : ""} ${r.id === justAddedId ? "new" : ""}" data-id="${r.id}">
+      <div class="tl-rail"><span class="tl-dot"></span></div>
+      <div class="tl-card">
+        <div class="reading-head">
+          <button type="button" class="reading-toggle" data-toggle="${r.id}" aria-expanded="${open ? "true" : "false"}">
+            <div class="tl-top">
+              <span class="tl-title">${escapeHtml(intervalTitle(i).replace(" (2nd dose)", ""))}</span>
+              <span class="tl-clock">${escapeHtml(r.time ? `${r.time} ${r.ampm || ""}` : "")}</span>
+              ${i === 4 ? `<span class="tl-tag">2nd dose</span>` : ""}
+            </div>
+            <div class="tl-vals">${readingValsHtml(r)}</div>
+          </button>
+          <button type="button" class="drag-handle" data-drag="${r.id}" aria-label="Drag to reorder">${icon("grip", "ico")}</button>
+          <button type="button" class="del-btn" data-del="${r.id}" aria-label="Delete reading ${i + 1}">${icon("trash", "ico")}</button>
         </div>
-        <div class="rd-tests">
-          <section class="rd-test">
-            <div class="rd-head"><span class="rd-name">Turbidity</span><span class="rd-unit">FAU</span></div>
-            <input data-field="turbidity" inputmode="decimal" value="${escapeHtml(r.turbidity)}" placeholder="0" />
-          </section>
-          <section class="rd-test">
-            <div class="rd-head"><span class="rd-name">Iron</span><span class="rd-unit">mg/L</span></div>
-            <div class="rd-entry">
-              <input data-field="iron" inputmode="decimal" value="${escapeHtml(r.iron)}" placeholder="0.00" />
-              <button type="button" class="timer-btn ${timerClass(r.id, "iron")}" data-timer-id="${r.id}" data-timer-field="iron" aria-label="3 minute iron timer">${timerLabel(r.id, "iron")}</button>
+        <div class="reading-body ${open ? "" : "hidden"}">
+          <div class="rd-meta">
+            <div class="rd-field">
+              <label>Clock time</label>
+              <input type="time" data-field="time" value="${to24(r.time, r.ampm)}" />
             </div>
-            <div class="rd-dil">
-              <label>Dilution</label>
-              <select class="dilution-select" data-field="dilution">
-                ${DILUTIONS.map((d) => `<option value="${d.value}" ${dilutionOf(r) === d.value ? "selected" : ""}>${d.label}</option>`).join("")}
-              </select>
+            <div class="rd-field">
+              <label>H2O2 gal</label>
+              <input data-field="gallons" class="num-input" inputmode="decimal" ${enter("next")} value="${escapeHtml(r.gallons)}" />
             </div>
-            <div class="dil-result" data-fix-out="iron">${ironResultText(r)}</div>
-          </section>
-          <section class="rd-test">
-            <div class="rd-head"><span class="rd-name">Copper</span><span class="rd-unit">mg/L</span></div>
-            <div class="rd-entry">
-              <input data-field="copper" inputmode="decimal" value="${escapeHtml(r.copper)}" placeholder="0.00" />
-              <button type="button" class="timer-btn ${timerClass(r.id, "copper")}" data-timer-id="${r.id}" data-timer-field="copper" aria-label="3 minute copper timer">${timerLabel(r.id, "copper")}</button>
-            </div>
-          </section>
+          </div>
+          <div class="rd-tests">
+            <section class="rd-test" data-test="turbidity">
+              <div class="rd-head"><span class="rd-name">Turbidity</span><span class="rd-unit">FAU</span></div>
+              <input data-field="turbidity" class="num-input" inputmode="decimal" ${enter("next")} value="${escapeHtml(r.turbidity)}" placeholder="0" />
+            </section>
+            <section class="rd-test" data-test="iron">
+              <div class="rd-head"><span class="rd-name">Iron</span><span class="rd-unit">mg/L</span></div>
+              <div class="rd-entry">
+                <input data-field="iron" class="num-input" inputmode="decimal" ${enter("next")} value="${escapeHtml(r.iron)}" placeholder="0.00" />
+                <button type="button" class="timer-btn ${timerClass(r.id, "iron")}" data-timer-id="${r.id}" data-timer-field="iron" aria-label="3 minute iron timer">${timerInner(r.id, "iron")}</button>
+              </div>
+              <div class="rd-dil">
+                <label>Dilution</label>
+                <select class="dilution-select" data-field="dilution">
+                  ${DILUTIONS.map((d) => `<option value="${d.value}" ${dilutionOf(r) === d.value ? "selected" : ""}>${d.label}</option>`).join("")}
+                </select>
+              </div>
+              <div class="dil-result" data-fix-out="iron">${ironResultText(r)}</div>
+            </section>
+            <section class="rd-test" data-test="copper">
+              <div class="rd-head"><span class="rd-name">Copper</span><span class="rd-unit">mg/L</span></div>
+              <div class="rd-entry">
+                <input data-field="copper" class="num-input" inputmode="decimal" ${enter(i < lastIdx ? "next" : "done")} value="${escapeHtml(r.copper)}" placeholder="0.00" />
+                <button type="button" class="timer-btn ${timerClass(r.id, "copper")}" data-timer-id="${r.id}" data-timer-field="copper" aria-label="3 minute copper timer">${timerInner(r.id, "copper")}</button>
+              </div>
+            </section>
+          </div>
+          <div class="timer-hint">Timers: tap to start or pause · double-tap to reset</div>
         </div>
-        <div class="timer-hint">Timers: tap to start or pause · double-tap to reset</div>
       </div>
     </div>`;
   }).join("");
+  justAddedId = null;
   updatePreview();
+  renderTrends();
+}
+function refreshReadingStates() {
+  document.querySelectorAll("#readingList .reading").forEach((row, i, all) => {
+    const rec = readingsOf().find((r) => r.id === row.dataset.id);
+    if (!rec) return;
+    const st = readingStatus(rec);
+    row.classList.toggle("done", st === "done");
+    row.classList.toggle("part", st === "part");
+    row.classList.toggle("current", i === all.length - 1);
+  });
+  renderProgress();
+  clearTimeout(refreshReadingStates._t);
+  refreshReadingStates._t = setTimeout(renderTrends, 250);
+}
+
+function slotCount() {
+  const h = activeJob().header;
+  if (h.duration4 === false) {
+    const hrs = parseFloat(h.otherHrs);
+    if (Number.isFinite(hrs) && hrs > 0) return Math.max(2, Math.min(17, Math.round(hrs * 2) + 1));
+  }
+  return 9;
+}
+function firstReadingDate() {
+  const list = readingsOf();
+  const h = activeJob().header;
+  if (!list.length) return null;
+  const c = parseClock(list[0].time, list[0].ampm);
+  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(h.startDate || "");
+  if (!c || !m) return null;
+  return new Date(+m[3], +m[1] - 1, +m[2], c.h, c.min);
+}
+function fmtClock(d) { return formatQuarter(d.getHours(), d.getMinutes()).time + " " + formatQuarter(d.getHours(), d.getMinutes()).ampm; }
+function renderProgress() {
+  const box = $("progress");
+  if (!box || !activeJob()) return;
+  const list = readingsOf();
+  const slots = Math.max(slotCount(), list.length);
+  const totalMin = (slots - 1) * 30;
+  const pos = (i) => (slots === 1 ? 0 : (i / (slots - 1)) * 100);
+  let lastDone = -1;
+  list.forEach((r, i) => { if (readingStatus(r) === "done") lastDone = i; });
+  const doneCount = list.filter((r) => readingStatus(r) === "done").length;
+  const start = firstReadingDate();
+  let right = list.length ? "" : "Starts with your first reading";
+  let needle = "";
+  if (start) {
+    const mins = Math.round((Date.now() - start.getTime()) / 60000);
+    const next = new Date(start.getTime() + list.length * 30 * 60000);
+    if (doneCount >= slots && list.length >= slots) right = "All readings in";
+    else if (mins >= 0 && mins <= totalMin + 45) {
+      right = `${Math.floor(mins / 60)}h ${String(mins % 60).padStart(2, "0")}m in · next ${fmtClock(next)}`;
+      needle = `<span class="track-now" style="left:calc(6px + (100% - 12px) * ${Math.min(1, mins / totalMin).toFixed(4)})" title="Now"></span>`;
+    } else if (list.length < slots) right = `Next reading ${fmtClock(next)}`;
+    else right = "All readings logged";
+  }
+  const dots = Array.from({ length: slots }, (_, i) => {
+    const r = list[i];
+    const st = r ? readingStatus(r) : "";
+    return `<span class="track-dot ${st === "done" ? "done" : st === "part" ? "part" : ""} ${i === 4 && slots >= 5 ? "dose" : ""}" style="left:calc(6px + (100% - 12px) * ${(pos(i) / 100).toFixed(4)})" title="${escapeHtml(intervalTitle(i))}"></span>`;
+  }).join("");
+  const labels = [];
+  for (let i = 0; i < slots; i += 2) {
+    const isDose = i === 4 && slots >= 5;
+    labels.push(`<span class="${isDose ? "dose-label" : ""}" style="left:calc(6px + (100% - 12px) * ${(pos(i) / 100).toFixed(4)})">${isDose ? "2h · dose" : i === 0 ? "Start" : `${i / 2}h`}</span>`);
+  }
+  const fill = lastDone < 0 ? 0 : pos(lastDone) / 100;
+  box.innerHTML = `
+    <div class="progress-top"><b>${list.length ? `Reading ${Math.min(list.length, slots)} of ${slots}` : `${slots} readings planned`}</b><span>${escapeHtml(right)}</span></div>
+    <div class="track" role="img" aria-label="${doneCount} of ${slots} readings complete">
+      <span class="track-line"></span>
+      <span class="track-fill" style="width:calc((100% - 12px) * ${fill.toFixed(4)})"></span>
+      ${dots}${needle}
+    </div>
+    <div class="track-labels">${labels.join("")}</div>`;
+}
+
+function renderTrends() {
+  const box = $("trends");
+  if (!box) return;
+  const list = readingsOf();
+  const num = (v) => { const n = parseFloat(String(v || "").trim()); return Number.isFinite(n) ? n : null; };
+  const series = [
+    { key: "turbidity", title: "Turbidity", unit: "FAU", get: (r) => num(r.turbidity) },
+    { key: "iron", title: "Iron", unit: "mg/L", get: (r) => num(correctedValue(r.iron, r, true)) },
+    { key: "copper", title: "Copper", unit: "mg/L", get: (r) => num(r.copper) }
+  ].map((s) => ({ ...s, pts: list.map((r, i) => ({ i, v: s.get(r), r })).filter((p) => p.v !== null) }))
+   .filter((s) => s.pts.length >= 2);
+  box.classList.toggle("hidden", !series.length);
+  if (!series.length) { box.innerHTML = ""; return; }
+  const W = Math.max(240, (box.clientWidth || box.parentElement.clientWidth || 320) - 26);
+  const H = 86, padL = 30, padR = 8, padT = 8, padB = 18;
+  const nice = (m) => { if (m <= 0) return 1; const p = Math.pow(10, Math.floor(Math.log10(m))); const f = m / p; return (f <= 1 ? 1 : f <= 2 ? 2 : f <= 2.5 ? 2.5 : f <= 5 ? 5 : 10) * p; };
+  const fmt = (v) => (Math.abs(v) >= 10 ? Math.round(v).toString() : (+v.toFixed(2)).toString());
+  const n = Math.max(2, list.length);
+  box.innerHTML = `<div class="trends-head"><h3>Trends</h3><span class="count">Tap a point for its value</span></div><div class="spark-grid">${series.map((s, si) => {
+    const max = nice(Math.max(...s.pts.map((p) => p.v)));
+    const x = (i) => padL + (i / (n - 1)) * (W - padL - padR);
+    const y = (v) => padT + (1 - v / max) * (H - padT - padB);
+    const line = s.pts.map((p, k) => `${k ? "L" : "M"}${x(p.i).toFixed(1)},${y(p.v).toFixed(1)}`).join("");
+    const area = `${line}L${x(s.pts[s.pts.length - 1].i).toFixed(1)},${y(0)}L${x(s.pts[0].i).toFixed(1)},${y(0)}Z`;
+    const last = s.pts[s.pts.length - 1];
+    return `<div class="spark" data-series="${s.key}">
+      <div class="spark-top"><span>${s.title}</span><b class="num">${fmt(last.v)}<i>${s.unit}</i></b></div>
+      <svg viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${s.title} across ${s.pts.length} readings">
+        <defs><linearGradient id="sf${si}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--accent)" stop-opacity="0.28"/><stop offset="1" stop-color="var(--accent)" stop-opacity="0"/></linearGradient></defs>
+        <g class="grid"><line x1="${padL}" x2="${W - padR}" y1="${y(max)}" y2="${y(max)}"/><line x1="${padL}" x2="${W - padR}" y1="${y(max / 2)}" y2="${y(max / 2)}"/><line x1="${padL}" x2="${W - padR}" y1="${y(0)}" y2="${y(0)}"/></g>
+        <g class="axis"><text x="${padL - 6}" y="${y(max) + 3}" text-anchor="end">${fmt(max)}</text><text x="${padL - 6}" y="${y(0) + 3}" text-anchor="end">0</text>
+          <text x="${x(0)}" y="${H - 3}" text-anchor="start">${escapeHtml(intervalTitle(0))}</text><text x="${x(n - 1)}" y="${H - 3}" text-anchor="end">${escapeHtml(intervalTitle(n - 1).replace(" (2nd dose)", ""))}</text></g>
+        <path class="area" d="${area}" fill="url(#sf${si})"/>
+        <path class="series" d="${line}"/>
+        ${s.pts.map((p) => `<circle class="pt" cx="${x(p.i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="4"/><circle class="hit" data-i="${p.i}" data-v="${fmt(p.v)}" data-u="${s.unit}" cx="${x(p.i).toFixed(1)}" cy="${y(p.v).toFixed(1)}" r="14"/>`).join("")}
+      </svg>
+    </div>`;
+  }).join("")}</div>`;
+}
+function showSparkTip(hit) {
+  document.querySelectorAll(".spark-tip").forEach((t) => t.remove());
+  document.querySelectorAll(".spark .pt.sel").forEach((p) => p.classList.remove("sel"));
+  if (!hit) return;
+  const spark = hit.closest(".spark");
+  const svg = hit.ownerSVGElement;
+  const box = spark.getBoundingClientRect(), sb = svg.getBoundingClientRect();
+  const vb = svg.viewBox.baseVal;
+  const cx = (+hit.getAttribute("cx")) * (sb.width / vb.width) + sb.left - box.left;
+  const cy = (+hit.getAttribute("cy")) * (sb.height / vb.height) + sb.top - box.top;
+  const i = +hit.dataset.i;
+  const r = readingsOf()[i];
+  const tip = document.createElement("div");
+  tip.className = "spark-tip";
+  tip.textContent = `${intervalTitle(i).replace(" (2nd dose)", "")}${r && r.time ? ` · ${r.time} ${r.ampm || ""}` : ""} · ${hit.dataset.v} ${hit.dataset.u}`;
+  tip.style.left = Math.max(70, Math.min(box.width - 70, cx)) + "px";
+  tip.style.top = cy + "px";
+  spark.appendChild(tip);
+  const pt = hit.previousElementSibling;
+  if (pt) pt.classList.add("sel");
 }
 
 function timerKey(id, field) { return `${id}:${field}`; }
@@ -2025,17 +1905,25 @@ function paintTimers() {
   document.querySelectorAll("[data-timer-field]").forEach((btn) => {
     const id = btn.dataset.timerId;
     const field = btn.dataset.timerField;
-    btn.textContent = timerLabel(id, field);
+    const t = timers.get(timerKey(id, field));
     const cls = timerClass(id, field);
+    const glyph = !t ? "play" : t.paused ? "pause" : "";
+    const wrap = btn.querySelector(".ring-wrap");
+    const hadGlyph = wrap && wrap.querySelector(".ico");
+    if (!wrap || !!hadGlyph !== !!glyph || (hadGlyph && hadGlyph.querySelector("use").getAttribute("href") !== `#i-${glyph}`)) {
+      btn.innerHTML = timerInner(id, field);
+    } else {
+      const frac = t ? Math.max(0, Math.min(1, timerRemaining(t) / TIMER_MS)) : 0;
+      btn.querySelector(".fg").setAttribute("stroke-dashoffset", (RING_C * (1 - frac)).toFixed(2));
+      btn.querySelector(".t").textContent = timerLabel(id, field);
+    }
     btn.classList.toggle("on", cls === "on");
     btn.classList.toggle("paused", cls === "paused");
   });
-  document.querySelectorAll(".reading").forEach((row) => {
-    const meta = row.querySelector(".reading-toggle .meta");
+  document.querySelectorAll("#readingList .reading").forEach((row) => {
+    const vals = row.querySelector(".tl-vals");
     const rec = readingsOf().find((r) => r.id === row.dataset.id);
-    if (!meta || !rec) return;
-    const bits = [rec.turbidity && `${rec.turbidity} FAU`, rec.iron && `Fe ${correctedValue(rec.iron, rec, true)}`, rec.copper && `Cu ${rec.copper}`, timerBit(rec.id, "iron", "Fe"), timerBit(rec.id, "copper", "Cu")].filter(Boolean).join(" · ");
-    meta.textContent = bits || "Tap to enter turbidity, iron, copper";
+    if (vals && rec) vals.innerHTML = readingValsHtml(rec);
   });
 }
 function runTimer(key, t) {
@@ -2047,6 +1935,9 @@ function runTimer(key, t) {
       clearInterval(t.interval);
       timers.delete(key);
       paintTimers();
+      const btn = document.querySelector(`[data-timer-id="${t.id}"][data-timer-field="${t.field}"]`);
+      const panel = btn && btn.closest(".rd-test");
+      if (panel) { panel.classList.remove("ding"); void panel.offsetWidth; panel.classList.add("ding"); setTimeout(() => panel.classList.remove("ding"), 1700); }
       toast(`${t.field === "iron" ? "Iron" : "Copper"} ready`);
       if (navigator.vibrate) navigator.vibrate([180, 80, 180, 80, 240]);
       return;
@@ -2103,10 +1994,9 @@ function refreshReadingTitles() {
   const list = $("readingList");
   if (!list) return;
   [...list.querySelectorAll(".reading")].forEach((row, i) => {
-    const title = row.querySelector(".reading-toggle .title");
+    const title = row.querySelector(".tl-title");
     if (!title) return;
-    const open = !row.querySelector(".reading-body")?.classList.contains("hidden");
-    title.textContent = `${open ? "▾" : "▸"} ${i + 1}. ${intervalTitle(i)}`;
+    title.textContent = intervalTitle(i).replace(" (2nd dose)", "");
   });
   updatePreview();
 }
@@ -2182,6 +2072,7 @@ function addReading() {
   const rec = blankReading(nextReadingStamp());
   readingsOf().push(rec);
   openReadingIds.add(rec.id);
+  justAddedId = rec.id;
   persist();
   renderReadings();
   const last = document.querySelector("#readingList .reading:last-child");
@@ -2354,15 +2245,55 @@ function closePdfReview() {
   $("pdfBack").classList.remove("show");
   $("pdfSheet").classList.remove("show");
 }
+function exportChecks() {
+  const job = activeJob(), h = job.header;
+  const items = [];
+  const need = (ok, label, jump) => { if (!ok) items.push({ label, jump }); };
+  need(h.customer, "Customer name", "f_customer");
+  need(h.address, "Site address", "f_address");
+  need(h.systemId, "System ID", "f_systemId");
+  need(h.location, "Location", "f_location");
+  need(h.cells, "Number of cells", "f_cells");
+  need(readingsOf().length, "No readings logged", "btnAddReading");
+  missingReadingNotes().forEach((m) => items.push({ label: m.charAt(0).toUpperCase() + m.slice(1), jump: "readings" }));
+  need(h.custName, "Customer print name", "f_custName");
+  need(h.custSig, "Customer signature", "sig:cust");
+  need(h.nalcoName, "Technician print name", "f_nalcoName");
+  need(h.nalcoSig, "Technician signature", "sig:nalco");
+  return items;
+}
+function renderExportCheck() {
+  const items = exportChecks();
+  const box = $("pdfCheck");
+  box.classList.toggle("ok", !items.length);
+  box.innerHTML = items.length
+    ? `<div class="check-title">${items.length} thing${items.length === 1 ? "" : "s"} to check before sending</div>${items.map((it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`).join("")}`
+    : `<div class="check-ok">${icon("check")}Everything's filled in – ready to send</div>`;
+}
+function jumpTo(target) {
+  closePdfReview();
+  if (target.startsWith("sig:")) { $("cardSigs").open = true; setTimeout(() => openSig(target.slice(4)), 300); return; }
+  if (target === "readings" || target === "btnAddReading") {
+    const firstOpen = readingsOf().find((r) => readingStatus(r) !== "done");
+    if (firstOpen && target === "readings") { openReadingIds.add(firstOpen.id); renderReadings(); }
+    setTimeout(() => {
+      const el = (firstOpen && target === "readings" && document.querySelector(`.reading[data-id="${firstOpen.id}"]`)) || $("cardReadings");
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 280);
+    return;
+  }
+  const el = $(target);
+  if (!el) return;
+  const card = el.closest("details");
+  if (card) card.open = true;
+  setTimeout(() => { el.scrollIntoView({ behavior: "smooth", block: "center" }); el.focus({ preventScroll: true }); }, 300);
+}
 async function openPdfReview() {
   flushPersist();
   persist();
   pdfOut = null;
   const pages = $("pdfPages");
-  const warn = $("pdfWarn");
-  const missing = missingReadingNotes();
-  warn.classList.toggle("hidden", !missing.length);
-  warn.innerHTML = missing.length ? `<b>Some readings are incomplete</b><br>${missing.map(escapeHtml).join("<br>")}` : "";
+  renderExportCheck();
   const shareable = canShareFiles();
   $("pdfShareNote").classList.toggle("hidden", shareable);
   $("btnPdfShare").disabled = true;
@@ -2389,7 +2320,7 @@ async function openPdfReview() {
     const lib = await loadPdfJs();
     const doc = await lib.getDocument({ data: bytes.slice(), standardFontDataUrl: PDFJS_BASE + "standard_fonts/", verbosity: 0 }).promise;
     pages.innerHTML = "";
-    const width = Math.max(260, pages.clientWidth - 2);
+    const width = Math.max(260, pages.clientWidth - 18);
     const dpr = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
     for (let n = 1; n <= doc.numPages; n++) {
       const page = await doc.getPage(n);
@@ -2527,8 +2458,10 @@ function fillSigs() {
     if (!panel) return;
     panel.classList.toggle("signed", !!sig);
     const st = panel.querySelector("[data-sig-status]");
-    if (st) st.textContent = sig ? "Signed" : "Not signed";
+    if (st) st.innerHTML = sig ? `${icon("check")}Signed` : "Not signed";
   });
+  const n = [h.custSig, h.nalcoSig].filter(Boolean).length;
+  if ($("sigSummary")) $("sigSummary").textContent = n === 2 ? "Both signed" : n === 1 ? "1 of 2 signed" : "Print names and date";
 }
 
 let sigTarget = "cust";
@@ -2638,17 +2571,58 @@ function wire() {
     $(id).addEventListener("change", () => { flushPersist(); persist(); });
     $(id).addEventListener("blur", flushPersist);
   });
-  $("dur4").addEventListener("click", () => { $("dur4").classList.add("on"); $("durOther").classList.remove("on"); syncOtherHrs(); persist(); });
+  $("dur4").addEventListener("click", () => { $("dur4").classList.add("on"); $("durOther").classList.remove("on"); syncOtherHrs(); persist(); renderProgress(); });
+  $("f_otherHrs").addEventListener("input", () => setTimeout(renderProgress, 400));
   $("durOther").addEventListener("click", () => { $("durOther").classList.add("on"); $("dur4").classList.remove("on"); syncOtherHrs(); persist(); $("f_otherHrs").focus(); });
 
   $("checkLists").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-check]");
     if (!btn) return;
-    activeJob().checks[btn.dataset.check] = !activeJob().checks[btn.dataset.check];
+    const on = !activeJob().checks[btn.dataset.check];
+    activeJob().checks[btn.dataset.check] = on;
     rememberPrefs();
     saveState();
-    renderChecks();
+    // flip in place so the switch animates instead of re-rendering
+    btn.classList.toggle("on", on);
+    btn.setAttribute("aria-checked", on ? "true" : "false");
+    btn.textContent = on ? "YES" : "NO";
+    const all = Object.keys(activeJob().checks).length ? CHECKS.reduce((n, g) => n + g.items.length, 0) : 0;
+    const yes = CHECKS.reduce((n, g) => n + g.items.filter((i) => activeJob().checks[i.id]).length, 0);
+    if ($("checkSummary")) $("checkSummary").textContent = `${yes} of ${all} marked yes`;
   });
+
+  // remembered sites
+  $("f_customer").addEventListener("input", () => setTimeout(renderLastVisit, 400));
+  $("f_customer").addEventListener("change", renderLastVisit);
+  $("lastVisit").addEventListener("click", (e) => { if (e.target.closest("#btnFillLast")) fillFromLastVisit(); });
+
+  // keyboard "Next": gallons → turbidity → iron → copper → next reading
+  const NEXT_ORDER = ["gallons", "turbidity", "iron", "copper"];
+  $("readingList").addEventListener("keydown", (e) => {
+    if (e.key !== "Enter") return;
+    const field = e.target.dataset && e.target.dataset.field;
+    const idx = NEXT_ORDER.indexOf(field);
+    if (idx < 0) return;
+    e.preventDefault();
+    const row = e.target.closest(".reading");
+    if (idx < NEXT_ORDER.length - 1) {
+      const nxt = row.querySelector(`[data-field="${NEXT_ORDER[idx + 1]}"]`);
+      if (nxt) { nxt.focus(); nxt.select && nxt.select(); return; }
+    }
+    const nextRow = row.nextElementSibling;
+    const nextInput = nextRow && !nextRow.querySelector(".reading-body").classList.contains("hidden") && nextRow.querySelector('[data-field="turbidity"]');
+    if (nextInput) nextInput.focus(); else e.target.blur();
+  });
+
+  // trend chart taps
+  $("trends").addEventListener("click", (e) => showSparkTip(e.target.closest(".hit")));
+  document.addEventListener("click", (e) => { if (!e.target.closest(".spark")) showSparkTip(null); });
+  let resizeT;
+  window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(renderTrends, 200); });
+  setInterval(() => { if (!state.listMode && document.visibilityState === "visible") renderProgress(); }, 30000);
+
+  // export checklist jumps
+  $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) jumpTo(b.dataset.jump); });
 
   $("notesExtra").addEventListener("input", (e) => {
     const job = activeJob();
@@ -2672,8 +2646,9 @@ function wire() {
     if (field === "iron" || field === "dilution") {
       const out = card.querySelector('[data-fix-out="iron"]');
       if (out) out.innerHTML = ironResultText(rec);
-      paintTimers();
     }
+    paintTimers();
+    refreshReadingStates();
     persist();
   });
   $("readingList").addEventListener("click", (e) => {
@@ -2763,6 +2738,7 @@ function wire() {
     hideJobMenu();
     if (act.dataset.jobAct === "open") openJobById(id);
     if (act.dataset.jobAct === "rename") renameJob(id);
+    if (act.dataset.jobAct === "repeat") repeatJob(id);
     if (act.dataset.jobAct === "delete") deleteJobById(id);
   });
   const homeJson = $("fileImportHome");
