@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <meta name="theme-color" content="#081018" />
+  <meta name="theme-color" content="#101114" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -786,13 +786,19 @@ button, .btn, .chip { touch-action: manipulation; }
 .job-co.nalco { background: var(--ta-bg); color: var(--ta-fg); }
 .job-co.amc { background: var(--tb-bg); color: var(--tb-fg); }
 
-.theme-bar {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 6px;
-  margin-top: 10px;
+.theme-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(72px, 1fr)); gap: 8px; }
+.theme-card {
+  display: flex; flex-direction: column; align-items: stretch; gap: 8px; padding: 8px;
+  border-radius: 14px; border: 2px solid var(--line); background: var(--surface); color: var(--text);
+  font: inherit; cursor: pointer; transition: border-color 160ms var(--ease), transform 120ms var(--ease);
 }
-.theme-pick { min-height: 36px; font-size: 12px; font-weight: 800; }
+.theme-card:active { transform: scale(0.97); }
+.theme-card.on { border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); }
+.theme-swatch { position: relative; display: block; height: 54px; border-radius: 9px; overflow: hidden; border: 1px solid rgba(128,128,128,0.25); }
+.theme-swatch span:nth-child(1) { position: absolute; left: 8px; right: 8px; top: 8px; height: 22px; border-radius: 6px; }
+.theme-swatch span:nth-child(2) { position: absolute; left: 8px; width: 44%; bottom: 7px; height: 10px; border-radius: 5px; }
+.theme-name { font-weight: 800; font-size: 13px; text-align: center; }
+.app-header .brand .icon-btn + .icon-btn { margin-left: 2px; }
 html[data-theme="dark"] {
   --saving: #ff9f43;
   --saving-bg: rgba(255,159,67,0.12);
@@ -899,64 +905,6 @@ html[data-theme="light"] {
   --on-text: #1d4e86;
   --good-text: #146b42;
 }
-html[data-theme="fall"] {
-  --saving: #ffb35c;
-  --saving-bg: rgba(255,179,92,0.14);
-  --good-a: #f7c873;
-  --good-b: #d99a35;
-  --good-btn-text: #2a1708;
-  --ta-bg: rgba(240,138,85,0.2);
-  --ta-fg: #ffd7c4;
-  --tb-bg: rgba(224,162,74,0.2);
-  --tb-fg: #f8d9a0;
-  --tc-bg: rgba(214,96,74,0.22);
-  --tc-fg: #ffc6b8;
-  --toast-bg: #4a2a22;
-  --toast-fg: #fff4ea;
-  --toast-line: rgba(232,164,110,0.3);
-  --handle: #6d4a3e;
-  --menu-bg: #3a221c;
-  --overlay: rgba(20,10,8,0.92);
-  --lock-card: #3a221c;
-  --hover: rgba(255,220,190,0.07);
-  --group-bg: rgba(255,220,190,0.03);
-  --drag-bg: #4a2a22;
-  --focus-line: rgba(226,106,61,0.5);
-  --wheel-dim: rgba(255,244,234,0.38);
-  --hot-fg: #ffc6b8;
-  --cold-fg: #ffd7c4;
-  --warn-bg: rgba(224,162,74,0.2);
-  --warn-fg: #f8d9a0;
-  --good-text: #f8d9a0;
-  --bg: #1a100e;
-  --bg-2: #2a1814;
-  --panel: rgba(54, 30, 24, 0.94);
-  --panel-solid: #3a221c;
-  --line: rgba(232, 164, 110, 0.22);
-  --text: #fff4ea;
-  --muted: #d7b39a;
-  --accent: #e26a3d;
-  --accent-dim: rgba(226, 106, 61, 0.18);
-  --header: rgba(26, 16, 14, 0.9);
-  --input: rgba(20, 10, 8, 0.62);
-  --btn: #5a3228;
-  --sheet: #3a221c;
-  --dock: rgba(26, 16, 14, 0.92);
-  --glow: rgba(226, 106, 61, 0.14);
-  --logo-a: #a3482c;
-  --logo-b: #6d2c1c;
-  --primary-a: #f08a55;
-  --primary-b: #c5522c;
-  --primary-text: #2a100a;
-  --good: #e0a24a;
-  --good-dim: rgba(224, 162, 74, 0.18);
-  --hot: #ff8a5c;
-  --surface: rgba(255, 220, 190, 0.06);
-  --input-focus: #2a1612;
-  --on-text: #ffd7c4;
-  --danger-bg: rgba(255, 120, 90, 0.28);
-  --danger-text: #ffe4da;
-}
 
 
 /* ---- reading card layout ---- */
@@ -1062,6 +1010,15 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
 .title-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
 .title-card-tag { font-size: 11px; font-weight: 800; letter-spacing: 0.04em; padding: 3px 9px; border-radius: 999px; color: var(--muted); background: var(--surface); border: 1px solid var(--line); }
 .title-card input { font-size: 17px; font-weight: 700; }
+
+.reading-body .timer-btn.paused { background: var(--accent-dim); border-color: var(--accent); color: var(--on-text); animation: none; }
+.reading-body .timer-btn.paused::before {
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='5' width='4' height='14' rx='1'/%3E%3Crect x='14' y='5' width='4' height='14' rx='1'/%3E%3C/svg%3E") center / contain no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect x='6' y='5' width='4' height='14' rx='1'/%3E%3Crect x='14' y='5' width='4' height='14' rx='1'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+.reading-body .timer-btn { -webkit-user-select: none; user-select: none; -webkit-touch-callout: none; }
+.timer-hint { margin-top: 10px; font-size: 12px; color: var(--muted); text-align: center; }
+
 </style>
 </head>
 <body>
@@ -1072,13 +1029,8 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
         <h1 id="jobTitle">Peroxide Log</h1>
         <div class="sub" id="jobMeta">Cooling tower H2O2 cleaning</div>
       </div>
+      <button type="button" class="btn sm icon-btn" id="btnSettings" title="Settings" aria-label="Settings"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg></button>
       <button class="btn sm icon-btn" id="btnMenu" title="Jobs">☰</button>
-    </div>
-    <div class="theme-bar" id="themeBar" aria-label="Theme">
-      <button type="button" class="chip theme-pick" data-theme-pick="blue">Blue</button>
-      <button type="button" class="chip theme-pick" data-theme-pick="dark">Dark</button>
-      <button type="button" class="chip theme-pick" data-theme-pick="light">Light</button>
-      <button type="button" class="chip theme-pick" data-theme-pick="fall">Fall</button>
     </div>
   </header>
 
@@ -1265,6 +1217,18 @@ input[type="date"]::-webkit-calendar-picker-indicator, input[type="time"]::-webk
       </label>
     </div>
     <button class="btn ghost block" id="btnJson" style="margin-top:8px">Backup as JSON</button>
+  </section>
+
+  <div class="sheet-back" id="settingsBack"></div>
+  <section class="sheet" id="settingsSheet" aria-label="Settings">
+    <div class="handle"></div>
+    <div class="brand">
+      <h2 class="grow" style="margin:0;color:var(--text);text-transform:none;letter-spacing:-0.02em;font-size:18px">Settings</h2>
+      <button type="button" class="btn sm ghost" id="btnCloseSettings">Close</button>
+    </div>
+    <h2 style="margin:14px 0 10px">Theme</h2>
+    <div class="theme-grid" id="themeGrid" role="radiogroup" aria-label="Theme"></div>
+    <p class="count" style="margin:12px 0 4px">Saved on this phone.</p>
   </section>
 
   <div class="sheet-back" id="pdfBack"></div>
@@ -1561,17 +1525,38 @@ function flushPersist() {
 let state = loadState();
 function activeJob() { return state.jobs.find((j) => j.id === state.activeJobId) || state.jobs[0] || null; }
 
-const THEMES = ["blue", "dark", "light", "fall"];
+// To add a theme: add an entry here (in the order it should appear) and an
+// html[data-theme="<id>"] { ... } colour block in the <style> section.
+const THEMES = [
+  { id: "light", name: "Light", bar: "#f6f3ee", swatch: ["#f6f3ee", "#ffffff", "#1d78c7"] },
+  { id: "dark",  name: "Dark",  bar: "#101114", swatch: ["#101114", "#1c1e24", "#d4d4d8"] }
+];
+const DEFAULT_THEME = "dark";
+function renderThemeGrid() {
+  const grid = $("themeGrid");
+  if (!grid) return;
+  grid.innerHTML = THEMES.map((t) => `
+    <button type="button" class="theme-card" data-theme-pick="${t.id}" role="radio" aria-label="${t.name} theme">
+      <span class="theme-swatch" style="background:${t.swatch[0]}">
+        <span style="background:${t.swatch[1]}"></span>
+        <span style="background:${t.swatch[2]}"></span>
+      </span>
+      <span class="theme-name">${t.name}</span>
+    </button>`).join("");
+}
 function applyTheme(name, save) {
-  const theme = THEMES.includes(name) ? name : "blue";
-  document.documentElement.dataset.theme = theme;
-  const colors = { blue: "#081018", dark: "#101114", light: "#f6f3ee", fall: "#1a100e" };
+  const t = THEMES.find((x) => x.id === name) || THEMES.find((x) => x.id === DEFAULT_THEME);
+  document.documentElement.dataset.theme = t.id;
   const meta = document.querySelector('meta[name="theme-color"]');
-  if (meta) meta.content = colors[theme];
-  document.querySelectorAll("[data-theme-pick]").forEach((btn) => btn.classList.toggle("on", btn.dataset.themePick === theme));
+  if (meta) meta.content = t.bar;
+  document.querySelectorAll("[data-theme-pick]").forEach((btn) => {
+    const on = btn.dataset.themePick === t.id;
+    btn.classList.toggle("on", on);
+    btn.setAttribute("aria-checked", on ? "true" : "false");
+  });
   if (save) {
     state.prefs = state.prefs || {};
-    state.prefs.theme = theme;
+    state.prefs.theme = t.id;
     saveState();
   }
 }
@@ -1990,7 +1975,7 @@ function renderReadings() {
             <div class="rd-head"><span class="rd-name">Iron</span><span class="rd-unit">mg/L</span></div>
             <div class="rd-entry">
               <input data-field="iron" inputmode="decimal" value="${escapeHtml(r.iron)}" placeholder="0.00" />
-              <button type="button" class="timer-btn ${timers.has(timerKey(r.id, "iron")) ? "on" : ""}" data-timer-id="${r.id}" data-timer-field="iron" aria-label="3 minute iron timer">${timerLabel(r.id, "iron")}</button>
+              <button type="button" class="timer-btn ${timerClass(r.id, "iron")}" data-timer-id="${r.id}" data-timer-field="iron" aria-label="3 minute iron timer">${timerLabel(r.id, "iron")}</button>
             </div>
             <div class="rd-dil">
               <label>Dilution</label>
@@ -2004,10 +1989,11 @@ function renderReadings() {
             <div class="rd-head"><span class="rd-name">Copper</span><span class="rd-unit">mg/L</span></div>
             <div class="rd-entry">
               <input data-field="copper" inputmode="decimal" value="${escapeHtml(r.copper)}" placeholder="0.00" />
-              <button type="button" class="timer-btn ${timers.has(timerKey(r.id, "copper")) ? "on" : ""}" data-timer-id="${r.id}" data-timer-field="copper" aria-label="3 minute copper timer">${timerLabel(r.id, "copper")}</button>
+              <button type="button" class="timer-btn ${timerClass(r.id, "copper")}" data-timer-id="${r.id}" data-timer-field="copper" aria-label="3 minute copper timer">${timerLabel(r.id, "copper")}</button>
             </div>
           </section>
         </div>
+        <div class="timer-hint">Timers: tap to start or pause · double-tap to reset</div>
       </div>
     </div>`;
   }).join("");
@@ -2016,22 +2002,33 @@ function renderReadings() {
 
 function timerKey(id, field) { return `${id}:${field}`; }
 const timers = new Map();
+const TIMER_MS = 3 * 60 * 1000;
+function timerRemaining(t) {
+  return t.paused ? t.remaining : Math.max(0, t.end - Date.now());
+}
 function timerLabel(id, field) {
   const t = timers.get(timerKey(id, field));
   if (!t) return "3:00";
-  const secs = Math.max(0, Math.floor((t.end - Date.now() - 1) / 1000));
+  const secs = Math.max(0, Math.ceil(timerRemaining(t) / 1000));
   return `${Math.floor(secs / 60)}:${String(secs % 60).padStart(2, "0")}`;
 }
+function timerClass(id, field) {
+  const t = timers.get(timerKey(id, field));
+  return !t ? "" : t.paused ? "paused" : "on";
+}
 function timerBit(id, field, prefix) {
-  if (!timers.has(timerKey(id, field))) return "";
-  return `${prefix} ${timerLabel(id, field)}`;
+  const t = timers.get(timerKey(id, field));
+  if (!t) return "";
+  return `${prefix} ${timerLabel(id, field)}${t.paused ? " (paused)" : ""}`;
 }
 function paintTimers() {
   document.querySelectorAll("[data-timer-field]").forEach((btn) => {
     const id = btn.dataset.timerId;
     const field = btn.dataset.timerField;
     btn.textContent = timerLabel(id, field);
-    btn.classList.toggle("on", timers.has(timerKey(id, field)));
+    const cls = timerClass(id, field);
+    btn.classList.toggle("on", cls === "on");
+    btn.classList.toggle("paused", cls === "paused");
   });
   document.querySelectorAll(".reading").forEach((row) => {
     const meta = row.querySelector(".reading-toggle .meta");
@@ -2041,29 +2038,57 @@ function paintTimers() {
     meta.textContent = bits || "Tap to enter turbidity, iron, copper";
   });
 }
-function startSampleTimer(id, field) {
-  const key = timerKey(id, field);
-  const existing = timers.get(key);
-  if (existing) {
-    clearInterval(existing.interval);
-    timers.delete(key);
-    paintTimers();
-    return;
-  }
-  const end = Date.now() + 3 * 60 * 1000;
-  const interval = setInterval(() => {
-    if (Date.now() >= end) {
-      clearInterval(interval);
+function runTimer(key, t) {
+  clearInterval(t.interval);
+  t.paused = false;
+  t.end = Date.now() + t.remaining;
+  t.interval = setInterval(() => {
+    if (Date.now() >= t.end) {
+      clearInterval(t.interval);
       timers.delete(key);
       paintTimers();
-      toast(`${field === "iron" ? "Iron" : "Copper"} ready`);
+      toast(`${t.field === "iron" ? "Iron" : "Copper"} ready`);
       if (navigator.vibrate) navigator.vibrate([180, 80, 180, 80, 240]);
       return;
     }
     paintTimers();
-  }, 500);
-  timers.set(key, { end, interval, field, id });
-  if (navigator.vibrate) navigator.vibrate(30);
+  }, 250);
+}
+function resetTimer(key) {
+  const t = timers.get(key);
+  if (t) clearInterval(t.interval);
+  timers.delete(key);
+  if (navigator.vibrate) navigator.vibrate([20, 40, 20]);
+  paintTimers();
+}
+const lastTimerTap = new Map();
+// single tap: start / pause / resume.  double tap (within 350ms): reset to 3:00.
+function handleTimerTap(id, field) {
+  const key = timerKey(id, field);
+  const now = Date.now();
+  const prev = lastTimerTap.get(key) || 0;
+  lastTimerTap.set(key, now);
+  if (now - prev < 350) {
+    lastTimerTap.delete(key);
+    resetTimer(key);
+    toast(`${field === "iron" ? "Iron" : "Copper"} timer reset`);
+    return;
+  }
+  const t = timers.get(key);
+  if (!t) {
+    const nt = { field, id, remaining: TIMER_MS, paused: false, interval: null, end: 0 };
+    timers.set(key, nt);
+    runTimer(key, nt);
+    if (navigator.vibrate) navigator.vibrate(30);
+  } else if (t.paused) {
+    runTimer(key, t);
+    if (navigator.vibrate) navigator.vibrate(30);
+  } else {
+    clearInterval(t.interval);
+    t.remaining = Math.max(0, t.end - Date.now());
+    t.paused = true;
+    if (navigator.vibrate) navigator.vibrate(15);
+  }
   paintTimers();
 }
 function persist() {
@@ -2677,7 +2702,7 @@ function wire() {
     }
     const timerBtn = e.target.closest("[data-timer-field]");
     if (timerBtn) {
-      startSampleTimer(timerBtn.dataset.timerId, timerBtn.dataset.timerField);
+      handleTimerTap(timerBtn.dataset.timerId, timerBtn.dataset.timerField);
       return;
     }
   });
@@ -2866,12 +2891,17 @@ function wire() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  applyTheme((state.prefs && state.prefs.theme) || "blue", false);
-  const bar = $("themeBar");
-  if (bar) bar.addEventListener("click", (e) => {
+  renderThemeGrid();
+  applyTheme((state.prefs && state.prefs.theme) || DEFAULT_THEME, false);
+  $("themeGrid").addEventListener("click", (e) => {
     const btn = e.target.closest("[data-theme-pick]");
     if (btn) applyTheme(btn.dataset.themePick, true);
   });
+  const openSettings = () => { $("settingsBack").classList.add("show"); $("settingsSheet").classList.add("show"); };
+  const closeSettings = () => { $("settingsBack").classList.remove("show"); $("settingsSheet").classList.remove("show"); };
+  $("btnSettings").addEventListener("click", openSettings);
+  $("btnCloseSettings").addEventListener("click", closeSettings);
+  $("settingsBack").addEventListener("click", closeSettings);
   wire();
 });
 
