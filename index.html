@@ -428,7 +428,7 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
   width: 40px; height: 40px; border: 0; border-radius: 12px; background: transparent; color: var(--faint);
   display: grid; place-items: center; padding: 0; cursor: pointer;
 }
-.drag-handle { touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab; }
+.drag-handle { touch-action: pan-y; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none; cursor: grab; }
 .del-btn:active { background: var(--danger-dim); color: var(--danger); }
 .drag-handle svg, .del-btn svg { pointer-events: none; }
 
@@ -856,6 +856,11 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
 @media (orientation: landscape) and (max-height: 540px) { .sig-wide-btn { display: none; } }
 .due-text { min-width: 0; }
 .due-text b, .due-text span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* reading reorder: press and hold the grip */
+.reading.holding .drag-handle { color: var(--accent-text); background: var(--accent-dim); transition: background 380ms var(--ease), color 380ms var(--ease); }
+.reading.holding .tl-card { transform: scale(0.99); transition: transform 380ms var(--ease); }
+.reading.dragging .drag-handle { color: var(--on-accent); background: var(--accent); }
 </style>
 </head>
 <body>
@@ -2282,7 +2287,7 @@ function renderReadings() {
             </div>
             <div class="tl-vals">${readingValsHtml(r)}</div>
           </button>
-          <button type="button" class="drag-handle" data-drag="${r.id}" aria-label="Drag to reorder">${icon("grip", "ico")}</button>
+          <button type="button" class="drag-handle" data-drag="${r.id}" aria-label="Hold, then drag to reorder">${icon("grip", "ico")}</button>
           <button type="button" class="del-btn" data-del="${r.id}" aria-label="Delete reading ${i + 1}">${icon("trash", "ico")}</button>
         </div>
         <div class="reading-body ${open ? "" : "hidden"}">
@@ -2718,34 +2723,49 @@ function commitReadingOrder() {
   saveState();
   markEdited();
 }
+const HOLD_MS = 380;
 function bindReadingDrag() {
   const list = $("readingList");
   if (!list || list.dataset.dragBound) return;
   list.dataset.dragBound = "1";
+  const reset = () => {
+    if (!dragState) return;
+    clearTimeout(dragState.timer);
+    dragState.row.classList.remove("holding", "dragging");
+    document.body.style.touchAction = "";
+  };
   const endDrag = () => {
     if (!dragState) return;
-    const row = list.querySelector(".reading.dragging");
-    if (row) row.classList.remove("dragging");
-    document.body.style.touchAction = "";
+    const wasActive = dragState.active;
+    reset();
     dragState = null;
-    commitReadingOrder();
-    renderReadings();
+    if (wasActive) { commitReadingOrder(); renderReadings(); }
   };
   list.addEventListener("pointerdown", (e) => {
     const handle = e.target.closest("[data-drag]");
     if (!handle) return;
     const row = handle.closest(".reading");
     if (!row) return;
+    if (dragState) endDrag();
     dragState = { id: row.dataset.id, pointerId: e.pointerId, startY: e.clientY, active: false, handle, row };
+    row.classList.add("holding");
+    // only a still press-and-hold picks the reading up
+    dragState.timer = setTimeout(() => {
+      if (!dragState || dragState.row !== row) return;
+      dragState.active = true;
+      row.classList.remove("holding");
+      row.classList.add("dragging");
+      document.body.style.touchAction = "none";
+      try { handle.setPointerCapture(dragState.pointerId); } catch (err) {}
+      if (navigator.vibrate) navigator.vibrate(18);
+    }, HOLD_MS);
   });
   list.addEventListener("pointermove", (e) => {
     if (!dragState || e.pointerId !== dragState.pointerId) return;
     if (!dragState.active) {
-      if (Math.abs(e.clientY - dragState.startY) < 12) return;
-      dragState.active = true;
-      dragState.row.classList.add("dragging");
-      document.body.style.touchAction = "none";
-      try { dragState.handle.setPointerCapture(e.pointerId); } catch (err) {}
+      // moved before the hold finished: treat it as a scroll, not a drag
+      if (Math.abs(e.clientY - dragState.startY) > 8) { reset(); dragState = null; }
+      return;
     }
     e.preventDefault();
     const items = [...list.querySelectorAll(".reading")];
@@ -2760,9 +2780,14 @@ function bindReadingDrag() {
       const box = prev.getBoundingClientRect();
       if (e.clientY < box.top + box.height * 0.4) { prev.before(dragState.row); refreshReadingTitles(); }
     }
+    try { if (!dragState.handle.hasPointerCapture(e.pointerId)) dragState.handle.setPointerCapture(e.pointerId); } catch (err) {}
   }, { passive: false });
-  list.addEventListener("pointerup", endDrag);
-  list.addEventListener("pointercancel", endDrag);
+  // once picked up, stop the page from scrolling under the finger
+  list.addEventListener("touchmove", (e) => { if (dragState && dragState.active) e.preventDefault(); }, { passive: false });
+  list.addEventListener("contextmenu", (e) => { if (e.target.closest("[data-drag]")) e.preventDefault(); });
+  // moving the row in the DOM drops pointer capture, so listen at the window
+  window.addEventListener("pointerup", (e) => { if (dragState && e.pointerId === dragState.pointerId) endDrag(); });
+  window.addEventListener("pointercancel", (e) => { if (dragState && e.pointerId === dragState.pointerId) endDrag(); });
 }
 
 function nextReadingStamp() {
