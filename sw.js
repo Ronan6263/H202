@@ -1,5 +1,5 @@
 /* Peroxide Log offline cache */
-const VERSION = "h2o2-v3-1";
+const VERSION = "h2o2-v5";
 const PDFJS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/";
 const APP_FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 const LIB_FILES = [

@@ -746,6 +746,7 @@ body.has-due { padding-bottom: calc(170px + env(safe-area-inset-bottom)); }
   #sigSheet.show { top: 0; max-height: none; height: 100%; border-radius: 0; max-width: none; display: flex; flex-direction: column; padding-top: 4px; }
   #sigSheet .handle, #sigSheet .sig-tip { display: none; }
   #sigSheet .sig-pad { flex: 1 1 auto; height: auto; min-height: 140px; margin-top: 6px; }
+  #sigSheet .sig-wrap { flex: 1 1 auto; display: flex; min-height: 0; }
   #sigSheet .grid-2 { flex: 0 0 auto; }
 }
 
@@ -791,6 +792,70 @@ body.has-due .toast { bottom: calc(176px + env(safe-area-inset-bottom)); }
   .tests-row { gap: 5px; } .tests-row .tr-lbl { display: none; } .tchip { padding: 0 10px; font-size: 12.5px; }
 }
 .toast { width: max-content; max-width: calc(100vw - 32px); }
+
+/* ================= round 5 ================= */
+/* several jobs running at once */
+.today.multi { display: block; cursor: default; padding: 14px 12px 8px; }
+.today.multi .today-kicker { padding: 0 4px 8px; }
+.today-list { display: flex; flex-direction: column; }
+.today-row {
+  display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; width: 100%;
+  padding: 10px 6px; border: 0; border-top: 1px solid var(--line); background: transparent; color: var(--text); text-align: left; cursor: pointer;
+  border-radius: 12px; transition: background 160ms var(--ease);
+}
+.today-row:first-child { border-top: 0; }
+.today-row:active { background: var(--accent-dim); }
+.today-row .ico { color: var(--muted); }
+.mini-ring { position: relative; width: 40px; height: 40px; display: grid; place-items: center; }
+.mini-ring svg { position: absolute; inset: 0; width: 40px; height: 40px; transform: rotate(-90deg); }
+.mini-ring circle { fill: none; stroke-width: 4; }
+.mini-ring .bg { stroke: var(--btn); }
+.mini-ring .fg { stroke: var(--accent); stroke-linecap: round; }
+.mini-ring b { position: relative; font-family: var(--display); font-size: 14px; }
+.tr-main { min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+.tr-name { font-family: var(--display); font-weight: 700; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tr-sub { font-size: 12.5px; color: var(--muted); }
+.tr-sub b { color: var(--text); }
+.tr-sub b.due { color: var(--saving); }
+.active-switch {
+  position: sticky; top: calc(var(--top-h, 64px) + 6px); z-index: 19; display: flex; gap: 6px; padding: 5px; margin: 0 0 12px;
+  border-radius: 16px; background: color-mix(in srgb, var(--panel) 88%, transparent); border: 1px solid var(--line);
+  backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); box-shadow: var(--shadow);
+}
+.sw-job {
+  flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 1px; padding: 7px 10px;
+  border: 0; border-radius: 12px; background: transparent; color: var(--muted); cursor: pointer; text-align: left;
+  transition: background 160ms var(--ease), color 160ms var(--ease);
+}
+.sw-job .sw-name { max-width: 100%; font-weight: 800; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sw-job .sw-when { font-size: 11px; font-weight: 700; }
+.sw-job.on { background: var(--accent-dim); color: var(--accent-text); box-shadow: inset 0 0 0 1px var(--accent); }
+.sw-job.late .sw-when { color: var(--saving); }
+body.list-mode .due-banner { bottom: calc(16px + env(safe-area-inset-bottom)); }
+
+/* signature: full-screen sideways pad in portrait */
+.sig-wide-btn { margin: 4px 0 10px; }
+.sig-wide-btn .on-on, #sigSheet.wide .sig-wide-btn .on-off { display: none; }
+#sigSheet.wide .sig-wide-btn .on-on { display: inline; }
+.sig-wrap { position: relative; }
+.sig-guide { display: none; }
+#sigSheet.wide.show {
+  top: 0; bottom: 0; max-height: none; height: 100%; border-radius: 0; max-width: none;
+  display: flex; flex-direction: column; padding-top: calc(8px + env(safe-area-inset-top)); padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
+#sigSheet.wide .handle { display: none; }
+#sigSheet.wide .sig-wrap { flex: 1 1 auto; display: flex; min-height: 0; }
+#sigSheet.wide .sig-pad { flex: 1 1 auto; height: auto; }
+#sigSheet.wide .sig-guide { display: block; position: absolute; inset: 0; pointer-events: none; }
+#sigSheet.wide .sig-line { position: absolute; top: 8%; bottom: 8%; left: 24%; border-left: 2px dashed #c4c9cf; }
+#sigSheet.wide .sig-label {
+  position: absolute; left: 12%; top: 50%; transform: translate(-50%, -50%) rotate(90deg); white-space: nowrap;
+  font-size: 13px; font-weight: 700; color: #8a9199; letter-spacing: 0.02em;
+}
+html.sig-wide, html.sig-wide body { overflow: hidden; }
+@media (orientation: landscape) and (max-height: 540px) { .sig-wide-btn { display: none; } }
+.due-text { min-width: 0; }
+.due-text b, .due-text span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 </style>
 </head>
 <body>
@@ -872,6 +937,7 @@ body.has-due .toast { bottom: calc(176px + env(safe-area-inset-bottom)); }
 
   <!-- ============ job ============ -->
   <main class="wrap" id="jobScreen">
+    <div class="active-switch hidden" id="activeSwitch" aria-label="Jobs in progress"></div>
     <section class="card">
       <h2><label for="f_title" style="all:inherit">Job title</label></h2>
       <input id="f_title" class="title-input" placeholder="Display name in your job list" />
@@ -1071,8 +1137,11 @@ body.has-due .toast { bottom: calc(176px + env(safe-area-inset-bottom)); }
   <section class="sheet" id="sigSheet" aria-label="Signature pad">
     <div class="handle"></div>
     <div class="sheet-top"><h2 class="grow sheet-title" id="sigTitle">Sign here</h2><button type="button" class="btn sm ghost" id="btnCloseSig">Close</button></div>
-    <p class="count sig-tip" style="margin:6px 0 10px"><svg class="ico sm"><use href="#i-rotate"/></svg>Turn your phone sideways for a bigger pad.</p>
-    <canvas id="sigPad" class="sig-pad" width="640" height="280"></canvas>
+    <button type="button" class="btn sm sig-wide-btn" id="btnSigWide" aria-pressed="false"><svg class="ico sm"><use href="#i-rotate"/></svg><span class="on-off">Full-screen pad</span><span class="on-on">Back to small pad</span></button>
+    <div class="sig-wrap">
+      <canvas id="sigPad" class="sig-pad" width="640" height="280"></canvas>
+      <div class="sig-guide" aria-hidden="true"><span class="sig-line"></span><span class="sig-label">Turn phone sideways · sign above the line</span></div>
+    </div>
     <div class="grid-2" style="margin-top:10px">
       <button type="button" class="btn" id="btnSigRedo">Clear pad</button>
       <button type="button" class="btn good" id="btnSigSave"><svg class="ico sm"><use href="#i-check"/></svg>Save signature</button>
@@ -1593,10 +1662,11 @@ function applyMode() {
   if (listScreen) listScreen.classList.toggle("hidden", !list);
   if (jobScreen) jobScreen.classList.toggle("hidden", list);
   if (dock) dock.classList.toggle("hidden", list);
+  document.body.classList.toggle("list-mode", list);
   if (list) {
     $("jobTitle").textContent = "Peroxide Log";
     $("jobMeta").textContent = "Cooling tower H2O2 cleaning";
-    if ($("homeCount")) $("homeCount").textContent = state.jobs.length ? `${state.jobs.length} saved · tap one to open it` : "Nothing saved yet";
+    if ($("homeCount")) $("homeCount").textContent = state.jobs.length ? `${state.jobs.length} saved` : "Nothing saved yet";
   }
 }
 function jobInitial(job) {
@@ -1631,25 +1701,84 @@ function jobRowHtml(j) {
    </div>`;
 }
 const homeUi = { q: "", filter: "all" };
+function runningJobs() {
+  const soon = (j) => { const p = jobProgress(j); return p.next ? p.next.getTime() : Infinity; };
+  return (state.jobs || []).filter(jobRunning).sort((a, b) => soon(a) - soon(b) || (b.updated || 0) - (a.updated || 0));
+}
+function nextLine(job, jp) {
+  if (!jp.next) return "All readings in";
+  const late = jp.next.getTime() <= Date.now();
+  return late
+    ? `<b class="due">${escapeHtml(intervalTitle(jp.list.length).replace(" (2nd dose)", ""))} due</b>`
+    : `Next <b>${fmtClock(jp.next)}</b>`;
+}
 function renderToday() {
   const box = $("todayCard");
   if (!box) return;
-  const job = (state.jobs || []).filter(jobRunning).sort((a, b) => (b.updated || 0) - (a.updated || 0))[0];
-  if (!job || !state.listMode) { box.innerHTML = ""; return; }
-  const jp = jobProgress(job);
-  const C = 2 * Math.PI * 32;
-  const frac = jp.slots ? jp.done / jp.slots : 0;
-  const late = jp.next && jp.next.getTime() <= Date.now();
-  const nextTxt = jp.next ? (late ? `<b class="due">${escapeHtml(intervalTitle(jp.list.length).replace(" (2nd dose)", ""))} reading due</b>` : `Next reading <b>${fmtClock(jp.next)}</b>`) : "All readings in";
-  box.innerHTML = `<div class="today" data-open-job="${job.id}" role="button" tabindex="0" aria-label="Resume ${escapeHtml(jobName(job))}">
+  const jobs = runningJobs();
+  if (!jobs.length || !state.listMode) { box.innerHTML = ""; return; }
+  if (jobs.length === 1) {
+    const job = jobs[0];
+    const jp = jobProgress(job);
+    const C = 2 * Math.PI * 32;
+    const frac = jp.slots ? jp.done / jp.slots : 0;
+    const sub = jp.next ? nextLine(job, jp).replace(" due</b>", " reading due</b>").replace("Next <b>", "Next reading <b>") : "All readings in";
+    box.innerHTML = `<div class="today" data-open-job="${job.id}" role="button" tabindex="0" aria-label="Resume ${escapeHtml(jobName(job))}">
     <div class="today-ring"><svg viewBox="0 0 74 74" aria-hidden="true"><circle class="bg" cx="37" cy="37" r="32"/><circle class="fg" cx="37" cy="37" r="32" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C * (1 - frac)).toFixed(2)}"/></svg><div class="lbl">${jp.done}<small>of ${jp.slots}</small></div></div>
     <div style="min-width:0">
       <div class="today-kicker"><span class="live"></span>In progress</div>
       <div class="today-name">${escapeHtml(jobName(job))}</div>
-      <div class="today-sub">${nextTxt}</div>
+      <div class="today-sub">${sub}</div>
       <span class="btn primary sm today-cta" data-open-job="${job.id}">${icon("open")}Resume job</span>
     </div>
   </div>`;
+    return;
+  }
+  const C = 2 * Math.PI * 15;
+  box.innerHTML = `<div class="today multi">
+    <div class="today-kicker"><span class="live"></span>${jobs.length} in progress</div>
+    <div class="today-list">${jobs.map((job) => {
+      const jp = jobProgress(job);
+      const frac = jp.slots ? jp.done / jp.slots : 0;
+      return `<button type="button" class="today-row" data-open-job="${job.id}">
+        <span class="mini-ring"><svg viewBox="0 0 36 36" aria-hidden="true"><circle class="bg" cx="18" cy="18" r="15"/><circle class="fg" cx="18" cy="18" r="15" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C * (1 - frac)).toFixed(2)}"/></svg><b>${jp.done}</b></span>
+        <span class="tr-main"><span class="tr-name">${escapeHtml(jobName(job))}</span><span class="tr-sub">${jp.done} of ${jp.slots} · ${nextLine(job, jp)}</span></span>
+        ${icon("chev-r", "ico")}
+      </button>`;
+    }).join("")}</div>
+  </div>`;
+}
+// "Kendall Sq · Loop A" / "Kendall Sq · Loop B" -> "Loop A" / "Loop B"
+function shortNames(jobs) {
+  const full = jobs.map(jobName);
+  if (full.length < 2) return full;
+  let pre = full[0];
+  full.forEach((n) => { while (pre && !n.startsWith(pre)) pre = pre.slice(0, -1); });
+  const sep = Math.max(pre.lastIndexOf("·"), pre.lastIndexOf(" - "), pre.lastIndexOf("|"), pre.lastIndexOf("/"), pre.lastIndexOf(","));
+  let cut = sep >= 0 ? sep : pre.lastIndexOf(" ");
+  const tail = (c) => full.map((n) => n.slice(c + 1).replace(/^[\s·\-–—]+/, "").trim());
+  if (sep < 0 && cut > 0 && tail(cut).some((r) => r.length < 3)) cut = pre.lastIndexOf(" ", cut - 1);
+  if (cut < 2) return full;
+  const rest = tail(cut);
+  return rest.every(Boolean) && new Set(rest).size === rest.length ? rest : full;
+}
+function renderActiveSwitch() {
+  const box = $("activeSwitch");
+  if (!box) return;
+  const jobs = runningJobs().sort((a, b) => (a.created || 0) - (b.created || 0));
+  const cur = activeJob();
+  if (state.listMode || jobs.length < 2 || !cur || !jobs.some((j) => j.id === cur.id)) { box.innerHTML = ""; box.classList.add("hidden"); return; }
+  box.classList.remove("hidden");
+  const hdr = document.querySelector(".app-header");
+  if (hdr) document.documentElement.style.setProperty("--top-h", hdr.offsetHeight + "px");
+  const names = shortNames(jobs);
+  box.innerHTML = jobs.map((job, k) => {
+    const jp = jobProgress(job);
+    const late = jp.next && jp.next.getTime() <= Date.now();
+    const when = jp.next ? (late ? "due" : fmtClock(jp.next)) : "done";
+    return `<button type="button" class="sw-job ${job.id === cur.id ? "on" : ""} ${late ? "late" : ""}" data-open-job="${job.id}" ${job.id === cur.id ? 'aria-current="true"' : ""}>
+      <span class="sw-name">${escapeHtml(names[k])}</span><span class="sw-when">${escapeHtml(when)}</span></button>`;
+  }).join("");
 }
 const closedGroups = new Set();
 function jobDate(job) {
@@ -2335,7 +2464,6 @@ function progressFlags() {
   const jp = jobProgress(activeJob());
   const flags = [];
   if (jp.readingsIn && !jp.signed) flags.push(`<span class="flag">${icon("sign")}All readings in · needs signatures</span>`);
-  if (wakeLock) flags.push(`<span class="flag awake">${icon("sun")}Screen stays on</span>`);
   return flags.length ? `<div class="progress-flags">${flags.join("")}</div>` : "";
 }
 
@@ -2421,34 +2549,40 @@ async function syncWakeLock() {
 }
 
 // ------------------------------------------------------------- reading-due reminder
-let dueDismissed = "";
-let dueBuzzed = "";
+const dueDismissed = new Set();
+const dueBuzzed = new Set();
 function checkDue() {
   const banner = $("dueBanner");
-  const job = activeJob();
   let show = false;
-  if (job && !state.listMode && state.prefs.dueAlerts !== false && jobRunning(job)) {
-    const jp = jobProgress(job);
-    if (jp.next) {
-      const key = job.id + ":" + jp.list.length;
-      const secs = (jp.next.getTime() - Date.now()) / 1000;
-      if (secs <= 120 && dueDismissed !== key) {
-        show = true;
-        const name = intervalTitle(jp.list.length).replace(" (2nd dose)", "");
-        $("dueTitle").textContent = `${name} reading ${secs > 0 ? "coming up" : "due"}${jp.list.length === 4 ? " · 2nd dose" : ""}`;
-        const mins = Math.round(Math.abs(secs) / 60);
-        $("dueSub").textContent = secs > 30 ? `Due at ${fmtClock(jp.next)} · in ${Math.max(1, mins)} min` : mins >= 1 ? `Due at ${fmtClock(jp.next)} · ${mins} min ago` : `Due now · ${fmtClock(jp.next)}`;
-        banner.dataset.key = key;
-        if (secs <= 0 && dueBuzzed !== key) {
-          dueBuzzed = key;
-          banner.classList.remove("flash"); void banner.offsetWidth; banner.classList.add("flash");
-          if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]);
-        }
+  if (state.prefs.dueAlerts !== false) {
+    const jobs = runningJobs();
+    const multi = jobs.length > 1;
+    const hit = jobs.map((job) => {
+      const jp = jobProgress(job);
+      if (!jp.next) return null;
+      return { job, jp, key: job.id + ":" + jp.list.length, secs: (jp.next.getTime() - Date.now()) / 1000 };
+    }).filter((d) => d && d.secs <= 120 && !dueDismissed.has(d.key)).sort((a, b) => a.secs - b.secs)[0];
+    if (hit) {
+      const { job, jp, key, secs } = hit;
+      show = true;
+      const name = intervalTitle(jp.list.length).replace(" (2nd dose)", "");
+      $("dueTitle").textContent = `${name} reading ${secs > 0 ? "coming up" : "due"}${jp.list.length === 4 ? " · 2nd dose" : ""}`;
+      const mins = Math.round(Math.abs(secs) / 60);
+      const when = secs > 30 ? `${fmtClock(jp.next)} · in ${Math.max(1, mins)} min` : mins >= 1 ? `${fmtClock(jp.next)} · ${mins} min late` : `Due now`;
+      const other = multi || state.listMode || job.id !== state.activeJobId;
+      $("dueSub").textContent = other ? `${jobName(job)} · ${when}` : when;
+      banner.dataset.key = key;
+      banner.dataset.job = job.id;
+      if (secs <= 0 && !dueBuzzed.has(key)) {
+        dueBuzzed.add(key);
+        banner.classList.remove("flash"); void banner.offsetWidth; banner.classList.add("flash");
+        if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]);
       }
     }
   }
   banner.classList.toggle("hidden", !show);
   document.body.classList.toggle("has-due", show);
+  renderActiveSwitch();
 }
 
 function timerKey(id, field) { return `${id}:${field}`; }
@@ -3117,8 +3251,19 @@ function sigPoint(e) {
     y: (src.clientY - rect.top) * (canvas.height / rect.height)
   };
 }
+function setSigWide(on) {
+  const sheet = $("sigSheet");
+  sheet.classList.toggle("wide", !!on);
+  document.documentElement.classList.toggle("sig-wide", !!on);
+  $("btnSigWide").setAttribute("aria-pressed", on ? "true" : "false");
+  requestAnimationFrame(() => resizeSigPad(false));
+}
+function sigIsWide() {
+  return $("sigSheet").classList.contains("wide") && innerHeight > innerWidth;
+}
 function openSig(target) {
   sigTarget = target;
+  setSigWide(false);
   $("sigTitle").textContent = target === "nalco" ? "Technician signature" : "Customer signature";
   $("sigBack").classList.add("show");
   $("sigSheet").classList.add("show");
@@ -3128,6 +3273,7 @@ function openSig(target) {
 function closeSig() {
   $("sigBack").classList.remove("show");
   $("sigSheet").classList.remove("show");
+  setSigWide(false);
   sigDrawing = false;
 }
 function cropSignature(canvas) {
@@ -3159,8 +3305,19 @@ function cropSignature(canvas) {
   out.getContext("2d").drawImage(canvas, minX, minY, w, h, 0, 0, w, h);
   return out.toDataURL("image/png");
 }
+function uprightSig(canvas) {
+  // sideways pad: the signer holds the phone with its top to the left,
+  // so rotate the drawing a quarter turn to make it read left-to-right
+  const out = document.createElement("canvas");
+  out.width = canvas.height; out.height = canvas.width;
+  const ctx = out.getContext("2d");
+  ctx.setTransform(0, -1, 1, 0, 0, canvas.width);
+  ctx.drawImage(canvas, 0, 0);
+  return out;
+}
 function saveSig() {
-  const dataUrl = cropSignature($("sigPad"));
+  const pad = $("sigPad");
+  const dataUrl = cropSignature(sigIsWide() ? uprightSig(pad) : pad);
   if (sigTarget === "nalco") activeJob().header.nalcoSig = dataUrl;
   else activeJob().header.custSig = dataUrl;
   persist();
@@ -3255,8 +3412,16 @@ function wire() {
   $("todayCard").addEventListener("click", (e) => { const t = e.target.closest("[data-open-job]"); if (t) openJobById(t.dataset.openJob); });
 
   // reading-due banner
-  $("btnDueAdd").addEventListener("click", () => { addReading(); markEdited(); checkDue(); });
-  $("btnDueDismiss").addEventListener("click", () => { dueDismissed = $("dueBanner").dataset.key || ""; checkDue(); });
+  $("btnDueAdd").addEventListener("click", () => {
+    const id = $("dueBanner").dataset.job;
+    if (id && (state.listMode || id !== state.activeJobId)) openJobById(id);
+    addReading(); markEdited(); checkDue();
+  });
+  $("btnDueDismiss").addEventListener("click", () => { dueDismissed.add($("dueBanner").dataset.key || ""); checkDue(); });
+  $("activeSwitch").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-open-job]");
+    if (b && b.dataset.openJob !== state.activeJobId) { openJobById(b.dataset.openJob); scrollTo({ top: 0 }); }
+  });
 
   // settings toggles
   const syncSettingToggles = () => {
@@ -3511,6 +3676,8 @@ function wire() {
     sigResizeT = setTimeout(() => resizeSigPad(true), 250);
   });
   $("btnSigSave").addEventListener("click", saveSig);
+  $("btnSigWide").addEventListener("click", () => setSigWide(!$("sigSheet").classList.contains("wide")));
+  window.addEventListener("orientationchange", () => { if ($("sigSheet").classList.contains("wide")) setTimeout(() => { if (innerWidth > innerHeight) setSigWide(false); }, 300); });
   const pad = $("sigPad");
   const start = (e) => {
     e.preventDefault();
