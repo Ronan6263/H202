@@ -642,6 +642,155 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
 }
+
+/* ================= round 3 ================= */
+/* today card */
+.today {
+  position: relative; overflow: hidden; display: grid; grid-template-columns: 74px minmax(0, 1fr); gap: 14px; align-items: center;
+  padding: 16px; margin-bottom: 14px; border-radius: 22px; cursor: pointer;
+  background: linear-gradient(135deg, var(--accent-dim), transparent 70%), var(--panel);
+  border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); box-shadow: var(--shadow); animation: rise 360ms var(--ease) both;
+}
+.today::after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(var(--accent-dim), transparent 70%); pointer-events: none; }
+.today-ring { position: relative; width: 74px; height: 74px; }
+.today-ring svg { width: 74px; height: 74px; transform: rotate(-90deg); }
+.today-ring circle { fill: none; stroke-width: 7; }
+.today-ring .bg { stroke: var(--btn); }
+.today-ring .fg { stroke: var(--accent); stroke-linecap: round; transition: stroke-dashoffset 600ms var(--ease); }
+.today-ring .lbl { position: absolute; inset: 0; display: grid; place-items: center; text-align: center; font-family: var(--display); font-weight: 700; font-size: 19px; line-height: 1; }
+.today-ring .lbl small { display: block; font-size: 10px; color: var(--muted); font-weight: 600; margin-top: 2px; }
+.today-kicker { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent-text); display: flex; align-items: center; gap: 6px; }
+.today-kicker .live { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 0 3px var(--accent-dim); animation: savePulse 1.6s ease-in-out infinite; }
+.today-name { font-family: var(--display); font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin-top: 3px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.today-sub { font-size: 13px; color: var(--muted); margin-top: 3px; }
+.today-sub b { color: var(--text); }
+.today-sub b.due { color: var(--saving); }
+.today-cta { margin-top: 10px; min-height: 40px; }
+
+/* search + filter */
+.home-tools { display: grid; gap: 8px; margin-bottom: 10px; }
+.search-wrap { position: relative; }
+.search-wrap .ico { position: absolute; left: 14px; top: 50%; margin-top: -8px; color: var(--muted); pointer-events: none; }
+.search-wrap input { padding-left: 40px; min-height: 46px; }
+.filter-seg { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.filter-seg .chip { min-height: 38px; font-size: 13px; border-radius: 12px; }
+.swipe-hint { margin: 2px 4px 10px; font-size: 12px; color: var(--muted); text-align: center; }
+.swipe-hint b { color: var(--text); font-weight: 700; }
+
+/* swipeable job rows */
+.swipe { position: relative; margin: 0 0 8px; border-radius: 16px; overflow: hidden; }
+.swipe .job-item { position: relative; z-index: 1; margin: 0; touch-action: pan-y; transition: transform 320ms var(--spring); will-change: transform; }
+.swipe.dragging .job-item { transition: none; }
+.swipe-acts { position: absolute; inset: 0; display: flex; justify-content: space-between; border-radius: 16px; overflow: hidden; }
+.swipe-act {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; width: 96px; border: 0;
+  font-size: 12px; font-weight: 800; letter-spacing: 0.02em; cursor: pointer; opacity: 0; transition: opacity 160ms var(--ease);
+}
+.swipe-act .ico { width: 22px; height: 22px; }
+.swipe-act.repeat { background: var(--accent); color: var(--on-accent); }
+.swipe-act.delete { background: var(--danger); color: #fff; }
+.swipe.show-left .swipe-act.repeat, .swipe.show-right .swipe-act.delete { opacity: 1; }
+.job-badge { display: inline-flex; align-items: center; gap: 3px; padding: 2px 7px; border-radius: 999px; font-size: 10px; font-weight: 800; letter-spacing: 0.04em; background: var(--good-dim); color: var(--good-text); }
+.job-badge.active { background: var(--accent-dim); color: var(--accent-text); }
+.job-badge .ico { width: 11px; height: 11px; }
+
+/* due banner */
+.due-banner {
+  position: fixed; left: 12px; right: 12px; bottom: calc(84px + env(safe-area-inset-bottom)); z-index: 35; max-width: 696px; margin: 0 auto;
+  display: grid; grid-template-columns: 38px minmax(0, 1fr) auto auto; gap: 8px; align-items: center;
+  padding: 10px 10px 10px 12px; border-radius: 18px; background: var(--sheet); border: 1px solid var(--saving);
+  box-shadow: 0 0 0 4px var(--saving-bg), var(--shadow-lg); animation: pop 320ms var(--spring) both;
+}
+.due-banner.flash { animation: dueFlash 1.4s var(--ease) 2; }
+.due-ico { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--saving-bg); color: var(--saving); }
+.due-text b { display: block; font-family: var(--display); font-size: 15px; }
+.due-text span { display: block; font-size: 12px; color: var(--muted); margin-top: 1px; }
+.due-banner .icon-btn { width: 38px; min-height: 38px; }
+body.has-due { padding-bottom: calc(170px + env(safe-area-inset-bottom)); }
+@keyframes dueFlash { 0%, 100% { box-shadow: 0 0 0 4px var(--saving-bg), var(--shadow-lg); } 40% { box-shadow: 0 0 0 10px var(--saving-bg), 0 0 30px var(--saving), var(--shadow-lg); } }
+
+/* awake indicator + complete state */
+.progress-flags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+.flag { display: inline-flex; align-items: center; gap: 5px; font-size: 11px; font-weight: 700; padding: 3px 9px; border-radius: 999px; background: var(--surface); border: 1px solid var(--line); color: var(--muted); }
+.flag .ico { width: 13px; height: 13px; }
+.flag.awake { color: var(--accent-text); border-color: transparent; background: var(--accent-dim); }
+.complete-badge {
+  display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 16px; margin-bottom: 4px;
+  background: var(--good-dim); color: var(--good-text); border: 1px solid color-mix(in srgb, var(--good) 35%, transparent);
+}
+.complete-badge .tick { width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; background: var(--good); color: #fff; flex: 0 0 auto; }
+.complete-badge .tick .ico { width: 18px; height: 18px; }
+.complete-badge b { display: block; font-family: var(--display); font-size: 16px; color: var(--text); }
+.complete-badge span { font-size: 12px; }
+.complete-badge.celebrate .tick { animation: tickPop 700ms var(--spring) both; }
+.complete-badge.celebrate { animation: pop 420ms var(--spring) both; }
+@keyframes tickPop { 0% { transform: scale(0.2) rotate(-30deg); opacity: 0; } 60% { transform: scale(1.18) rotate(6deg); opacity: 1; } 100% { transform: none; } }
+
+/* settings rows */
+.setting-row { display: grid; grid-template-columns: 1fr auto; gap: 12px; align-items: center; padding: 12px 0; border-top: 1px solid var(--line); }
+.setting-row b { display: block; font-size: 15px; }
+.setting-row .count { display: block; margin-top: 2px; line-height: 1.4; }
+
+/* sheet drag-to-close */
+.sheet.dragging { transition: none; }
+.sheet .handle { cursor: grab; touch-action: none; padding: 8px 0; background-clip: content-box; height: 21px; box-sizing: border-box; margin: 0 auto 4px; }
+
+/* undo toast */
+.toast { display: flex; align-items: center; gap: 14px; }
+.toast.has-action { pointer-events: auto; padding-right: 8px; }
+.toast-action { border: 0; background: var(--accent); color: var(--on-accent); font-weight: 800; font-size: 13px; padding: 7px 12px; border-radius: 999px; cursor: pointer; }
+
+/* signature: landscape gets the whole screen */
+.sig-tip { display: flex; align-items: center; gap: 6px; }
+@media (orientation: landscape) and (max-height: 540px) {
+  #sigSheet.show { top: 0; max-height: none; height: 100%; border-radius: 0; max-width: none; display: flex; flex-direction: column; padding-top: 4px; }
+  #sigSheet .handle, #sigSheet .sig-tip { display: none; }
+  #sigSheet .sig-pad { flex: 1 1 auto; height: auto; min-height: 140px; margin-top: 6px; }
+  #sigSheet .grid-2 { flex: 0 0 auto; }
+}
+
+/* round 3 fixes */
+.job-meta { flex-wrap: wrap; row-gap: 5px; }
+.job-badge { flex-shrink: 0; }
+body.has-due .toast { bottom: calc(176px + env(safe-area-inset-bottom)); }
+
+/* ================= required tests ================= */
+.co-steps { display: flex; gap: 6px; margin: 0 0 14px; }
+.co-steps span { height: 4px; width: 28px; border-radius: 99px; background: var(--line-2); }
+.co-steps span.on { background: var(--accent); }
+.co-step { animation: rise 260ms var(--spring) both; }
+.co-step-top { display: flex; align-items: center; justify-content: space-between; margin: -6px 0 10px; }
+.co-back { padding-left: 6px; }
+.ico.flip { transform: scaleX(-1); }
+.test-picks { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: 0 0 16px; }
+.test-pick {
+  position: relative; display: flex; flex-direction: column; align-items: flex-start; gap: 2px; padding: 12px 11px 11px;
+  border-radius: 16px; border: 1px solid var(--line-2); background: var(--panel); text-align: left; cursor: pointer; color: var(--text);
+  touch-action: manipulation; transition: transform 180ms var(--spring), border-color 160ms var(--ease), background 160ms var(--ease);
+}
+.test-pick:active { transform: scale(0.96); }
+.test-pick b { font-family: var(--display); font-size: 15px; margin-top: 8px; }
+.test-pick > span:last-child { font-size: 11px; color: var(--muted); font-weight: 600; }
+.test-pick .tp-tick { width: 24px; height: 24px; border-radius: 8px; display: grid; place-items: center; border: 1.5px solid var(--line-2); color: transparent; transition: all 160ms var(--ease); }
+.test-pick.on { border-color: var(--accent); background: var(--accent-dim); }
+.test-pick.on .tp-tick { background: var(--accent); border-color: var(--accent); color: var(--on-accent, #fff); }
+.test-pick.locked { cursor: default; opacity: 0.8; }
+.tests-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: -2px 0 12px; }
+.tests-row .tr-lbl { font-size: 11px; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--muted); margin-right: 2px; }
+.tchip {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 32px; padding: 0 12px; border-radius: 999px; font-size: 13px; font-weight: 700;
+  border: 1px dashed var(--line-2); background: transparent; color: var(--muted); cursor: pointer; touch-action: manipulation;
+  transition: transform 180ms var(--spring), background 160ms var(--ease), color 160ms var(--ease);
+}
+.tchip:active { transform: scale(0.95); }
+.tchip .ico { width: 13px; height: 13px; }
+.tchip.on { border-style: solid; border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
+.tchip.locked { cursor: default; border-style: solid; border-color: var(--line-2); background: var(--surface); color: var(--text); }
+@media (max-width: 380px) {
+  .test-pick b { font-size: 13px; } .test-picks { gap: 6px; } .test-pick { padding: 10px 8px; }
+  .tests-row { gap: 5px; } .tests-row .tr-lbl { display: none; } .tchip { padding: 0 10px; font-size: 12.5px; }
+}
+.toast { width: max-content; max-width: calc(100vw - 32px); }
 </style>
 </head>
 <body>
@@ -666,6 +815,11 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
       <symbol id="i-pause" viewBox="0 0 24 24"><g fill="currentColor"><rect x="6" y="5" width="4" height="14" rx="1.2"/><rect x="14" y="5" width="4" height="14" rx="1.2"/></g></symbol>
       <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5L8 5.5z" fill="currentColor"/></symbol>
       <symbol id="i-sign" viewBox="0 0 24 24"><path d="M3 17c3-4 5-9 7-9s-1 9 2 9 3-3 5-3 1 3 4 3M14.5 4.5l3 3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+      <symbol id="i-search" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5"/></g></symbol>
+      <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></g></symbol>
+      <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16.5V11a6 6 0 0 1 12 0v5.5l1.5 2h-15zM10 20.5a2 2 0 0 0 4 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+      <symbol id="i-rotate" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="13" height="9" rx="2"/><path d="M15 3.5a6 6 0 0 1 5.5 6M18.5 7.5l2 2 2-2"/></g></symbol>
       <symbol id="i-open" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     </defs>
   </svg>
@@ -691,11 +845,23 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
       </div>
       <button type="button" class="btn primary" id="btnHomeNew"><svg class="ico sm"><use href="#i-plus"/></svg>New job</button>
     </div>
+    <div id="todayCard"></div>
+    <div class="home-tools hidden" id="homeTools">
+      <div class="search-wrap"><svg class="ico sm"><use href="#i-search"/></svg><input id="jobSearch" type="search" placeholder="Search jobs" aria-label="Search jobs by customer, site or system" autocomplete="off" enterkeyhint="search" /></div>
+      <div class="filter-seg" id="jobFilter" role="group" aria-label="Filter jobs">
+        <button type="button" class="chip" data-filter="all">All</button>
+        <button type="button" class="chip" data-filter="active">In progress</button>
+        <button type="button" class="chip" data-filter="done">Complete</button>
+      </div>
+    </div>
+    <p class="swipe-hint hidden" id="swipeHint">Swipe a job <b>left to delete</b> · <b>right to repeat</b></p>
     <div id="homeJobList"></div>
     <div class="grid-2" style="margin-top:14px">
       <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import JSON<input type="file" id="fileImportHome" accept="application/json,.json" class="file-hide" /></label>
       <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import PDF<input type="file" id="filePdfImportHome" accept="application/pdf,.pdf" class="file-hide" /></label>
     </div>
+    <button type="button" class="btn ghost block" id="btnBackupAllHome" style="margin-top:8px"><svg class="ico sm"><use href="#i-download"/></svg>Back up all jobs</button>
+    <p class="count" style="text-align:center;margin:10px 0 0">Import JSON also restores a full backup.</p>
   </section>
   <div class="job-menu hidden" id="jobActionMenu" role="menu">
     <button type="button" data-job-act="open"><svg class="ico sm"><use href="#i-open"/></svg>Open</button>
@@ -773,6 +939,7 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
         <h2>Readings</h2>
         <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
       </div>
+      <div class="tests-row" id="testsRow"></div>
       <div class="progress" id="progress"></div>
       <div id="readingList"></div>
       <button type="button" class="btn primary block" id="btnAddReading" style="margin-top:4px"><svg class="ico sm"><use href="#i-plus"/></svg>Add reading</button>
@@ -833,6 +1000,13 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
   <datalist id="dl_state"></datalist><datalist id="dl_zip"></datalist><datalist id="dl_attention"></datalist>
   <datalist id="dl_copies"></datalist><datalist id="dl_systemId"></datalist><datalist id="dl_location"></datalist>
 
+  <div class="due-banner hidden" id="dueBanner" role="alert">
+    <span class="due-ico"><svg class="ico"><use href="#i-bell"/></svg></span>
+    <div class="due-text"><b id="dueTitle">Reading due</b><span id="dueSub"></span></div>
+    <button type="button" class="btn primary sm" id="btnDueAdd"><svg class="ico sm"><use href="#i-plus"/></svg>Add</button>
+    <button type="button" class="btn ghost sm icon-btn" id="btnDueDismiss" aria-label="Dismiss reminder"><svg class="ico sm"><use href="#i-x"/></svg></button>
+  </div>
+
   <div class="dock save-hidden">
     <div class="dock-inner">
       <div class="save-state" id="saveState" role="status" aria-live="polite"><span class="save-dot"></span><span id="saveText">Saved</span></div>
@@ -853,7 +1027,10 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
       <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import JSON<input type="file" id="fileImport" accept="application/json,.json" class="file-hide" /></label>
       <label class="btn"><svg class="ico sm"><use href="#i-upload"/></svg>Import PDF<input type="file" id="filePdfImport" accept="application/pdf,.pdf" class="file-hide" /></label>
     </div>
-    <button type="button" class="btn ghost block" id="btnJson" style="margin-top:8px"><svg class="ico sm"><use href="#i-download"/></svg>Backup as JSON</button>
+    <div class="grid-2" style="margin-top:8px">
+      <button type="button" class="btn ghost" id="btnJson"><svg class="ico sm"><use href="#i-download"/></svg>Back up job</button>
+      <button type="button" class="btn ghost" id="btnBackupAll"><svg class="ico sm"><use href="#i-download"/></svg>Back up all</button>
+    </div>
   </section>
 
   <!-- ============ settings ============ -->
@@ -863,7 +1040,16 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
     <div class="sheet-top"><h2 class="grow sheet-title">Settings</h2><button type="button" class="btn sm ghost" id="btnCloseSettings">Close</button></div>
     <h2 class="sec">Theme</h2>
     <div class="theme-grid" id="themeGrid" role="radiogroup" aria-label="Theme"></div>
-    <p class="count" style="margin:12px 0 4px">Saved on this phone.</p>
+    <h2 class="sec">During a job</h2>
+    <div class="setting-row">
+      <div><b>Keep screen on</b><span class="count">While a job is running or a timer is counting down, so alerts aren't missed.</span></div>
+      <button type="button" class="check-toggle" id="keepAwakeToggle" role="switch" aria-checked="false" aria-label="Keep screen on during jobs">NO</button>
+    </div>
+    <div class="setting-row">
+      <div><b>Reading reminders</b><span class="count">Banner and buzz when the next 30-minute reading is due.</span></div>
+      <button type="button" class="check-toggle" id="dueToggle" role="switch" aria-checked="false" aria-label="Reading due reminders">NO</button>
+    </div>
+    <p class="count" style="margin:14px 0 4px">Settings are saved on this phone.</p>
   </section>
 
   <!-- ============ PDF review ============ -->
@@ -885,7 +1071,7 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
   <section class="sheet" id="sigSheet" aria-label="Signature pad">
     <div class="handle"></div>
     <div class="sheet-top"><h2 class="grow sheet-title" id="sigTitle">Sign here</h2><button type="button" class="btn sm ghost" id="btnCloseSig">Close</button></div>
-    <p class="count" style="margin:6px 0 10px">Sign with a finger like you would in Acrobat.</p>
+    <p class="count sig-tip" style="margin:6px 0 10px"><svg class="ico sm"><use href="#i-rotate"/></svg>Turn your phone sideways for a bigger pad.</p>
     <canvas id="sigPad" class="sig-pad" width="640" height="280"></canvas>
     <div class="grid-2" style="margin-top:10px">
       <button type="button" class="btn" id="btnSigRedo">Clear pad</button>
@@ -896,10 +1082,28 @@ html[data-theme="light"] .check-toggle.on { color: #fff; }
   <!-- ============ company pick ============ -->
   <div class="company-lock hidden" id="companyLock" role="dialog" aria-modal="true" aria-labelledby="companyLockTitle">
     <div class="company-lock-card">
-      <h2 id="companyLockTitle">Whose paperwork?</h2>
-      <p>Pick the form before this job can start. This step can't be skipped.</p>
-      <button type="button" class="co-pick nalco" id="pickNalco"><span class="co-badge">N</span><span><b>Nalco</b><span class="count">Nalco Water service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
-      <button type="button" class="co-pick amc" id="pickAmc"><span class="co-badge">A</span><span><b>AMC</b><span class="count">AMC service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
+      <div class="co-step" id="coStep1">
+        <div class="co-steps"><span class="on"></span><span></span></div>
+        <h2 id="companyLockTitle">Whose paperwork?</h2>
+        <p>Pick the form before this job can start. This step can't be skipped.</p>
+        <button type="button" class="co-pick nalco" id="pickNalco"><span class="co-badge">N</span><span><b>Nalco</b><span class="count">Nalco Water service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
+        <button type="button" class="co-pick amc" id="pickAmc"><span class="co-badge">A</span><span><b>AMC</b><span class="count">AMC service report</span></span><svg class="ico"><use href="#i-chev-r"/></svg></button>
+      </div>
+      <div class="co-step hidden" id="coStep2">
+        <div class="co-step-top">
+          <button type="button" class="btn sm ghost co-back" id="coBack"><svg class="ico sm flip"><use href="#i-chev-r"/></svg>Back</button>
+          <span class="job-co" id="coChosen">NALCO</span>
+        </div>
+        <div class="co-steps"><span class="on"></span><span class="on"></span></div>
+        <h2>What readings does this job need?</h2>
+        <p>Turbidity is always logged. Tap to add the others. You can change this later from the Readings card.</p>
+        <div class="test-picks">
+          <div class="test-pick locked on" aria-disabled="true"><span class="tp-tick"><svg class="ico sm"><use href="#i-check"/></svg></span><b>Turbidity</b><span>Always</span></div>
+          <button type="button" class="test-pick" data-test-pick="iron" aria-pressed="false"><span class="tp-tick"><svg class="ico sm"><use href="#i-check"/></svg></span><b>Iron</b><span>Fe · mg/L</span></button>
+          <button type="button" class="test-pick" data-test-pick="copper" aria-pressed="false"><span class="tp-tick"><svg class="ico sm"><use href="#i-check"/></svg></span><b>Copper</b><span>Cu · mg/L</span></button>
+        </div>
+        <button type="button" class="btn primary block" id="btnStartJob"><svg class="ico sm"><use href="#i-check"/></svg>Start job</button>
+      </div>
     </div>
   </div>
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1198,12 +1402,22 @@ function applyTheme(name, save) {
     saveState();
   }
 }
-function toast(msg) {
+function toast(msg, actionLabel, action) {
   const el = $("toast");
-  el.textContent = msg;
+  el.innerHTML = "";
+  const span = document.createElement("span");
+  span.textContent = msg;
+  el.appendChild(span);
+  el.classList.toggle("has-action", !!action);
+  if (action) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "toast-action"; b.textContent = actionLabel;
+    b.addEventListener("click", () => { el.classList.remove("show", "has-action"); clearTimeout(toast._t); action(); });
+    el.appendChild(b);
+  }
   el.classList.add("show");
   clearTimeout(toast._t);
-  toast._t = setTimeout(() => el.classList.remove("show"), 2000);
+  toast._t = setTimeout(() => el.classList.remove("show", "has-action"), action ? 5000 : 2000);
 }
 function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({
@@ -1308,10 +1522,28 @@ function readingsOf() {
   if (!Array.isArray(job.readings)) job.readings = [];
   return job.readings;
 }
+// job.tests = { iron, copper } for jobs started with the test picker.
+// Older jobs have no tests object: they keep the original "show everything,
+// include a metal once it has data" behaviour so their PDFs don't change.
+function testsOf(job) {
+  return job && job.tests && typeof job.tests === "object" ? job.tests : null;
+}
+function testOn(field, job) {
+  if (field === "turbidity") return true;
+  const t = testsOf(job || activeJob());
+  return t ? !!t[field] : true;
+}
 function metalUsed(field) {
+  const t = testsOf(activeJob());
+  if (t) return !!t[field];
   return readingsOf().some((r) => String(r[field] || "").trim());
 }
+const TEST_NAMES = { turbidity: "turbidity", iron: "iron", copper: "copper" };
+function activeTestList(job) {
+  return ["turbidity", "iron", "copper"].filter((f) => testOn(f, job));
+}
 function buildComments() {
+  if (!readingsOf().length) return "";
   const blocks = [];
   if (metalUsed("iron")) blocks.push(metalBlock("Iron - mg/L", "iron"));
   if (metalUsed("copper")) blocks.push(metalBlock("Copper - mg/L", "copper"));
@@ -1327,7 +1559,10 @@ function updatePreview() {
   const el = $("commentsPreview");
   if (el) {
     const auto = buildComments();
-    el.textContent = auto || "Iron and copper readings will appear here once entered.";
+    const metals = ["iron", "copper"].filter((f) => testOn(f)).map((f) => f[0].toUpperCase() + f.slice(1));
+    el.textContent = auto || (metals.length
+      ? `${metals.join(" and ")} readings will appear here once entered.`
+      : "This job only logs turbidity, so no iron or copper comments are added.");
     el.classList.toggle("empty-preview", !auto);
   }
   const box = $("notesExtra");
@@ -1377,15 +1612,44 @@ function createdLabel(job) {
 function jobRowHtml(j) {
   const co = j.company === "amc" ? "amc" : "nalco";
   const n = Array.isArray(j.readings) ? j.readings.length : 0;
+  const jp = jobProgress(j);
+  const badge = jp.complete ? `<span class="job-badge">${icon("check")}Complete</span>` : jobRunning(j) ? `<span class="job-badge active">In progress</span>` : "";
   return `
+   <div class="swipe" data-swipe="${j.id}">
+    <div class="swipe-acts" aria-hidden="true">
+      <button type="button" class="swipe-act repeat" data-swipe-act="repeat" data-id="${j.id}" tabindex="-1">${icon("repeat", "ico")}Repeat</button>
+      <button type="button" class="swipe-act delete" data-swipe-act="delete" data-id="${j.id}" tabindex="-1">${icon("trash", "ico")}Delete</button>
+    </div>
     <div class="job-item co-${co}" data-job-id="${j.id}">
       <div class="job-avatar" data-open-job="${j.id}">${escapeHtml(jobInitial(j))}</div>
       <button type="button" class="job-open" data-open-job="${j.id}">
         <div class="job-name">${escapeHtml(jobName(j))}</div>
-        <div class="job-meta"><span class="job-co ${co}">${co === "amc" ? "AMC" : "NALCO"}</span><span>${escapeHtml(createdLabel(j))}</span><span>· ${n} reading${n === 1 ? "" : "s"}</span></div>
+        <div class="job-meta"><span class="job-co ${co}">${co === "amc" ? "AMC" : "NALCO"}</span><span>${escapeHtml(createdLabel(j))}</span><span>· ${n} reading${n === 1 ? "" : "s"}</span>${badge}</div>
       </button>
       <button type="button" class="job-dots" data-job-menu="${j.id}" aria-label="Job options">${icon("more", "ico")}</button>
-    </div>`;
+    </div>
+   </div>`;
+}
+const homeUi = { q: "", filter: "all" };
+function renderToday() {
+  const box = $("todayCard");
+  if (!box) return;
+  const job = (state.jobs || []).filter(jobRunning).sort((a, b) => (b.updated || 0) - (a.updated || 0))[0];
+  if (!job || !state.listMode) { box.innerHTML = ""; return; }
+  const jp = jobProgress(job);
+  const C = 2 * Math.PI * 32;
+  const frac = jp.slots ? jp.done / jp.slots : 0;
+  const late = jp.next && jp.next.getTime() <= Date.now();
+  const nextTxt = jp.next ? (late ? `<b class="due">${escapeHtml(intervalTitle(jp.list.length).replace(" (2nd dose)", ""))} reading due</b>` : `Next reading <b>${fmtClock(jp.next)}</b>`) : "All readings in";
+  box.innerHTML = `<div class="today" data-open-job="${job.id}" role="button" tabindex="0" aria-label="Resume ${escapeHtml(jobName(job))}">
+    <div class="today-ring"><svg viewBox="0 0 74 74" aria-hidden="true"><circle class="bg" cx="37" cy="37" r="32"/><circle class="fg" cx="37" cy="37" r="32" stroke-dasharray="${C.toFixed(2)}" stroke-dashoffset="${(C * (1 - frac)).toFixed(2)}"/></svg><div class="lbl">${jp.done}<small>of ${jp.slots}</small></div></div>
+    <div style="min-width:0">
+      <div class="today-kicker"><span class="live"></span>In progress</div>
+      <div class="today-name">${escapeHtml(jobName(job))}</div>
+      <div class="today-sub">${nextTxt}</div>
+      <span class="btn primary sm today-cta" data-open-job="${job.id}">${icon("open")}Resume job</span>
+    </div>
+  </div>`;
 }
 const closedGroups = new Set();
 function jobDate(job) {
@@ -1455,7 +1719,21 @@ function renderJobs() {
     $("jobMeta").textContent = `${job.header.location || "No location"} · ${job.header.startDate || todayStr()}`;
   }
   if ($("siteSummary") && job) $("siteSummary").textContent = [job.header.title, job.header.customer, job.header.location].filter(Boolean).join(" · ") || "Customer, site, times";
-  const html = groupedJobsHtml(state.jobs || []);
+  const allJobs = state.jobs || [];
+  const q = (homeUi.q || "").trim().toLowerCase();
+  const filtered = allJobs.filter((j) => {
+    if (homeUi.filter === "done" && !jobProgress(j).complete) return false;
+    if (homeUi.filter === "active" && jobProgress(j).complete) return false;
+    if (!q) return true;
+    const h = j.header || {};
+    return [h.title, h.customer, h.address, h.city, h.systemId, h.location, h.sor].join(" ").toLowerCase().includes(q);
+  });
+  const filtering = !!q || homeUi.filter !== "all";
+  const html = filtering && !filtered.length ? `<div class="empty">No jobs match.</div>` : groupedJobsHtml(filtering ? filtered : allJobs);
+  if ($("homeTools")) $("homeTools").classList.toggle("hidden", allJobs.length < 3);
+  if ($("swipeHint")) $("swipeHint").classList.toggle("hidden", !allJobs.length || !!state.prefs.swipeLearned);
+  document.querySelectorAll("[data-filter]").forEach((b) => b.classList.toggle("on", b.dataset.filter === homeUi.filter));
+  renderToday();
   buildDatalists();
   if ($("jobList")) $("jobList").innerHTML = html;
   if ($("homeJobList")) $("homeJobList").innerHTML = html;
@@ -1489,6 +1767,7 @@ function openJobById(id) {
   state.listMode = false;
   saveState();
   fillAll();
+  setTimeout(() => { checkDue(); syncWakeLock(); }, 50);
   toast("Opened " + jobName(job));
 }
 function renameJob(id) {
@@ -1503,15 +1782,38 @@ function renameJob(id) {
   toast(job.header.title ? "Renamed" : "Title cleared");
 }
 function deleteJobById(id) {
-  const job = state.jobs.find((j) => j.id === id);
-  if (!job) return;
-  if (!confirm("Delete " + jobName(job) + "?")) return;
-  state.jobs = state.jobs.filter((j) => j.id !== id);
+  const idx = state.jobs.findIndex((j) => j.id === id);
+  if (idx < 0) return;
+  const [job] = state.jobs.splice(idx, 1);
+  const wasActive = state.activeJobId === id;
   state.activeJobId = state.jobs[0] ? state.jobs[0].id : null;
   state.listMode = true;
   saveState();
   renderJobs();
-  toast(state.jobs.length ? "Job deleted" : "All jobs deleted");
+  toast(`Deleted ${jobName(job)}`, "Undo", () => {
+    state.jobs.splice(Math.min(idx, state.jobs.length), 0, job);
+    if (wasActive) state.activeJobId = job.id;
+    saveState();
+    renderJobs();
+    toast("Job restored");
+  });
+}
+function deleteReading(id) {
+  const list = readingsOf();
+  const idx = list.findIndex((r) => r.id === id);
+  if (idx < 0) return;
+  const job = activeJob();
+  const [rec] = list.splice(idx, 1);
+  const title = intervalTitle(idx).replace(" (2nd dose)", "");
+  persist();
+  renderReadings();
+  if (navigator.vibrate) navigator.vibrate(15);
+  toast(`Deleted ${title} reading`, "Undo", () => {
+    const l = job.readings || (job.readings = []);
+    l.splice(Math.min(idx, l.length), 0, rec);
+    saveState(); markEdited();
+    if (activeJob() === job && !state.listMode) { renderReadings(); updatePreview(); }
+  });
 }
 
 const SITE_FIELDS = ["customer", "address", "city", "state", "zip", "attention", "copies", "systemId", "location"];
@@ -1564,6 +1866,7 @@ function repeatJob(id) {
   job.company = src.company === "amc" ? "amc" : "nalco";
   ["customer", "address", "city", "state", "zip", "attention", "copies", "systemId", "location", "cells", "otherHrs", "nalcoName"].forEach((f) => { job.header[f] = (src.header || {})[f] || job.header[f] || ""; });
   job.header.duration4 = (src.header || {}).duration4 !== false;
+  if (testsOf(src)) job.tests = { iron: !!src.tests.iron, copper: !!src.tests.copper };
   job.checks = { ...defaultChecks(), ...(src.checks || {}) };
   job.header.titleAuto = true;
   state.jobs.unshift(job);
@@ -1574,6 +1877,111 @@ function repeatJob(id) {
   applyAutoTitle();
   persist();
   toast(`New job from ${jobName(src)}`);
+}
+let openSwipe = null;
+function closeSwipe(except) {
+  if (openSwipe && openSwipe !== except) {
+    const item = openSwipe.querySelector(".job-item");
+    item.style.transform = "";
+    openSwipe.classList.remove("show-left", "show-right");
+    openSwipe.dataset.open = "";
+    openSwipe = null;
+  }
+}
+function bindJobSwipe(root) {
+  if (!root || root.dataset.swipeBound) return;
+  root.dataset.swipeBound = "1";
+  const W = 96;
+  let g = null;
+  root.addEventListener("touchstart", (e) => {
+    const sw = e.target.closest(".swipe");
+    if (!sw || e.target.closest(".swipe-act")) return;
+    const t = e.touches[0];
+    g = { sw, item: sw.querySelector(".job-item"), x0: t.clientX, y0: t.clientY, dx: 0, axis: null, base: sw.dataset.open === "left" ? W : sw.dataset.open === "right" ? -W : 0 };
+  }, { passive: true });
+  root.addEventListener("touchmove", (e) => {
+    if (!g) return;
+    const t = e.touches[0];
+    const dx = t.clientX - g.x0, dy = t.clientY - g.y0;
+    if (!g.axis) {
+      if (Math.abs(dx) < 8 && Math.abs(dy) < 8) return;
+      g.axis = Math.abs(dx) > Math.abs(dy) ? "x" : "y";
+      if (g.axis === "x") { closeSwipe(g.sw); g.sw.classList.add("dragging"); }
+    }
+    if (g.axis !== "x") return;
+    e.preventDefault();
+    let x = g.base + dx;
+    x = Math.max(-W * 1.25, Math.min(W * 1.25, x));
+    g.dx = x;
+    g.item.style.transform = `translateX(${x}px)`;
+    g.sw.classList.toggle("show-left", x > 0);
+    g.sw.classList.toggle("show-right", x < 0);
+  }, { passive: false });
+  const end = () => {
+    if (!g) return;
+    const { sw, item } = g;
+    sw.classList.remove("dragging");
+    if (g.axis === "x") {
+      sw.dataset.suppress = "1"; setTimeout(() => { sw.dataset.suppress = ""; }, 350);
+      if (g.dx > W * 0.55) { item.style.transform = `translateX(${W}px)`; sw.dataset.open = "left"; sw.classList.add("show-left"); sw.classList.remove("show-right"); openSwipe = sw; }
+      else if (g.dx < -W * 0.55) { item.style.transform = `translateX(${-W}px)`; sw.dataset.open = "right"; sw.classList.add("show-right"); sw.classList.remove("show-left"); openSwipe = sw; }
+      else { item.style.transform = ""; sw.dataset.open = ""; sw.classList.remove("show-left", "show-right"); if (openSwipe === sw) openSwipe = null; }
+      if (sw.dataset.open && !state.prefs.swipeLearned) { state.prefs.swipeLearned = true; saveState(); const h = $("swipeHint"); if (h) h.classList.add("hidden"); }
+    }
+    g = null;
+  };
+  root.addEventListener("touchend", end);
+  root.addEventListener("touchcancel", end);
+  // block the tap that ends a swipe from opening the job; run revealed actions
+  root.addEventListener("click", (e) => {
+    const act = e.target.closest("[data-swipe-act]");
+    if (act) {
+      e.stopPropagation(); e.preventDefault();
+      const id = act.dataset.id;
+      closeSwipe();
+      if (act.dataset.swipeAct === "delete") deleteJobById(id);
+      else repeatJob(id);
+      return;
+    }
+    const sw = e.target.closest(".swipe");
+    if (sw && (sw.dataset.suppress || sw.dataset.open)) { e.stopPropagation(); e.preventDefault(); if (sw.dataset.open) closeSwipe(); return; }
+    if (openSwipe) closeSwipe();
+  }, true);
+}
+function bindSheetDrag(sheet, back) {
+  if (!sheet || !back) return;
+  let d = null;
+  sheet.addEventListener("touchstart", (e) => {
+    if (!sheet.classList.contains("show")) return;
+    if (e.target.closest("canvas, input, textarea, select, .pdf-pages, .theme-grid")) return;
+    const onHandle = !!e.target.closest(".handle, .sheet-top");
+    if (!onHandle && sheet.scrollTop > 0) return;
+    d = { y0: e.touches[0].clientY, x0: e.touches[0].clientX, dy: 0, t0: Date.now(), active: false, onHandle };
+  }, { passive: true });
+  sheet.addEventListener("touchmove", (e) => {
+    if (!d) return;
+    const dy = e.touches[0].clientY - d.y0, dx = e.touches[0].clientX - d.x0;
+    if (!d.active) {
+      if (dy < 8 || Math.abs(dx) > Math.abs(dy)) { if (dy < -4 || Math.abs(dx) > 10) d = null; return; }
+      if (!d.onHandle && sheet.scrollTop > 0) { d = null; return; }
+      d.active = true; sheet.classList.add("dragging");
+    }
+    e.preventDefault();
+    d.dy = Math.max(0, dy);
+    sheet.style.transform = `translateY(${d.dy}px)`;
+    back.style.opacity = String(Math.max(0.2, 1 - d.dy / 400));
+  }, { passive: false });
+  const end = () => {
+    if (!d) return;
+    const fast = d.dy / Math.max(1, Date.now() - d.t0) > 0.6;
+    sheet.classList.remove("dragging");
+    sheet.style.transform = "";
+    back.style.opacity = "";
+    if (d.active && (d.dy > 110 || (fast && d.dy > 40))) back.click();
+    d = null;
+  };
+  sheet.addEventListener("touchend", end);
+  sheet.addEventListener("touchcancel", end);
 }
 function fillHeader() {
   const h = activeJob().header;
@@ -1656,7 +2064,7 @@ function readingValsHtml(r) {
     const t = timers.get(timerKey(r.id, f));
     if (t) out.push(`<span class="tl-timer ${t.paused ? "paused" : ""}">${icon(t.paused ? "pause" : "play")}${f === "iron" ? "Fe" : "Cu"} ${timerLabel(r.id, f)}</span>`);
   });
-  return out.length ? out.join("") : `<span class="tl-empty">Tap to enter turbidity, iron, copper</span>`;
+  return out.length ? out.join("") : `<span class="tl-empty">Tap to enter ${activeTestList().join(", ")}</span>`;
 }
 const RING_C = 2 * Math.PI * 15;
 function timerInner(id, field) {
@@ -1665,9 +2073,60 @@ function timerInner(id, field) {
   const glyph = !t ? "play" : t.paused ? "pause" : "";
   return `<span class="ring-wrap"><svg class="ring" viewBox="0 0 36 36" aria-hidden="true"><circle class="bg" cx="18" cy="18" r="15"/><circle class="fg" cx="18" cy="18" r="15" stroke-dasharray="${RING_C.toFixed(2)}" stroke-dashoffset="${(RING_C * (1 - frac)).toFixed(2)}"/></svg>${glyph ? `<svg class="ico" aria-hidden="true"><use href="#i-${glyph}"/></svg>` : ""}</span><span class="t">${timerLabel(id, field)}</span>`;
 }
+function renderTestsRow() {
+  const row = $("testsRow");
+  if (!row || !activeJob()) return;
+  const chip = (f, label) => {
+    const on = testOn(f);
+    return `<button type="button" class="tchip ${on ? "on" : ""}" data-test-toggle="${f}" aria-pressed="${on}">${icon(on ? "check" : "plus")}${label}</button>`;
+  };
+  row.innerHTML = `<span class="tr-lbl">Tests</span><span class="tchip locked">${icon("check")}Turbidity</span>${chip("iron", "Iron")}${chip("copper", "Copper")}`;
+}
+function toggleTest(field) {
+  const job = activeJob();
+  if (!job || (field !== "iron" && field !== "copper")) return;
+  if (!testsOf(job)) job.tests = { iron: testOn("iron", job), copper: testOn("copper", job) };
+  const label = field === "iron" ? "Iron" : "Copper";
+  if (job.tests[field]) {
+    // turning off: clear entered values so they can't print, with Undo
+    const saved = (job.readings || []).map((r) => [r.id, r[field], r.dilution]);
+    const had = saved.some(([, v]) => String(v || "").trim());
+    job.tests[field] = false;
+    (job.readings || []).forEach((r) => {
+      r[field] = "";
+      if (field === "iron") r.dilution = "";
+      const k = timerKey(r.id, field);
+      if (timers.has(k)) timers.delete(k);
+    });
+    afterTestsChange();
+    if (had) {
+      toast(`${label} off · values cleared`, "Undo", () => {
+        const j = state.jobs.find((x) => x.id === job.id);
+        if (!j) return;
+        j.tests[field] = true;
+        saved.forEach(([id, v, d]) => { const r = j.readings.find((x) => x.id === id); if (r) { r[field] = v || ""; if (field === "iron") r.dilution = d || ""; } });
+        if (j.id === state.activeJobId) afterTestsChange(); else saveState();
+        toast(`${label} restored`);
+      });
+    } else toast(`${label} removed from this job`);
+  } else {
+    job.tests[field] = true;
+    afterTestsChange();
+    toast(`${label} added to this job`);
+  }
+}
+function afterTestsChange() {
+  const job = activeJob();
+  if (job) job.updated = Date.now();
+  saveState();
+  markEdited();
+  renderReadings();
+  renderJobs();
+}
 function renderReadings() {
   const list = readingsOf();
   const box = $("readingList");
+  renderTestsRow();
   renderProgress();
   if (!list.length) {
     box.innerHTML = `<div class="empty">No readings yet.<br>Tap <b>Add reading</b> as you pull each sample.</div>`;
@@ -1676,6 +2135,7 @@ function renderReadings() {
     return;
   }
   const lastIdx = list.length - 1;
+  const onIron = testOn("iron"), onCopper = testOn("copper");
   box.innerHTML = list.map((r, i) => {
     const open = openReadingIds.has(r.id);
     const st = readingStatus(r);
@@ -1710,12 +2170,12 @@ function renderReadings() {
           <div class="rd-tests">
             <section class="rd-test" data-test="turbidity">
               <div class="rd-head"><span class="rd-name">Turbidity</span><span class="rd-unit">FAU</span></div>
-              <input data-field="turbidity" class="num-input" inputmode="decimal" ${enter("next")} value="${escapeHtml(r.turbidity)}" placeholder="0" />
+              <input data-field="turbidity" class="num-input" inputmode="decimal" ${enter(onIron || onCopper || i < lastIdx ? "next" : "done")} value="${escapeHtml(r.turbidity)}" placeholder="0" />
             </section>
-            <section class="rd-test" data-test="iron">
+            <section class="rd-test ${onIron ? "" : "hidden"}" data-test="iron">
               <div class="rd-head"><span class="rd-name">Iron</span><span class="rd-unit">mg/L</span></div>
               <div class="rd-entry">
-                <input data-field="iron" class="num-input" inputmode="decimal" ${enter("next")} value="${escapeHtml(r.iron)}" placeholder="0.00" />
+                <input data-field="iron" class="num-input" inputmode="decimal" ${enter(onCopper || i < lastIdx ? "next" : "done")} value="${escapeHtml(r.iron)}" placeholder="0.00" />
                 <button type="button" class="timer-btn ${timerClass(r.id, "iron")}" data-timer-id="${r.id}" data-timer-field="iron" aria-label="3 minute iron timer">${timerInner(r.id, "iron")}</button>
               </div>
               <div class="rd-dil">
@@ -1726,7 +2186,7 @@ function renderReadings() {
               </div>
               <div class="dil-result" data-fix-out="iron">${ironResultText(r)}</div>
             </section>
-            <section class="rd-test" data-test="copper">
+            <section class="rd-test ${onCopper ? "" : "hidden"}" data-test="copper">
               <div class="rd-head"><span class="rd-name">Copper</span><span class="rd-unit">mg/L</span></div>
               <div class="rd-entry">
                 <input data-field="copper" class="num-input" inputmode="decimal" ${enter(i < lastIdx ? "next" : "done")} value="${escapeHtml(r.copper)}" placeholder="0.00" />
@@ -1734,7 +2194,7 @@ function renderReadings() {
               </div>
             </section>
           </div>
-          <div class="timer-hint">Timers: tap to start or pause · double-tap to reset</div>
+          ${onIron || onCopper ? `<div class="timer-hint">Timers: tap to start or pause · double-tap to reset</div>` : ""}
         </div>
       </div>
     </div>`;
@@ -1757,6 +2217,48 @@ function refreshReadingStates() {
   refreshReadingStates._t = setTimeout(renderTrends, 250);
 }
 
+function metalUsedIn(list, field) { return list.some((r) => String(r[field] || "").trim()); }
+function statusIn(r, list, job) {
+  const has = (v) => String(v || "").trim() !== "";
+  const t = testsOf(job);
+  const need = (f) => (t ? !!t[f] : metalUsedIn(list, f));
+  const any = has(r.turbidity) || has(r.iron) || has(r.copper);
+  const done = has(r.turbidity) && (!need("iron") || has(r.iron)) && (!need("copper") || has(r.copper));
+  return done ? "done" : any ? "part" : "";
+}
+function slotsFor(job) {
+  const h = job.header || {};
+  if (h.duration4 === false) {
+    const hrs = parseFloat(h.otherHrs);
+    if (Number.isFinite(hrs) && hrs > 0) return Math.max(2, Math.min(17, Math.round(hrs * 2) + 1));
+  }
+  return 9;
+}
+function startOf(job) {
+  const list = job.readings || [];
+  const h = job.header || {};
+  if (!list.length) return null;
+  const c = parseClock(list[0].time, list[0].ampm);
+  const m = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(h.startDate || "");
+  if (!c || !m) return null;
+  return new Date(+m[3], +m[1] - 1, +m[2], c.h, c.min);
+}
+function jobProgress(job) {
+  const list = job.readings || [];
+  const slots = Math.max(slotsFor(job), list.length);
+  const done = list.filter((r) => statusIn(r, list, job) === "done").length;
+  const readingsIn = list.length >= slots && done >= slots;
+  const signed = !!(job.header && job.header.custSig && job.header.nalcoSig);
+  const start = startOf(job);
+  const next = start && list.length < slots ? new Date(start.getTime() + list.length * 30 * 60000) : null;
+  return { list, slots, done, readingsIn, signed, complete: readingsIn && signed, start, next };
+}
+function jobRunning(job) {
+  const p = jobProgress(job);
+  if (p.complete || !p.start || p.readingsIn) return false;
+  const mins = (Date.now() - p.start.getTime()) / 60000;
+  return mins >= -30 && mins <= (p.slots - 1) * 30 + 120;
+}
 function slotCount() {
   const h = activeJob().header;
   if (h.duration4 === false) {
@@ -1775,9 +2277,19 @@ function firstReadingDate() {
   return new Date(+m[3], +m[1] - 1, +m[2], c.h, c.min);
 }
 function fmtClock(d) { return formatQuarter(d.getHours(), d.getMinutes()).time + " " + formatQuarter(d.getHours(), d.getMinutes()).ampm; }
+const completeSeen = new Map();
 function renderProgress() {
   const box = $("progress");
   if (!box || !activeJob()) return;
+  const jp = jobProgress(activeJob());
+  const was = completeSeen.get(activeJob().id);
+  completeSeen.set(activeJob().id, jp.complete);
+  if (jp.complete) {
+    const celebrate = was === false;
+    box.innerHTML = `<div class="complete-badge ${celebrate ? "celebrate" : ""}"><span class="tick">${icon("check", "ico")}</span><div><b>Job complete</b><span>All ${jp.slots} readings in and both signatures done.</span></div></div>`;
+    if (celebrate && navigator.vibrate) navigator.vibrate([20, 50, 40]);
+    return;
+  }
   const list = readingsOf();
   const slots = Math.max(slotCount(), list.length);
   const totalMin = (slots - 1) * 30;
@@ -1816,7 +2328,15 @@ function renderProgress() {
       <span class="track-fill" style="width:calc((100% - 12px) * ${fill.toFixed(4)})"></span>
       ${dots}${needle}
     </div>
-    <div class="track-labels">${labels.join("")}</div>`;
+    <div class="track-labels">${labels.join("")}</div>
+    ${progressFlags()}`;
+}
+function progressFlags() {
+  const jp = jobProgress(activeJob());
+  const flags = [];
+  if (jp.readingsIn && !jp.signed) flags.push(`<span class="flag">${icon("sign")}All readings in · needs signatures</span>`);
+  if (wakeLock) flags.push(`<span class="flag awake">${icon("sun")}Screen stays on</span>`);
+  return flags.length ? `<div class="progress-flags">${flags.join("")}</div>` : "";
 }
 
 function renderTrends() {
@@ -1828,7 +2348,7 @@ function renderTrends() {
     { key: "turbidity", title: "Turbidity", unit: "FAU", get: (r) => num(r.turbidity) },
     { key: "iron", title: "Iron", unit: "mg/L", get: (r) => num(correctedValue(r.iron, r, true)) },
     { key: "copper", title: "Copper", unit: "mg/L", get: (r) => num(r.copper) }
-  ].map((s) => ({ ...s, pts: list.map((r, i) => ({ i, v: s.get(r), r })).filter((p) => p.v !== null) }))
+  ].filter((s) => testOn(s.key)).map((s) => ({ ...s, pts: list.map((r, i) => ({ i, v: s.get(r), r })).filter((p) => p.v !== null) }))
    .filter((s) => s.pts.length >= 2);
   box.classList.toggle("hidden", !series.length);
   if (!series.length) { box.innerHTML = ""; return; }
@@ -1878,6 +2398,57 @@ function showSparkTip(hit) {
   spark.appendChild(tip);
   const pt = hit.previousElementSibling;
   if (pt) pt.classList.add("sel");
+}
+
+let wakeLock = null;
+function wantAwake() {
+  if (state.prefs.keepAwake === false || state.listMode || document.visibilityState !== "visible") return false;
+  const job = activeJob();
+  const timerRunning = [...timers.values()].some((t) => !t.paused);
+  return timerRunning || (!!job && jobRunning(job));
+}
+async function syncWakeLock() {
+  const want = wantAwake();
+  try {
+    if (want && !wakeLock && "wakeLock" in navigator) {
+      wakeLock = await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release", () => { wakeLock = null; renderProgress(); });
+      renderProgress();
+    } else if (!want && wakeLock) {
+      const l = wakeLock; wakeLock = null; await l.release(); renderProgress();
+    }
+  } catch (e) { wakeLock = null; }
+}
+
+// ------------------------------------------------------------- reading-due reminder
+let dueDismissed = "";
+let dueBuzzed = "";
+function checkDue() {
+  const banner = $("dueBanner");
+  const job = activeJob();
+  let show = false;
+  if (job && !state.listMode && state.prefs.dueAlerts !== false && jobRunning(job)) {
+    const jp = jobProgress(job);
+    if (jp.next) {
+      const key = job.id + ":" + jp.list.length;
+      const secs = (jp.next.getTime() - Date.now()) / 1000;
+      if (secs <= 120 && dueDismissed !== key) {
+        show = true;
+        const name = intervalTitle(jp.list.length).replace(" (2nd dose)", "");
+        $("dueTitle").textContent = `${name} reading ${secs > 0 ? "coming up" : "due"}${jp.list.length === 4 ? " · 2nd dose" : ""}`;
+        const mins = Math.round(Math.abs(secs) / 60);
+        $("dueSub").textContent = secs > 30 ? `Due at ${fmtClock(jp.next)} · in ${Math.max(1, mins)} min` : mins >= 1 ? `Due at ${fmtClock(jp.next)} · ${mins} min ago` : `Due now · ${fmtClock(jp.next)}`;
+        banner.dataset.key = key;
+        if (secs <= 0 && dueBuzzed !== key) {
+          dueBuzzed = key;
+          banner.classList.remove("flash"); void banner.offsetWidth; banner.classList.add("flash");
+          if (navigator.vibrate) navigator.vibrate([250, 120, 250, 120, 400]);
+        }
+      }
+    }
+  }
+  banner.classList.toggle("hidden", !show);
+  document.body.classList.toggle("has-due", show);
 }
 
 function timerKey(id, field) { return `${id}:${field}`; }
@@ -1930,8 +2501,10 @@ function runTimer(key, t) {
   clearInterval(t.interval);
   t.paused = false;
   t.end = Date.now() + t.remaining;
+  setTimeout(syncWakeLock, 0);
   t.interval = setInterval(() => {
     if (Date.now() >= t.end) {
+      setTimeout(syncWakeLock, 0);
       clearInterval(t.interval);
       timers.delete(key);
       paintTimers();
@@ -2438,6 +3011,47 @@ async function importPdfFile(file) {
   }
 }
 
+function backupAll() {
+  persist();
+  const data = { type: "peroxide-log-backup", version: 1, exported: new Date().toISOString(), jobs: state.jobs };
+  const d = new Date();
+  downloadBlob(new Blob([JSON.stringify(data, null, 2)], { type: "application/json" }), `Peroxide_Log_backup_${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}.json`);
+  toast(`Backed up ${state.jobs.length} job${state.jobs.length === 1 ? "" : "s"}`);
+}
+function importJsonText(text) {
+  let data;
+  try { data = JSON.parse(text); } catch (e) { toast("Could not read that file"); return; }
+  if (data && Array.isArray(data.jobs)) {
+    const have = new Set(state.jobs.map((j) => j.id));
+    let added = 0, skipped = 0;
+    data.jobs.forEach((j) => {
+      if (!j || typeof j !== "object") return;
+      if (j.id && have.has(j.id)) { skipped++; return; }
+      const job = migrateJob(j);
+      if (!job.id) job.id = uid();
+      state.jobs.push(job); added++;
+    });
+    // a fresh install starts with one untouched blank job; drop it after a restore
+    if (added) state.jobs = state.jobs.filter((j) => {
+      const h = j.header || {};
+      return (j.readings || []).length || h.customer || h.title || h.address || h.custSig || h.nalcoSig;
+    });
+    state.jobs.sort((a, b) => (b.created || 0) - (a.created || 0));
+    if (!state.jobs.some((j) => j.id === state.activeJobId)) state.activeJobId = state.jobs[0] ? state.jobs[0].id : null;
+    state.listMode = true;
+    saveState(); fillAll();
+    toast(`Restored ${added} job${added === 1 ? "" : "s"}${skipped ? ` · ${skipped} already here` : ""}`);
+    return;
+  }
+  try {
+    const job = migrateJob(data);
+    job.id = uid();
+    state.jobs.unshift(job);
+    state.activeJobId = job.id;
+    state.listMode = false;
+    saveState(); fillAll(); toast("Job imported");
+  } catch (e) { toast("Could not import that file"); }
+}
 function showSigThumb(imgId, dataUrl) {
   const img = $(imgId);
   if (!img) return;
@@ -2471,14 +3085,24 @@ function sigCtx() {
   const canvas = $("sigPad");
   return canvas.getContext("2d");
 }
-function resizeSigPad() {
+function resizeSigPad(keep) {
   const canvas = $("sigPad");
   const rect = canvas.getBoundingClientRect();
   const dpr = Math.max(1, window.devicePixelRatio || 1);
+  let snapshot = null;
+  if (keep === true && canvas.width && canvas.height) {
+    snapshot = document.createElement("canvas");
+    snapshot.width = canvas.width; snapshot.height = canvas.height;
+    snapshot.getContext("2d").drawImage(canvas, 0, 0);
+  }
   canvas.width = Math.max(320, Math.floor(rect.width * dpr));
-  canvas.height = Math.max(160, Math.floor(220 * dpr));
+  canvas.height = Math.max(160, Math.floor((rect.height || 220) * dpr));
   const ctx = canvas.getContext("2d");
   ctx.clearRect(0, 0, canvas.width, canvas.height);
+  if (snapshot) {
+    const s = Math.min(canvas.width / snapshot.width, canvas.height / snapshot.height);
+    ctx.drawImage(snapshot, (canvas.width - snapshot.width * s) / 2, (canvas.height - snapshot.height * s) / 2, snapshot.width * s, snapshot.height * s);
+  }
   ctx.strokeStyle = "#1a1a1a";
   ctx.lineWidth = 2.4 * dpr;
   ctx.lineCap = "round";
@@ -2498,8 +3122,8 @@ function openSig(target) {
   $("sigTitle").textContent = target === "nalco" ? "Technician signature" : "Customer signature";
   $("sigBack").classList.add("show");
   $("sigSheet").classList.add("show");
-  requestAnimationFrame(resizeSigPad);
-  setTimeout(resizeSigPad, 280);
+  requestAnimationFrame(() => resizeSigPad(false));
+  setTimeout(() => resizeSigPad(false), 280);
 }
 function closeSig() {
   $("sigBack").classList.remove("show");
@@ -2605,9 +3229,9 @@ function wire() {
     if (idx < 0) return;
     e.preventDefault();
     const row = e.target.closest(".reading");
-    if (idx < NEXT_ORDER.length - 1) {
-      const nxt = row.querySelector(`[data-field="${NEXT_ORDER[idx + 1]}"]`);
-      if (nxt) { nxt.focus(); nxt.select && nxt.select(); return; }
+    for (let k = idx + 1; k < NEXT_ORDER.length; k++) {
+      const nxt = row.querySelector(`[data-field="${NEXT_ORDER[k]}"]`);
+      if (nxt && !nxt.closest(".hidden")) { nxt.focus(); nxt.select && nxt.select(); return; }
     }
     const nextRow = row.nextElementSibling;
     const nextInput = nextRow && !nextRow.querySelector(".reading-body").classList.contains("hidden") && nextRow.querySelector('[data-field="turbidity"]');
@@ -2620,6 +3244,46 @@ function wire() {
   let resizeT;
   window.addEventListener("resize", () => { clearTimeout(resizeT); resizeT = setTimeout(renderTrends, 200); });
   setInterval(() => { if (!state.listMode && document.visibilityState === "visible") renderProgress(); }, 30000);
+
+  // back up all
+  $("btnBackupAll").addEventListener("click", backupAll);
+  $("btnBackupAllHome").addEventListener("click", backupAll);
+
+  // home search / filter
+  $("jobSearch").addEventListener("input", (e) => { homeUi.q = e.target.value; renderJobs(); });
+  $("jobFilter").addEventListener("click", (e) => { const b = e.target.closest("[data-filter]"); if (b) { homeUi.filter = b.dataset.filter; renderJobs(); } });
+  $("todayCard").addEventListener("click", (e) => { const t = e.target.closest("[data-open-job]"); if (t) openJobById(t.dataset.openJob); });
+
+  // reading-due banner
+  $("btnDueAdd").addEventListener("click", () => { addReading(); markEdited(); checkDue(); });
+  $("btnDueDismiss").addEventListener("click", () => { dueDismissed = $("dueBanner").dataset.key || ""; checkDue(); });
+
+  // settings toggles
+  const syncSettingToggles = () => {
+    [["keepAwakeToggle", state.prefs.keepAwake !== false], ["dueToggle", state.prefs.dueAlerts !== false]].forEach(([id, on]) => {
+      const b = $(id); b.classList.toggle("on", on); b.setAttribute("aria-checked", on ? "true" : "false"); b.textContent = on ? "ON" : "OFF";
+    });
+  };
+  syncSettingToggles();
+  $("keepAwakeToggle").addEventListener("click", () => { state.prefs.keepAwake = state.prefs.keepAwake === false; saveState(); syncSettingToggles(); syncWakeLock(); });
+  $("dueToggle").addEventListener("click", () => { state.prefs.dueAlerts = state.prefs.dueAlerts === false; saveState(); syncSettingToggles(); checkDue(); });
+
+  // background checks: due reminder, wake lock, progress "now" line, today card
+  const tick = () => { checkDue(); syncWakeLock(); if (state.listMode) renderToday(); };
+  setInterval(tick, 15000);
+  document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") { tick(); renderProgress(); } else syncWakeLock(); });
+  ["readingList", "btnAddReading", "btnMenu", "jobList", "homeJobList", "todayCard"].forEach((id) => $(id).addEventListener("click", () => setTimeout(tick, 50)));
+  setTimeout(tick, 300);
+
+  // swipe a job row: right = Repeat, left = Delete (reveals a labelled button first)
+  bindJobSwipe($("homeJobList"));
+  bindJobSwipe($("jobList"));
+
+  // drag a sheet down to close it
+  [["menuSheet", "menuBack"], ["settingsSheet", "settingsBack"], ["pdfSheet", "pdfBack"], ["sigSheet", "sigBack"]].forEach(([s, b]) => bindSheetDrag($(s), $(b)));
+
+  // offline support once hosted
+  if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
 
   // export checklist jumps
   $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) jumpTo(b.dataset.jump); });
@@ -2653,12 +3317,7 @@ function wire() {
   });
   $("readingList").addEventListener("click", (e) => {
     const del = e.target.closest("[data-del]");
-    if (del) {
-      activeJob().readings = readingsOf().filter((r) => r.id !== del.dataset.del);
-      persist();
-      renderReadings();
-      return;
-    }
+    if (del) { deleteReading(del.dataset.del); return; }
     const toggle = e.target.closest("[data-toggle]");
     if (toggle) {
       const id = toggle.dataset.toggle;
@@ -2745,24 +3404,7 @@ function wire() {
   const homePdf = $("filePdfImportHome");
   if (homeJson) homeJson.addEventListener("change", (e) => {
     const f = e.target.files[0];
-    if (f) $("fileImport").files && ($("fileImport").value = "");
-    if (f) {
-      const ev = { target: { files: [f], value: "" } };
-      $("fileImport").dispatchEvent(new Event("change"));
-      // fallback direct
-      const reader = new FileReader();
-      reader.onload = () => {
-        try {
-          const data = migrateJob(JSON.parse(reader.result));
-          data.id = uid();
-          state.jobs.unshift(data);
-          state.activeJobId = data.id;
-          state.listMode = false;
-          saveState(); fillAll(); toast("Job imported");
-        } catch (err) { toast("Could not import that file"); }
-      };
-      reader.readAsText(f);
-    }
+    if (f) { const reader = new FileReader(); reader.onload = () => importJsonText(reader.result); reader.readAsText(f); }
     e.target.value = "";
   });
   if (homePdf) homePdf.addEventListener("change", (e) => {
@@ -2791,18 +3433,7 @@ function wire() {
   });
   $("fileImport").addEventListener("change", (e) => {
     const f = e.target.files[0];
-    if (!f) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const data = migrateJob(JSON.parse(reader.result));
-        data.id = uid();
-        state.jobs.unshift(data);
-        state.activeJobId = data.id;
-        saveState(); fillAll(); toast("Job imported");
-      } catch (err) { toast("Could not import that file"); }
-    };
-    reader.readAsText(f);
+    if (f) { const reader = new FileReader(); reader.onload = () => importJsonText(reader.result); reader.readAsText(f); }
     e.target.value = "";
   });
   $("filePdfImport").addEventListener("change", (e) => {
@@ -2811,10 +3442,43 @@ function wire() {
     e.target.value = "";
   });
 
+  let pickCompany = "nalco";
+  const pickTests = { iron: true, copper: false };
+  const syncTestPicks = () => document.querySelectorAll("[data-test-pick]").forEach((b) => {
+    const on = !!pickTests[b.dataset.testPick];
+    b.classList.toggle("on", on); b.setAttribute("aria-pressed", String(on));
+  });
+  const showStep = (n) => {
+    $("coStep1").classList.toggle("hidden", n !== 1);
+    $("coStep2").classList.toggle("hidden", n !== 2);
+  };
+  const chooseCompany = (company) => {
+    pickCompany = company === "amc" ? "amc" : "nalco";
+    const last = (state.prefs && state.prefs.lastTests) || { iron: true, copper: false };
+    pickTests.iron = !!last.iron; pickTests.copper = !!last.copper;
+    const tag = $("coChosen");
+    tag.textContent = pickCompany === "amc" ? "AMC" : "NALCO";
+    tag.className = "job-co " + pickCompany;
+    syncTestPicks();
+    showStep(2);
+  };
+  document.querySelectorAll("[data-test-pick]").forEach((b) => b.addEventListener("click", () => {
+    pickTests[b.dataset.testPick] = !pickTests[b.dataset.testPick];
+    syncTestPicks();
+  }));
+  $("coBack").addEventListener("click", () => showStep(1));
+  $("btnStartJob").addEventListener("click", () => startNewJob(pickCompany));
+  $("testsRow").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-test-toggle]");
+    if (b) toggleTest(b.dataset.testToggle);
+  });
   const startNewJob = (company) => {
     persist();
     const job = newJob();
     job.company = company === "amc" ? "amc" : "nalco";
+    job.tests = { iron: !!pickTests.iron, copper: !!pickTests.copper };
+    state.prefs = state.prefs || {};
+    state.prefs.lastTests = { ...job.tests };
     state.jobs.unshift(job);
     state.activeJobId = job.id;
     state.listMode = false;
@@ -2823,11 +3487,11 @@ function wire() {
     fillAll();
     toast(job.company === "amc" ? "AMC job started" : "Nalco job started");
   };
-  const showCompanyLock = () => $("companyLock").classList.remove("hidden");
+  const showCompanyLock = () => { showStep(1); $("companyLock").classList.remove("hidden"); };
   const hideCompanyLock = () => $("companyLock").classList.add("hidden");
   $("btnNewJob").addEventListener("click", () => { persist(); showCompanyLock(); });
-  $("pickNalco").addEventListener("click", () => startNewJob("nalco"));
-  $("pickAmc").addEventListener("click", () => startNewJob("amc"));
+  $("pickNalco").addEventListener("click", () => chooseCompany("nalco"));
+  $("pickAmc").addEventListener("click", () => chooseCompany("amc"));
 
   $("btnDeleteJob").addEventListener("click", () => {
     if (state.activeJobId) deleteJobById(state.activeJobId);
@@ -2839,7 +3503,13 @@ function wire() {
   $("btnNalcoSignClear").addEventListener("click", () => clearStoredSig("nalco"));
   $("btnCloseSig").addEventListener("click", closeSig);
   $("sigBack").addEventListener("click", closeSig);
-  $("btnSigRedo").addEventListener("click", resizeSigPad);
+  $("btnSigRedo").addEventListener("click", () => resizeSigPad(false));
+  let sigResizeT;
+  window.addEventListener("resize", () => {
+    if (!$("sigSheet").classList.contains("show")) return;
+    clearTimeout(sigResizeT);
+    sigResizeT = setTimeout(() => resizeSigPad(true), 250);
+  });
   $("btnSigSave").addEventListener("click", saveSig);
   const pad = $("sigPad");
   const start = (e) => {
