@@ -1120,6 +1120,10 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       <div><b>Reading reminders</b><span class="count">Banner and buzz when the next 30-minute reading is due.</span></div>
       <button type="button" class="check-toggle" id="dueToggle" role="switch" aria-checked="false" aria-label="Reading due reminders">NO</button>
     </div>
+    <div class="setting-row">
+      <div><b>Timer notifications</b><span class="count" id="notifyHint">Phone notification when the iron or copper timer finishes.</span></div>
+      <button type="button" class="check-toggle" id="notifyToggle" role="switch" aria-checked="false" aria-label="Timer notifications">NO</button>
+    </div>
     <p class="count" style="margin:14px 0 4px">Settings are saved on this phone.</p>
   </section>
 
@@ -2636,6 +2640,33 @@ function paintTimers() {
     if (vals && rec) vals.innerHTML = readingValsHtml(rec);
   });
 }
+// ------------------------------------------------------------- timer notifications
+function notifySupported() { return "Notification" in window; }
+function notifyWanted() { return state.prefs.timerNotify !== false; }
+// Must be called from a tap; browsers only allow the permission prompt after a user gesture.
+function ensureNotifyPermission() {
+  if (!notifySupported() || !notifyWanted() || Notification.permission !== "default") return;
+  try { const p = Notification.requestPermission(); if (p && p.then) p.then(() => window.syncSettingToggles && window.syncSettingToggles()); } catch (e) {}
+}
+async function sendTimerNotice(t) {
+  if (!notifySupported() || !notifyWanted() || Notification.permission !== "granted") return;
+  const name = t.field === "iron" ? "Iron" : "Copper";
+  const rec = readingsOf().find((r) => r.id === t.id);
+  const when = rec && rec.time ? `${rec.time}${rec.ampm ? " " + rec.ampm : ""} reading` : "Reading";
+  const opts = {
+    body: `${when} is ready to read.`,
+    tag: `timer-${t.id}-${t.field}`,
+    renotify: true,
+    icon: "icon-192.png",
+    badge: "icon-192.png",
+    vibrate: [180, 80, 180, 80, 240]
+  };
+  try {
+    const reg = "serviceWorker" in navigator ? await navigator.serviceWorker.getRegistration() : null;
+    if (reg && reg.showNotification) await reg.showNotification(`${name} timer done`, opts);
+    else new Notification(`${name} timer done`, opts);
+  } catch (e) {}
+}
 function runTimer(key, t) {
   clearInterval(t.interval);
   t.paused = false;
@@ -2652,6 +2683,7 @@ function runTimer(key, t) {
       if (panel) { panel.classList.remove("ding"); void panel.offsetWidth; panel.classList.add("ding"); setTimeout(() => panel.classList.remove("ding"), 1700); }
       toast(`${t.field === "iron" ? "Iron" : "Copper"} ready`);
       if (navigator.vibrate) navigator.vibrate([180, 80, 180, 80, 240]);
+      sendTimerNotice(t);
       return;
     }
     paintTimers();
@@ -2678,6 +2710,7 @@ function handleTimerTap(id, field) {
     return;
   }
   const t = timers.get(key);
+  if (!t || t.paused) ensureNotifyPermission();
   if (!t) {
     const nt = { field, id, remaining: TIMER_MS, paused: false, interval: null, end: 0 };
     timers.set(key, nt);
@@ -3450,11 +3483,26 @@ function wire() {
 
   // settings toggles
   const syncSettingToggles = () => {
-    [["keepAwakeToggle", state.prefs.keepAwake !== false], ["dueToggle", state.prefs.dueAlerts !== false]].forEach(([id, on]) => {
+    const perm = notifySupported() ? Notification.permission : "unsupported";
+    const notifyOn = notifyWanted() && perm !== "denied" && perm !== "unsupported";
+    [["keepAwakeToggle", state.prefs.keepAwake !== false], ["dueToggle", state.prefs.dueAlerts !== false], ["notifyToggle", notifyOn]].forEach(([id, on]) => {
       const b = $(id); b.classList.toggle("on", on); b.setAttribute("aria-checked", on ? "true" : "false"); b.textContent = on ? "ON" : "OFF";
     });
+    $("notifyHint").textContent = perm === "unsupported"
+      ? "Not supported here. On iPhone, add the app to your Home Screen first."
+      : perm === "denied"
+        ? "Blocked in your phone's settings. Allow notifications for this app there."
+        : "Phone notification when the iron or copper timer finishes.";
   };
+  window.syncSettingToggles = syncSettingToggles;
   syncSettingToggles();
+  $("notifyToggle").addEventListener("click", () => {
+    if (!notifySupported() || Notification.permission === "denied") return;
+    state.prefs.timerNotify = !notifyWanted();
+    saveState();
+    if (notifyWanted() && Notification.permission === "default") ensureNotifyPermission();
+    syncSettingToggles();
+  });
   $("keepAwakeToggle").addEventListener("click", () => { state.prefs.keepAwake = state.prefs.keepAwake === false; saveState(); syncSettingToggles(); syncWakeLock(); });
   $("dueToggle").addEventListener("click", () => { state.prefs.dueAlerts = state.prefs.dueAlerts === false; saveState(); syncSettingToggles(); checkDue(); });
 

@@ -1,5 +1,5 @@
 /* Peroxide Log offline cache */
-const VERSION = "h2o2-v5";
+const VERSION = "h2o2-v6";
 const PDFJS = "https://cdn.jsdelivr.net/npm/pdfjs-dist@3.11.174/";
 const APP_FILES = ["./", "./index.html", "./manifest.webmanifest", "./icon-192.png", "./icon-512.png", "./apple-touch-icon.png"];
 const LIB_FILES = [
@@ -23,6 +23,16 @@ self.addEventListener("activate", (e) => {
   e.waitUntil((async () => {
     for (const k of await caches.keys()) if (k !== VERSION) await caches.delete(k);
     await self.clients.claim();
+  })());
+});
+
+// Tapping a timer notification brings the app to the front.
+self.addEventListener("notificationclick", (e) => {
+  e.notification.close();
+  e.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: "window", includeUncontrolled: true });
+    for (const c of all) if ("focus" in c) return c.focus();
+    return self.clients.openWindow("./");
   })());
 });
 
