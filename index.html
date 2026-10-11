@@ -988,6 +988,8 @@ body.list-mode .due-banner { bottom: calc(16px + env(safe-area-inset-bottom)); }
 .check-item { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 14px; border: 0; border-top: 1px solid var(--line); background: var(--surface); color: var(--text); text-align: left; font-size: 14px; cursor: pointer; transition: background 160ms var(--ease); }
 .check-item:active { background: var(--hover); }
 .check-item .ico { color: var(--warn); }
+.check-title.err { color: var(--danger-text); background: var(--danger-dim); }
+.check-item.err .ico { color: var(--danger); }
 .check-item .go { margin-left: auto; color: var(--accent-text); font-size: 12.5px; font-weight: 700; white-space: nowrap; }
 .pdf-pages { flex: 1 1 auto; min-height: 0; overflow: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; background: var(--input); border: 1px solid var(--line); padding: 10px; }
 .pdf-page { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22); animation: fadeUp 420ms var(--ease) both; }
@@ -3381,10 +3383,10 @@ function renderExportCheck() {
   const blockers = items.filter((i) => i.block);
   const notes = items.filter((i) => !i.block);
   const box = $("pdfCheck");
-  const row = (it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`;
+  const row = (it) => `<button type="button" class="check-item ${it.block ? "err" : ""}" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`;
   box.classList.toggle("ok", !items.length);
   box.innerHTML = items.length
-    ? (blockers.length ? `<div class="check-title">${icon("lock")} Export is locked – ${blockers.length} required thing${blockers.length === 1 ? "" : "s"} missing</div>${blockers.map(row).join("")}` : "")
+    ? (blockers.length ? `<div class="check-title err">${icon("lock")} Export is locked – ${blockers.length} required thing${blockers.length === 1 ? "" : "s"} missing</div>${blockers.map(row).join("")}` : "")
       + (notes.length ? `<div class="check-title">${notes.length} thing${notes.length === 1 ? "" : "s"} worth checking</div>${notes.map(row).join("")}` : "")
     : `<div class="check-ok">${icon("check")}Everything's filled in – ready to send</div>`;
   return blockers.length;
