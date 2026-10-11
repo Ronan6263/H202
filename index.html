@@ -330,6 +330,18 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
   }
   details.card[open]::details-content, details.job-group[open]::details-content { block-size: auto; }
 }
+.sys-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.sys-row .chip { flex: 0 0 auto; width: auto; display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-height: 52px; padding: 8px 16px; text-align: left; border-radius: 14px; border: 1px solid var(--line-2); background: var(--input); color: var(--text); }
+.sys-row .chip b { font-weight: 600; font-size: 15px; }
+.sys-row .chip small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.sys-row .chip.on { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
+.sys-row .chip.on small { color: inherit; opacity: .8; }
+.sys-row .chip.add { background: transparent; flex-direction: row; align-items: center; gap: 6px; border-style: dashed; color: var(--accent-text); font-weight: 600; }
+.sys-actions { display: flex; gap: 8px; margin-top: 12px; }
+.sys-hint { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
+.sys-tag { font-family: var(--font); font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--accent-text); background: var(--accent-dim); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; white-space: nowrap; }
+.pdf-sys-head { margin: 14px 4px 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
+.pdf-sys-note { margin: 4px 4px 0; font-size: 12.5px; color: var(--muted); }
 .card-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 14px; }
 .card-head > div { display: flex; align-items: center; gap: 12px; }
 .pill {
@@ -1084,6 +1096,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
     </div>
     <nav class="section-nav" id="sectionNav" aria-label="Job sections">
       <button type="button" class="sn-btn" data-sec="cardHeader"><span class="sn-dot"></span>Site</button>
+      <button type="button" class="sn-btn" data-sec="cardSystems"><span class="sn-dot"></span>Systems<span class="sn-meta" data-sn-meta="cardSystems"></span></button>
       <button type="button" class="sn-btn" data-sec="cardSystem"><span class="sn-dot"></span>System</button>
       <button type="button" class="sn-btn" data-sec="cardChecks"><span class="sn-dot"></span>Checklists<span class="sn-meta" data-sn-meta="cardChecks"></span></button>
       <button type="button" class="sn-btn" data-sec="cardReadings"><span class="sn-dot"></span>Readings<span class="sn-meta" data-sn-meta="cardReadings"></span></button>
@@ -1167,10 +1180,23 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </div>
     </details>
 
+    <section class="card" id="cardSystems">
+      <div class="card-head" style="margin-bottom:12px">
+        <div><span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span><h2>Systems</h2></div>
+        <span class="pill"><span class="num" id="sysCount">1</span>&nbsp;on this job</span>
+      </div>
+      <div class="sys-row" id="sysRow"></div>
+      <div class="sys-actions hidden" id="sysActions">
+        <button type="button" class="btn sm ghost" id="btnRenameSystem">Rename</button>
+        <button type="button" class="btn sm ghost" id="btnRemoveSystem">Remove this system</button>
+      </div>
+      <p class="sys-hint" id="sysHint"></p>
+    </section>
+
     <details class="card" id="cardSystem">
       <summary>
         <span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span>
-        <div><h2>System</h2><span class="count" id="systemSummary">Tower info and duration</span></div>
+        <div><h2>System<span class="sys-tag hidden" data-sys-tag></span></h2><span class="count" id="systemSummary">Tower info and duration</span></div>
         <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div>
@@ -1191,7 +1217,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
     <details class="card" id="cardChecks">
       <summary>
         <span class="sec-ico"><svg class="ico"><use href="#i-clip"/></svg></span>
-        <div><h2>Checklists</h2><span class="count" id="checkSummary">Pre-job, customer, post-job</span></div>
+        <div><h2>Checklists<span class="sys-tag hidden" data-sys-tag></span></h2><span class="count" id="checkSummary">Pre-job, customer, post-job</span></div>
         <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div id="checkLists"></div>
@@ -1200,7 +1226,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
     <details class="card" id="cardReadings" open>
       <summary>
         <span class="sec-ico"><svg class="ico"><use href="#i-flask"/></svg></span>
-        <div><h2>Readings</h2></div>
+        <div><h2>Readings<span class="sys-tag hidden" data-sys-tag></span></h2></div>
         <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
         <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
@@ -1575,6 +1601,11 @@ function newJob() {
 function migrateJob(job) {
   if (!job) return newJob();
   if (job.company !== "amc") job.company = "nalco";
+  if (Array.isArray(job.systems)) {
+    job.systems = job.systems.filter((x) => x && x.id);
+    const parked = job.systems.every((x) => x.id === job.activeSys || (x.data && Array.isArray(x.data.readings)));
+    if (job.systems.length < 2 || !job.systems.some((x) => x.id === job.activeSys) || !parked) { delete job.systems; delete job.activeSys; }
+  }
   if (!Array.isArray(job.readings)) {
     job.readings = [];
     if (job.intervals && typeof job.intervals === "object") {
@@ -1942,7 +1973,7 @@ function createdLabel(job) {
 }
 function jobRowHtml(j) {
   const co = j.company === "amc" ? "amc" : "nalco";
-  const n = Array.isArray(j.readings) ? j.readings.length : 0;
+  const n = totalReadings(j);
   const jp = jobProgress(j);
   const badge = jp.complete ? `<span class="job-badge">${icon("check")}Complete</span>` : jobRunning(j) ? `<span class="job-badge active">In progress</span>` : "";
   return `
@@ -2984,7 +3015,7 @@ function persist() {
   if (activeJob() && !state.listMode) readHeader();
   saveState();
   renderJobs();
-  if (activeJob() && !state.listMode) updatePreview();
+  if (activeJob() && !state.listMode) { updatePreview(); renderSystems(); }
 }
 
 let dragState = null;
@@ -3128,9 +3159,8 @@ function checkedOf(form, name) {
   try { return form.getCheckBox(name).isChecked(); } catch (e) { return false; }
 }
 
-async function buildPdf() {
-  readHeader();
-  saveState();
+async function buildPdf(opts = {}) {
+  if (!opts.skipRead) { readHeader(); saveState(); }
   const job = activeJob();
   const h = job.header;
   const src = await PDFLib.PDFDocument.load(await loadTemplateBytes(jobCompany(job)), { ignoreEncryption: true });
@@ -3266,14 +3296,29 @@ function closePdfReview() {
 function exportChecks() {
   const job = activeJob(), h = job.header;
   const items = [];
-  const need = (ok, label, jump) => { if (!ok) items.push({ label, jump }); };
+  const need = (ok, label, jump, sys) => { if (!ok) items.push({ label, jump, sys }); };
   need(h.customer, "Customer name", "f_customer");
   need(h.address, "Site address", "f_address");
-  need(h.systemId, "System ID", "f_systemId");
-  need(h.location, "Location", "f_location");
-  need(h.cells, "Number of cells", "f_cells");
-  need(readingsOf().length, "No readings logged", "btnAddReading");
-  missingReadingNotes().forEach((m) => items.push({ label: m.charAt(0).toUpperCase() + m.slice(1), jump: "readings" }));
+  const list = systemsOf(job);
+  const perSystem = (pre, sys) => {
+    const hh = job.header;
+    need(hh.systemId, pre + "System ID", "f_systemId", sys);
+    need(hh.location, pre + "Location", "f_location", sys);
+    need(hh.cells, pre + "Number of cells", "f_cells", sys);
+    need(readingsOf().length, pre + "No readings logged", "btnAddReading", sys);
+    missingReadingNotes().forEach((m) => items.push({ label: pre + m.charAt(0).toUpperCase() + m.slice(1), jump: "readings", sys }));
+  };
+  if (!list) perSystem("", "");
+  else {
+    const ids = list.map((x) => x.id);
+    const orig = job.activeSys;
+    try {
+      ids.forEach((id, i) => {
+        switchSystemData(job, id);
+        perSystem(systemLabel(job, job.systems.find((x) => x.id === id), i) + " – ", id);
+      });
+    } finally { switchSystemData(job, orig); }
+  }
   need(h.custName, "Customer print name", "f_custName");
   need(h.custSig, "Customer signature", "sig:cust");
   need(h.nalcoName, "Technician print name", "f_nalcoName");
@@ -3285,7 +3330,7 @@ function renderExportCheck() {
   const box = $("pdfCheck");
   box.classList.toggle("ok", !items.length);
   box.innerHTML = items.length
-    ? `<div class="check-title">${items.length} thing${items.length === 1 ? "" : "s"} to check before sending</div>${items.map((it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`).join("")}`
+    ? `<div class="check-title">${items.length} thing${items.length === 1 ? "" : "s"} to check before sending</div>${items.map((it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`).join("")}`
     : `<div class="check-ok">${icon("check")}Everything's filled in – ready to send</div>`;
 }
 function jumpTo(target) {
@@ -3320,48 +3365,57 @@ async function openPdfReview() {
   pages.innerHTML = `<div class="pdf-msg">Building PDF…</div>`;
   $("pdfBack").classList.add("show");
   $("pdfSheet").classList.add("show");
-  let bytes;
+  let results;
   try {
-    bytes = await buildPdf();
+    results = await buildJobPdfs();
   } catch (err) {
     console.error(err);
     pages.innerHTML = `<div class="pdf-msg">Could not build the PDF.<br>${escapeHtml(err.message || "")}</div>`;
     return;
   }
+  const multi = results.length > 1;
   const h = activeJob().header;
   const safe = (h.customer || "site").replace(/[^\w\-]+/g, "_").slice(0, 40);
-  const name = `Peroxide_Log_${safe}_${(h.startDate || todayStr()).replace(/\//g, "-")}.pdf`;
-  const blob = new Blob([bytes], { type: "application/pdf" });
-  pdfOut = { blob, name, file: new File([blob], name, { type: "application/pdf" }) };
+  const day = (h.startDate || todayStr()).replace(/\//g, "-");
+  const files = results.map((r) => {
+    const tail = multi ? "_" + (r.label.replace(/[^\w\-]+/g, "_").replace(/^_+|_+$/g, "").slice(0, 30) || "system") : "";
+    const name = `Peroxide_Log_${safe}_${day}${tail}.pdf`;
+    const blob = new Blob([r.bytes], { type: "application/pdf" });
+    return { blob, name, label: r.label, bytes: r.bytes, file: new File([blob], name, { type: "application/pdf" }) };
+  });
+  pdfOut = { blob: files[0].blob, name: files[0].name, file: files[0].file, files };
   $("btnPdfShare").disabled = false;
   $("btnPdfDownload").disabled = false;
   try {
     const lib = await loadPdfJs();
-    const doc = await lib.getDocument({ data: bytes.slice(), standardFontDataUrl: PDFJS_BASE + "standard_fonts/", verbosity: 0 }).promise;
-    pages.innerHTML = "";
+    pages.innerHTML = multi ? `<div class="pdf-sys-note">${files.length} PDFs, one per system. Share and Save send all of them.</div>` : "";
     const width = Math.max(260, pages.clientWidth - 18);
     const dpr = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
-    for (let n = 1; n <= doc.numPages; n++) {
-      const page = await doc.getPage(n);
-      const base = page.getViewport({ scale: 1 });
-      const vp = page.getViewport({ scale: (width / base.width) * dpr });
-      const canvas = document.createElement("canvas");
-      canvas.className = "pdf-page";
-      canvas.width = Math.floor(vp.width);
-      canvas.height = Math.floor(vp.height);
-      pages.appendChild(canvas);
-      await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+    for (let k = 0; k < files.length; k++) {
+      if (multi) pages.insertAdjacentHTML("beforeend", `<div class="pdf-sys-head">System ${k + 1} of ${files.length} · ${escapeHtml(files[k].label)}</div>`);
+      const doc = await lib.getDocument({ data: files[k].bytes.slice(), standardFontDataUrl: PDFJS_BASE + "standard_fonts/", verbosity: 0 }).promise;
+      for (let n = 1; n <= doc.numPages; n++) {
+        const page = await doc.getPage(n);
+        const base = page.getViewport({ scale: 1 });
+        const vp = page.getViewport({ scale: (width / base.width) * dpr });
+        const canvas = document.createElement("canvas");
+        canvas.className = "pdf-page";
+        canvas.width = Math.floor(vp.width);
+        canvas.height = Math.floor(vp.height);
+        pages.appendChild(canvas);
+        await page.render({ canvasContext: canvas.getContext("2d"), viewport: vp }).promise;
+      }
     }
   } catch (err) {
     console.error(err);
-    pages.innerHTML = `<div class="pdf-msg">Preview needs an internet connection the first time.<br>The PDF is ready – you can still share or save it.</div>`;
+    pages.innerHTML = `<div class="pdf-msg">Preview needs an internet connection the first time.<br>The PDF${multi ? "s are" : " is"} ready – you can still share or save ${multi ? "them" : "it"}.</div>`;
   }
 }
 async function sharePdf() {
   if (!pdfOut) return;
   if (!canShareFiles()) { toast("This browser can't share files – use Save to device"); return; }
   try {
-    await navigator.share({ title: "Peroxide Log", files: [pdfOut.file] });
+    await navigator.share({ title: "Peroxide Log", files: (pdfOut.files || [pdfOut]).map((f) => f.file) });
     closePdfReview();
     toast("PDF shared");
   } catch (e) {
@@ -3372,9 +3426,10 @@ async function sharePdf() {
 }
 function savePdf() {
   if (!pdfOut) return;
-  downloadBlob(pdfOut.blob, pdfOut.name);
+  const fs = pdfOut.files || [pdfOut];
+  fs.forEach((f, i) => setTimeout(() => downloadBlob(f.blob, f.name), i * 700));
   closePdfReview();
-  toast("PDF saved to device");
+  toast(fs.length > 1 ? `${fs.length} PDFs saved to device` : "PDF saved to device");
 }
 
 function parseCommentsInto(readings, text) {
@@ -3645,6 +3700,183 @@ function clearStoredSig(target) {
   fillSigs();
 }
 
+// ------------------------------------------------------------- multiple systems per job
+// One job can cover several systems (e.g. 4 towers on 2 chem stations). Customer info,
+// dates and signatures are shared. Per system: system info, times, checklists, tests,
+// readings and notes. The ACTIVE system lives in the normal job fields (job.readings,
+// job.checks, ...) so every existing screen keeps working untouched; the others are parked
+// in job.systems[i].data and swapped in when selected or exported.
+const SYS_DEFAULTS = { systemId: "", location: "", cells: "", duration4: true, otherHrs: "", startTime: "", startAmpm: "AM", finishTime: "", finishAmpm: "PM" };
+const SYS_KEYS = Object.keys(SYS_DEFAULTS);
+function systemsOf(job) { return job && Array.isArray(job.systems) && job.systems.length > 1 ? job.systems : null; }
+function snapshotSystem(job) {
+  const o = { header: {}, checks: { ...(job.checks || {}) }, readings: job.readings || [], extraNotes: job.extraNotes || "" };
+  SYS_KEYS.forEach((k) => { o.header[k] = job.header[k] !== undefined ? job.header[k] : SYS_DEFAULTS[k]; });
+  if (job.tests) o.tests = { ...job.tests };
+  return o;
+}
+function applySystem(job, data) {
+  SYS_KEYS.forEach((k) => { job.header[k] = data.header && data.header[k] !== undefined ? data.header[k] : SYS_DEFAULTS[k]; });
+  job.checks = data.checks || defaultChecks();
+  job.readings = data.readings || [];
+  job.extraNotes = data.extraNotes || "";
+  if (data.tests) job.tests = data.tests; else delete job.tests;
+}
+// pure data swap, no UI: the job is consistent before and after
+function switchSystemData(job, id) {
+  const list = systemsOf(job);
+  if (!list || id === job.activeSys) return false;
+  const next = list.find((x) => x.id === id);
+  const cur = list.find((x) => x.id === job.activeSys);
+  if (!next || !next.data || !cur) return false;
+  cur.data = snapshotSystem(job);
+  applySystem(job, next.data);
+  next.data = null;
+  job.activeSys = id;
+  return true;
+}
+function systemLabel(job, sys, i) {
+  const hdr = sys.id === job.activeSys ? job.header : (sys.data && sys.data.header) || {};
+  return String(sys.name || "").trim() || String(hdr.systemId || "").trim() || `System ${i + 1}`;
+}
+function systemReadingCount(job, sys) {
+  const arr = sys.id === job.activeSys ? job.readings : sys.data && sys.data.readings;
+  return Array.isArray(arr) ? arr.length : 0;
+}
+function totalReadings(job) {
+  const list = systemsOf(job);
+  if (!list) return Array.isArray(job.readings) ? job.readings.length : 0;
+  return list.reduce((n, sys) => n + systemReadingCount(job, sys), 0);
+}
+function renderSystems() {
+  const box = $("sysRow");
+  const job = activeJob();
+  if (!box || !job) return;
+  const list = systemsOf(job);
+  const labels = list ? list.map((x, i) => systemLabel(job, x, i)) : [];
+  const html = list
+    ? list.map((x, i) => {
+        const n = systemReadingCount(job, x);
+        return `<button type="button" class="chip ${x.id === job.activeSys ? "on" : ""}" data-sys="${x.id}" aria-pressed="${x.id === job.activeSys}"><b>${escapeHtml(labels[i])}</b><small>${n} reading${n === 1 ? "" : "s"}</small></button>`;
+      }).join("") + `<button type="button" class="chip add" id="btnAddSystem">${icon("plus")}Add system</button>`
+    : `<button type="button" class="chip add" id="btnAddSystem">${icon("plus")}Add another system</button>`;
+  if (box.dataset.sig !== html) { box.innerHTML = html; box.dataset.sig = html; }
+  $("sysCount").textContent = String(list ? list.length : 1);
+  $("sysActions").classList.toggle("hidden", !list);
+  $("sysHint").textContent = list
+    ? "Customer, site, dates and signatures are shared. System info, times, checklists and readings are per system. Export PDF makes one PDF for each system."
+    : "Building with more than one system? Add each system here instead of making separate jobs. They share the customer info and signatures, and each exports its own PDF.";
+  const idx = list ? list.findIndex((x) => x.id === job.activeSys) : -1;
+  document.querySelectorAll("[data-sys-tag]").forEach((t) => {
+    t.classList.toggle("hidden", !list);
+    t.textContent = list && idx >= 0 ? labels[idx] : "";
+  });
+  document.querySelectorAll('[data-sn-meta="cardSystems"]').forEach((m) => { m.textContent = list ? String(list.length) : ""; });
+}
+function addSystem() {
+  const job = activeJob();
+  if (!job) return;
+  flushPersist();
+  persist();
+  if (!systemsOf(job)) { job.systems = [{ id: uid(), name: "", data: null }]; job.activeSys = job.systems[0].id; }
+  const cur = job.systems.find((x) => x.id === job.activeSys);
+  cur.data = snapshotSystem(job);
+  const keep = cur.data.header;
+  const blank = {
+    header: { ...SYS_DEFAULTS, duration4: keep.duration4 !== false, otherHrs: keep.duration4 === false ? keep.otherHrs : "" },
+    checks: checksForNewJob(), readings: [], extraNotes: ""
+  };
+  if (cur.data.tests) blank.tests = { ...cur.data.tests };
+  const ns = { id: uid(), name: "", data: null };
+  job.systems.push(ns);
+  applySystem(job, blank);
+  job.activeSys = ns.id;
+  job.updated = Date.now();
+  saveState();
+  openReadingIds.clear();
+  fillAll();
+  const label = `System ${job.systems.length}`;
+  toast(`Added ${label} – fill in its system info`);
+  setTimeout(() => goSection("cardSystem"), 120);
+}
+function switchSystem(id) {
+  const job = activeJob();
+  if (!job || !systemsOf(job) || id === job.activeSys) return;
+  flushPersist();
+  persist();
+  if (!switchSystemData(job, id)) return;
+  job.updated = Date.now();
+  saveState();
+  openReadingIds.clear();
+  fillAll();
+  setTimeout(() => { checkDue(); syncWakeLock(); }, 50);
+  const list = job.systems;
+  toast(`Editing ${systemLabel(job, list.find((x) => x.id === id), list.findIndex((x) => x.id === id))}`);
+}
+function renameSystem() {
+  const job = activeJob();
+  const list = systemsOf(job);
+  if (!list) return;
+  const i = list.findIndex((x) => x.id === job.activeSys);
+  const next = prompt("System name (e.g. Towers 1-3 / Station A)", list[i].name || systemLabel(job, list[i], i));
+  if (next == null) return;
+  list[i].name = String(next).trim();
+  job.updated = Date.now();
+  saveState();
+  renderSystems();
+}
+function removeSystem() {
+  const job = activeJob();
+  const list = systemsOf(job);
+  if (!list) return;
+  flushPersist();
+  persist();
+  const i = list.findIndex((x) => x.id === job.activeSys);
+  const gone = { id: list[i].id, name: list[i].name || "", data: snapshotSystem(job) };
+  const label = systemLabel(job, list[i], i);
+  const neighbour = list[i + 1] || list[i - 1];
+  switchSystemData(job, neighbour.id);
+  job.systems = list.filter((x) => x.id !== gone.id);
+  if (job.systems.length < 2) { delete job.systems; delete job.activeSys; }
+  job.updated = Date.now();
+  saveState();
+  openReadingIds.clear();
+  fillAll();
+  toast(`Removed ${label}`, "Undo", () => {
+    flushPersist();
+    persist();
+    if (!systemsOf(job)) { job.systems = [{ id: job.activeSys || uid(), name: "", data: null }]; job.activeSys = job.systems[0].id; }
+    job.systems.splice(Math.min(i, job.systems.length), 0, { id: gone.id, name: gone.name, data: gone.data });
+    job.updated = Date.now();
+    saveState();
+    fillAll();
+    toast(`${label} restored`);
+  });
+}
+// Builds one PDF per system. Swaps each system in, builds from the normal job fields,
+// then restores whichever system was open.
+async function buildJobPdfs() {
+  const job = activeJob();
+  const list = systemsOf(job);
+  if (!list) return [{ label: "", bytes: await buildPdf() }];
+  readHeader();
+  saveState();
+  const ids = list.map((x) => x.id);
+  const orig = job.activeSys;
+  const out = [];
+  try {
+    for (let i = 0; i < ids.length; i++) {
+      switchSystemData(job, ids[i]);
+      const sys = job.systems.find((x) => x.id === ids[i]);
+      out.push({ label: systemLabel(job, sys, i), bytes: await buildPdf({ skipRead: true }) });
+    }
+  } finally {
+    switchSystemData(job, orig);
+    saveState();
+  }
+  return out;
+}
+
 function fillAll() {
   if (activeJob()) {
     fillHeader();
@@ -3652,6 +3884,7 @@ function fillAll() {
     renderChecks();
     renderReadings();
     updatePreview();
+    renderSystems();
   }
   renderJobs();
   applyMode();
@@ -3780,7 +4013,14 @@ function wire() {
   if ("serviceWorker" in navigator && location.protocol.startsWith("http")) navigator.serviceWorker.register("sw.js").catch(() => {});
 
   // export checklist jumps
-  $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) jumpTo(b.dataset.jump); });
+  $("sysRow").addEventListener("click", (e) => {
+    const b = e.target.closest("[data-sys]");
+    if (b) return switchSystem(b.dataset.sys);
+    if (e.target.closest("#btnAddSystem")) addSystem();
+  });
+  $("btnRenameSystem").addEventListener("click", renameSystem);
+  $("btnRemoveSystem").addEventListener("click", removeSystem);
+  $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) { if (b.dataset.sys) switchSystem(b.dataset.sys); jumpTo(b.dataset.jump); } });
 
   $("notesExtra").addEventListener("input", (e) => {
     const job = activeJob();
@@ -4037,7 +4277,7 @@ function wire() {
 }
 
 // ------------------------------------------------------------- app shell (v2)
-const SECTIONS = ["cardHeader", "cardSystem", "cardChecks", "cardReadings", "cardSigs"];
+const SECTIONS = ["cardHeader", "cardSystems", "cardSystem", "cardChecks", "cardReadings", "cardSigs"];
 function checksTally(job) {
   let yes = 0, total = 0;
   CHECKS.forEach((g) => g.items.forEach((i) => { total++; if (job.checks && job.checks[i.id]) yes++; }));
