@@ -337,7 +337,9 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
 .sys-row .chip.on { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
 .sys-row .chip.on small { color: inherit; opacity: .8; }
 .sys-row .chip.add { background: transparent; flex-direction: row; align-items: center; gap: 6px; border-style: dashed; color: var(--accent-text); font-weight: 600; }
-.sys-actions { display: flex; gap: 8px; margin-top: 12px; }
+.sys-actions { display: flex; flex-direction: column; align-items: stretch; gap: 10px; margin-top: 14px; }
+.sys-actions .sys-name label { margin-top: 0; }
+.sys-actions .btn { align-self: flex-start; }
 .sys-hint { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
 .sys-tag { font-family: var(--font); font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--accent-text); background: var(--accent-dim); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; white-space: nowrap; }
 .pdf-sys-head { margin: 14px 4px 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -885,6 +887,7 @@ html:not([data-theme="light"]):not([data-theme="sand"]):not([data-theme="sun"]) 
 .dock-inner { display: flex; align-items: center; gap: 8px; max-width: 760px; margin: 0 auto; }
 .dock .btn { min-height: 50px; }
 .dock #btnExport { flex: 1 1 auto; }
+.dock #btnExport.locked { background: var(--btn); color: var(--muted); box-shadow: none; border: 1px dashed var(--line-2); filter: none; }
 .dock #btnDockAdd { flex: 0 0 auto; padding: 0 16px; }
 .save-state {
   display: flex; align-items: center; justify-content: center; gap: 7px; height: 50px; padding: 0 14px; overflow: hidden;
@@ -990,6 +993,8 @@ body.list-mode .due-banner { bottom: calc(16px + env(safe-area-inset-bottom)); }
 .pdf-page { display: block; width: 100%; height: auto; background: #fff; border-radius: 6px; box-shadow: 0 6px 20px rgba(0, 0, 0, 0.22); animation: fadeUp 420ms var(--ease) both; }
 .pdf-page + .pdf-page { margin-top: 10px; }
 .pdf-msg { padding: 48px 16px; text-align: center; color: var(--muted); line-height: 1.55; }
+.pdf-msg.static::before { display: none; }
+.check-title .ico { display: inline-block; vertical-align: -3px; margin-right: 6px; }
 .pdf-msg::before { content: ""; display: block; width: 26px; height: 26px; margin: 0 auto 14px; border-radius: 50%; border: 3px solid var(--line-2); border-top-color: var(--accent); animation: spin 900ms linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }
 .pdf-actions { display: grid; grid-template-columns: 1fr 1.4fr; gap: 8px; padding-top: 12px; }
@@ -1055,6 +1060,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       <symbol id="i-more" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="12" cy="5" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="12" cy="19" r="1.9"/></g></symbol>
       <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4.5h6V7M18 7l-.8 12.2a1.5 1.5 0 0 1-1.5 1.3H8.3a1.5 1.5 0 0 1-1.5-1.3L6 7M10 11v6M14 11v6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-grip" viewBox="0 0 24 24"><g fill="currentColor"><circle cx="9" cy="6" r="1.6"/><circle cx="15" cy="6" r="1.6"/><circle cx="9" cy="12" r="1.6"/><circle cx="15" cy="12" r="1.6"/><circle cx="9" cy="18" r="1.6"/><circle cx="15" cy="18" r="1.6"/></g></symbol>
+      <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="9" rx="2.2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 11V8a3.5 3.5 0 0 1 7 0v3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
       <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
       <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
       <symbol id="i-alert" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.3 3.9 2.4 17.5a2 2 0 0 0 1.7 3h15.8a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/><path d="M12 9.5v4M12 17h.01"/></g></symbol>
@@ -1187,7 +1193,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </div>
       <div class="sys-row" id="sysRow"></div>
       <div class="sys-actions hidden" id="sysActions">
-        <button type="button" class="btn sm ghost" id="btnRenameSystem">Rename</button>
+        <div class="sys-name"><label for="f_sysName">Name of this system</label><input id="f_sysName" autocomplete="off" maxlength="40" /></div>
         <button type="button" class="btn sm ghost" id="btnRemoveSystem">Remove this system</button>
       </div>
       <p class="sys-hint" id="sysHint"></p>
@@ -1201,7 +1207,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </summary>
       <div>
         <div class="grid-2">
-          <div><label for="f_systemId" style="margin-top:4px">System ID</label><input id="f_systemId" list="dl_systemId" autocomplete="off" /></div>
+          <div><label for="f_systemId" style="margin-top:4px">System ID</label><input id="f_systemId" list="dl_systemId" autocomplete="off" placeholder="N/A" /></div>
           <div><label for="f_cells" style="margin-top:4px">No. cells</label><input id="f_cells" inputmode="numeric" class="num" /></div>
         </div>
         <label for="f_location">Location</label><input id="f_location" list="dl_location" autocomplete="off" />
@@ -1787,9 +1793,18 @@ function applyAutoTitle() {
 function applyTimesFromReadings() {
   const job = activeJob();
   const list = readingsOf();
-  if (!job || !list.length) return;
-  const first = list[0];
-  const last = list[list.length - 1];
+  if (!job) return;
+  let first = list[0], last = list[list.length - 1];
+  const sys = systemsOf(job);
+  if (sys) {
+    // shared start/finish: earliest first reading and latest last reading across ALL systems
+    const mins = (r) => { const c = r && parseClock(r.time, r.ampm); return c ? c.h * 60 + c.min : null; };
+    const all = sys.map((x) => systemView(job, x).readings || []).filter((l) => l.length);
+    if (!all.length) return;
+    first = all.map((l) => l[0]).filter((r) => mins(r) !== null).sort((a, b) => mins(a) - mins(b))[0] || first;
+    last = all.map((l) => l[l.length - 1]).filter((r) => mins(r) !== null).sort((a, b) => mins(b) - mins(a))[0] || last;
+  }
+  if (!first || !last) return;
   const h = job.header;
   if (first.time) {
     h.startTime = first.time;
@@ -2664,7 +2679,7 @@ function startOf(job) {
   if (!c || !m) return null;
   return new Date(+m[3], +m[1] - 1, +m[2], c.h, c.min);
 }
-function jobProgress(job) {
+function jobProgressOne(job) {
   const list = job.readings || [];
   const slots = Math.max(slotsFor(job), list.length);
   const done = list.filter((r) => statusIn(r, list, job) === "done").length;
@@ -2674,11 +2689,34 @@ function jobProgress(job) {
   const next = start && list.length < slots ? new Date(start.getTime() + list.length * 30 * 60000) : null;
   return { list, slots, done, readingsIn, signed, complete: readingsIn && signed, start, next };
 }
+// Whole-job progress. With several systems the job is only "complete" once EVERY system has
+// its full readings in and both signatures are on.
+function jobProgress(job) {
+  const sys = systemsOf(job);
+  if (!sys) { const p = jobProgressOne(job); p.maxSlots = p.slots; return p; }
+  const parts = sys.map((x) => jobProgressOne(systemView(job, x)));
+  const sum = (k) => parts.reduce((n, p) => n + p[k], 0);
+  const readingsIn = parts.every((p) => p.readingsIn);
+  const signed = !!(job.header && job.header.custSig && job.header.nalcoSig);
+  const starts = parts.map((p) => p.start).filter(Boolean).sort((a, b) => a - b);
+  const withNext = parts.filter((p) => p.next).sort((a, b) => a.next - b.next);
+  const act = parts[sys.findIndex((x) => x.id === job.activeSys)] || parts[0];
+  const lead = withNext[0] || act;
+  return {
+    list: lead.list, slots: sum("slots"), done: sum("done"), readingsIn, signed, complete: readingsIn && signed,
+    start: starts[0] || null, next: withNext[0] ? withNext[0].next : null, maxSlots: Math.max(...parts.map((p) => p.slots)), parts
+  };
+}
+// progress of the system being edited (readings strip), but "complete" means the whole job
+function systemProgress(job) {
+  const p = jobProgressOne(job);
+  return systemsOf(job) ? { ...p, complete: jobProgress(job).complete, wholeReadingsIn: jobProgress(job).readingsIn } : p;
+}
 function jobRunning(job) {
   const p = jobProgress(job);
   if (p.complete || !p.start || p.readingsIn) return false;
   const mins = (Date.now() - p.start.getTime()) / 60000;
-  return mins >= -30 && mins <= (p.slots - 1) * 30 + 120;
+  return mins >= -30 && mins <= ((p.maxSlots || p.slots) - 1) * 30 + 120;
 }
 function slotCount() {
   const h = activeJob().header;
@@ -2703,7 +2741,7 @@ function renderProgress() {
   renderHero();
   const box = $("progress");
   if (!box || !activeJob()) return;
-  const jp = jobProgress(activeJob());
+  const jp = systemProgress(activeJob());
   const was = completeSeen.get(activeJob().id);
   completeSeen.set(activeJob().id, jp.complete);
   if (jp.complete) {
@@ -3015,7 +3053,7 @@ function persist() {
   if (activeJob() && !state.listMode) readHeader();
   saveState();
   renderJobs();
-  if (activeJob() && !state.listMode) { updatePreview(); renderSystems(); }
+  if (activeJob() && !state.listMode) { updatePreview(); renderSystems(); updateExportLock(); }
 }
 
 let dragState = null;
@@ -3181,7 +3219,7 @@ async function buildPdf(opts = {}) {
   setCheck(form, "PM", h.startAmpm === "PM");
   setCheck(form, "AM_2", h.finishAmpm === "AM");
   setCheck(form, "PM_2", h.finishAmpm === "PM");
-  setText(form, "System ID", h.systemId);
+  setText(form, "System ID", String(h.systemId || "").trim() || "N/A");
   setText(form, "Location", h.location);
   setText(form, "No Cells", h.cells);
   setCheck(form, "4Hrs", h.duration4 !== false);
@@ -3293,20 +3331,22 @@ function closePdfReview() {
   $("pdfBack").classList.remove("show");
   $("pdfSheet").classList.remove("show");
 }
+// Items marked block:true LOCK the export. Everything else is just a heads-up.
+// SOR # is never required; System ID falls back to "N/A" on the PDF.
 function exportChecks() {
   const job = activeJob(), h = job.header;
   const items = [];
-  const need = (ok, label, jump, sys) => { if (!ok) items.push({ label, jump, sys }); };
-  need(h.customer, "Customer name", "f_customer");
-  need(h.address, "Site address", "f_address");
+  const need = (ok, label, jump, sys, block) => { if (!String(ok == null ? "" : ok).trim() && ok !== true) items.push({ label, jump, sys, block: !!block }); };
+  [["customer", "Customer name", "f_customer"], ["address", "Site address", "f_address"], ["city", "City", "f_city"],
+   ["state", "State", "f_state"], ["zip", "Zip", "f_zip"], ["attention", "Attention", "f_attention"], ["copies", "Copies to", "f_copies"]]
+    .forEach(([k, label, id]) => need(h[k], label, id, "", true));
   const list = systemsOf(job);
   const perSystem = (pre, sys) => {
     const hh = job.header;
-    need(hh.systemId, pre + "System ID", "f_systemId", sys);
-    need(hh.location, pre + "Location", "f_location", sys);
-    need(hh.cells, pre + "Number of cells", "f_cells", sys);
-    need(readingsOf().length, pre + "No readings logged", "btnAddReading", sys);
-    missingReadingNotes().forEach((m) => items.push({ label: pre + m.charAt(0).toUpperCase() + m.slice(1), jump: "readings", sys }));
+    need(hh.location, pre + "Location", "f_location", sys, true);
+    need(hh.cells, pre + "Number of cells", "f_cells", sys, true);
+    if (!readingsOf().length) items.push({ label: pre + "No readings logged", jump: "btnAddReading", sys, block: false });
+    missingReadingNotes().forEach((m) => items.push({ label: pre + m.charAt(0).toUpperCase() + m.slice(1), jump: "readings", sys, block: false }));
   };
   if (!list) perSystem("", "");
   else {
@@ -3319,19 +3359,35 @@ function exportChecks() {
       });
     } finally { switchSystemData(job, orig); }
   }
-  need(h.custName, "Customer print name", "f_custName");
-  need(h.custSig, "Customer signature", "sig:cust");
-  need(h.nalcoName, "Technician print name", "f_nalcoName");
-  need(h.nalcoSig, "Technician signature", "sig:nalco");
+  need(h.custName, "Customer print name", "f_custName", "", true);
+  need(h.custSig, "Customer signature", "sig:cust", "", true);
+  need(h.nalcoName, "Technician print name", "f_nalcoName", "", true);
+  need(h.nalcoSig, "Technician signature", "sig:nalco", "", true);
   return items;
+}
+function exportBlockers() { return exportChecks().filter((i) => i.block); }
+function updateExportLock() {
+  const b = $("btnExport");
+  const job = activeJob();
+  if (!b || !job) return;
+  const n = exportBlockers().length;
+  b.classList.toggle("locked", n > 0);
+  b.setAttribute("aria-label", n ? `Export PDF locked, ${n} thing${n === 1 ? "" : "s"} missing` : "Export PDF");
+  const use = b.querySelector("use");
+  if (use) use.setAttribute("href", n ? "#i-lock" : "#i-share");
 }
 function renderExportCheck() {
   const items = exportChecks();
+  const blockers = items.filter((i) => i.block);
+  const notes = items.filter((i) => !i.block);
   const box = $("pdfCheck");
+  const row = (it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`;
   box.classList.toggle("ok", !items.length);
   box.innerHTML = items.length
-    ? `<div class="check-title">${items.length} thing${items.length === 1 ? "" : "s"} to check before sending</div>${items.map((it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`).join("")}`
+    ? (blockers.length ? `<div class="check-title">${icon("lock")} Export is locked – ${blockers.length} required thing${blockers.length === 1 ? "" : "s"} missing</div>${blockers.map(row).join("")}` : "")
+      + (notes.length ? `<div class="check-title">${notes.length} thing${notes.length === 1 ? "" : "s"} worth checking</div>${notes.map(row).join("")}` : "")
     : `<div class="check-ok">${icon("check")}Everything's filled in – ready to send</div>`;
+  return blockers.length;
 }
 function jumpTo(target) {
   closePdfReview();
@@ -3357,7 +3413,16 @@ async function openPdfReview() {
   persist();
   pdfOut = null;
   const pages = $("pdfPages");
-  renderExportCheck();
+  const blocked = renderExportCheck();
+  if (blocked) {
+    $("pdfShareNote").classList.add("hidden");
+    $("btnPdfShare").disabled = true;
+    $("btnPdfDownload").disabled = true;
+    pages.innerHTML = `<div class="pdf-msg static">The PDF stays locked until the items above are filled in.<br>Tap Fix to jump straight to each one.</div>`;
+    $("pdfBack").classList.add("show");
+    $("pdfSheet").classList.add("show");
+    return;
+  }
   const shareable = canShareFiles();
   $("pdfShareNote").classList.toggle("hidden", shareable);
   $("btnPdfShare").disabled = true;
@@ -3702,22 +3767,22 @@ function clearStoredSig(target) {
 
 // ------------------------------------------------------------- multiple systems per job
 // One job can cover several systems (e.g. 4 towers on 2 chem stations). Customer info,
-// dates and signatures are shared. Per system: system info, times, checklists, tests,
-// readings and notes. The ACTIVE system lives in the normal job fields (job.readings,
-// job.checks, ...) so every existing screen keeps working untouched; the others are parked
+// dates, disinfection period, start/finish times, checklists and signatures are shared. Per
+// system: system ID / location / cells, tests, readings and notes. The ACTIVE system lives in
+// the normal job fields (job.readings, ...) so every existing screen keeps working untouched;
+// the others are parked
 // in job.systems[i].data and swapped in when selected or exported.
-const SYS_DEFAULTS = { systemId: "", location: "", cells: "", duration4: true, otherHrs: "", startTime: "", startAmpm: "AM", finishTime: "", finishAmpm: "PM" };
+const SYS_DEFAULTS = { systemId: "", location: "", cells: "" };
 const SYS_KEYS = Object.keys(SYS_DEFAULTS);
 function systemsOf(job) { return job && Array.isArray(job.systems) && job.systems.length > 1 ? job.systems : null; }
 function snapshotSystem(job) {
-  const o = { header: {}, checks: { ...(job.checks || {}) }, readings: job.readings || [], extraNotes: job.extraNotes || "" };
+  const o = { header: {}, readings: job.readings || [], extraNotes: job.extraNotes || "" };
   SYS_KEYS.forEach((k) => { o.header[k] = job.header[k] !== undefined ? job.header[k] : SYS_DEFAULTS[k]; });
   if (job.tests) o.tests = { ...job.tests };
   return o;
 }
 function applySystem(job, data) {
   SYS_KEYS.forEach((k) => { job.header[k] = data.header && data.header[k] !== undefined ? data.header[k] : SYS_DEFAULTS[k]; });
-  job.checks = data.checks || defaultChecks();
   job.readings = data.readings || [];
   job.extraNotes = data.extraNotes || "";
   if (data.tests) job.tests = data.tests; else delete job.tests;
@@ -3734,6 +3799,11 @@ function switchSystemData(job, id) {
   next.data = null;
   job.activeSys = id;
   return true;
+}
+function systemView(job, sys) {
+  if (sys.id === job.activeSys || !sys.data) return job;
+  const d = sys.data;
+  return { ...job, header: { ...job.header, ...(d.header || {}) }, readings: d.readings || [], tests: d.tests, extraNotes: d.extraNotes || "" };
 }
 function systemLabel(job, sys, i) {
   const hdr = sys.id === job.activeSys ? job.header : (sys.data && sys.data.header) || {};
@@ -3763,8 +3833,14 @@ function renderSystems() {
   if (box.dataset.sig !== html) { box.innerHTML = html; box.dataset.sig = html; }
   $("sysCount").textContent = String(list ? list.length : 1);
   $("sysActions").classList.toggle("hidden", !list);
+  const nameBox = $("f_sysName");
+  if (list && nameBox) {
+    const ai = list.findIndex((x) => x.id === job.activeSys);
+    nameBox.placeholder = job.header.systemId || `System ${ai + 1}`;
+    if (document.activeElement !== nameBox) nameBox.value = (list[ai] && list[ai].name) || "";
+  }
   $("sysHint").textContent = list
-    ? "Customer, site, dates and signatures are shared. System info, times, checklists and readings are per system. Export PDF makes one PDF for each system."
+    ? "Customer, site, dates, times, checklists and signatures are shared. System ID, location, cells and readings are per system. Export PDF makes one PDF for each system."
     : "Building with more than one system? Add each system here instead of making separate jobs. They share the customer info and signatures, and each exports its own PDF.";
   const idx = list ? list.findIndex((x) => x.id === job.activeSys) : -1;
   document.querySelectorAll("[data-sys-tag]").forEach((t) => {
@@ -3781,11 +3857,9 @@ function addSystem() {
   if (!systemsOf(job)) { job.systems = [{ id: uid(), name: "", data: null }]; job.activeSys = job.systems[0].id; }
   const cur = job.systems.find((x) => x.id === job.activeSys);
   cur.data = snapshotSystem(job);
-  const keep = cur.data.header;
-  const blank = {
-    header: { ...SYS_DEFAULTS, duration4: keep.duration4 !== false, otherHrs: keep.duration4 === false ? keep.otherHrs : "" },
-    checks: checksForNewJob(), readings: [], extraNotes: ""
-  };
+  const first = job.systems[0];
+  const firstHdr = first.id === job.activeSys ? job.header : (first.data && first.data.header) || {};
+  const blank = { header: { ...SYS_DEFAULTS, location: firstHdr.location || "" }, readings: [], extraNotes: "" };
   if (cur.data.tests) blank.tests = { ...cur.data.tests };
   const ns = { id: uid(), name: "", data: null };
   job.systems.push(ns);
@@ -3813,14 +3887,13 @@ function switchSystem(id) {
   const list = job.systems;
   toast(`Editing ${systemLabel(job, list.find((x) => x.id === id), list.findIndex((x) => x.id === id))}`);
 }
-function renameSystem() {
+function renameSystemLive(value) {
   const job = activeJob();
   const list = systemsOf(job);
   if (!list) return;
-  const i = list.findIndex((x) => x.id === job.activeSys);
-  const next = prompt("System name (e.g. Towers 1-3 / Station A)", list[i].name || systemLabel(job, list[i], i));
-  if (next == null) return;
-  list[i].name = String(next).trim();
+  const x = list.find((y) => y.id === job.activeSys);
+  if (!x) return;
+  x.name = String(value || "").trim().slice(0, 40);
   job.updated = Date.now();
   saveState();
   renderSystems();
@@ -3885,6 +3958,7 @@ function fillAll() {
     renderReadings();
     updatePreview();
     renderSystems();
+    updateExportLock();
   }
   renderJobs();
   applyMode();
@@ -4018,7 +4092,7 @@ function wire() {
     if (b) return switchSystem(b.dataset.sys);
     if (e.target.closest("#btnAddSystem")) addSystem();
   });
-  $("btnRenameSystem").addEventListener("click", renameSystem);
+  $("f_sysName").addEventListener("input", (e) => renameSystemLive(e.target.value));
   $("btnRemoveSystem").addEventListener("click", removeSystem);
   $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) { if (b.dataset.sys) switchSystem(b.dataset.sys); jumpTo(b.dataset.jump); } });
 
