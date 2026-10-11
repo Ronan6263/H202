@@ -330,16 +330,20 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
   }
   details.card[open]::details-content, details.job-group[open]::details-content { block-size: auto; }
 }
-.sys-row { display: flex; gap: 8px; flex-wrap: wrap; }
-.sys-row .chip { flex: 0 0 auto; width: auto; display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-height: 52px; padding: 8px 16px; text-align: left; border-radius: 14px; border: 1px solid var(--line-2); background: var(--input); color: var(--text); }
+.sys-bar { position: sticky; top: calc(var(--hdr-h) - 1px); z-index: 6; margin: 0 -8px 12px; padding: 8px; background: var(--panel); border-bottom: 1px solid var(--line); border-radius: 12px; }
+.sys-row { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.sys-row::-webkit-scrollbar { display: none; }
+.card.sub { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: none; padding: 0; margin: 18px 0 0; }
+details.card.sub > summary { padding: 14px 0 12px; border-radius: 12px; }
+details.card.sub > summary + * { padding: 2px 0 4px; }
+.sys-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.sys-row .chip { flex: 0 0 auto; width: auto; display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-height: 46px; padding: 6px 14px; text-align: left; border-radius: 14px; border: 1px solid var(--line-2); background: var(--input); color: var(--text); }
 .sys-row .chip b { font-weight: 600; font-size: 15px; }
 .sys-row .chip small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
 .sys-row .chip.on { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-text); }
 .sys-row .chip.on small { color: inherit; opacity: .8; }
-.sys-row .chip.add { background: transparent; flex-direction: row; align-items: center; gap: 6px; border-style: dashed; color: var(--accent-text); font-weight: 600; }
-.sys-actions { display: flex; flex-direction: column; align-items: stretch; gap: 10px; margin-top: 14px; }
-.sys-actions .sys-name label { margin-top: 0; }
-.sys-actions .btn { align-self: flex-start; }
+.sys-row .chip.add { background: transparent; flex-direction: row; min-height: 46px; padding: 6px 14px; align-items: center; gap: 6px; border-style: dashed; color: var(--accent-text); font-weight: 600; }
+.sys-name { margin-bottom: 4px; }
 .sys-hint { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
 .sys-tag { font-family: var(--font); font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--accent-text); background: var(--accent-dim); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; white-space: nowrap; }
 .pdf-sys-head { margin: 14px 4px 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
@@ -1105,9 +1109,8 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
     <nav class="section-nav" id="sectionNav" aria-label="Job sections">
       <button type="button" class="sn-btn" data-sec="cardHeader"><span class="sn-dot"></span>Site</button>
       <button type="button" class="sn-btn" data-sec="cardSystems"><span class="sn-dot"></span>Systems<span class="sn-meta" data-sn-meta="cardSystems"></span></button>
-      <button type="button" class="sn-btn" data-sec="cardSystem"><span class="sn-dot"></span>System</button>
-      <button type="button" class="sn-btn" data-sec="cardChecks"><span class="sn-dot"></span>Checklists<span class="sn-meta" data-sn-meta="cardChecks"></span></button>
       <button type="button" class="sn-btn" data-sec="cardReadings"><span class="sn-dot"></span>Readings<span class="sn-meta" data-sn-meta="cardReadings"></span></button>
+      <button type="button" class="sn-btn" data-sec="cardChecks"><span class="sn-dot"></span>Checklists<span class="sn-meta" data-sn-meta="cardChecks"></span></button>
       <button type="button" class="sn-btn" data-sec="cardSigs"><span class="sn-dot"></span>Signatures<span class="sn-meta" data-sn-meta="cardSigs"></span></button>
     </nav>
   </header>
@@ -1185,34 +1188,6 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
           <div><label for="f_startTime">Start time</label><input id="f_startTime" type="time" /></div>
           <div><label for="f_finishTime">Finish time</label><input id="f_finishTime" type="time" /></div>
         </div>
-      </div>
-    </details>
-
-    <section class="card" id="cardSystems">
-      <div class="card-head" style="margin-bottom:12px">
-        <div><span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span><h2>Systems</h2></div>
-        <span class="pill"><span class="num" id="sysCount">1</span>&nbsp;on this job</span>
-      </div>
-      <div class="sys-row" id="sysRow"></div>
-      <div class="sys-actions hidden" id="sysActions">
-        <div class="sys-name"><label for="f_sysName">Name of this system</label><input id="f_sysName" autocomplete="off" maxlength="40" /></div>
-        <button type="button" class="btn sm ghost" id="btnRemoveSystem">Remove this system</button>
-      </div>
-      <p class="sys-hint" id="sysHint"></p>
-    </section>
-
-    <details class="card" id="cardSystem">
-      <summary>
-        <span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span>
-        <div><h2>System<span class="sys-tag hidden" data-sys-tag></span></h2><span class="count" id="systemSummary">Tower info and duration</span></div>
-        <svg class="ico chev"><use href="#i-chev"/></svg>
-      </summary>
-      <div>
-        <div class="grid-2">
-          <div><label for="f_systemId" style="margin-top:4px">System ID</label><input id="f_systemId" list="dl_systemId" autocomplete="off" placeholder="N/A" /></div>
-          <div><label for="f_cells" style="margin-top:4px">No. cells</label><input id="f_cells" inputmode="numeric" class="num" /></div>
-        </div>
-        <label for="f_location">Location</label><input id="f_location" list="dl_location" autocomplete="off" />
         <label>Total disinfection period</label>
         <div class="seg">
           <button type="button" class="chip on" id="dur4">4 hours</button>
@@ -1222,19 +1197,24 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </div>
     </details>
 
-    <details class="card" id="cardChecks">
-      <summary>
-        <span class="sec-ico"><svg class="ico"><use href="#i-clip"/></svg></span>
-        <div><h2>Checklists<span class="sys-tag hidden" data-sys-tag></span></h2><span class="count" id="checkSummary">Pre-job, customer, post-job</span></div>
-        <svg class="ico chev"><use href="#i-chev"/></svg>
-      </summary>
-      <div id="checkLists"></div>
-    </details>
-
-    <details class="card" id="cardReadings" open>
+    <section class="card" id="cardSystems">
+      <div class="card-head" style="margin-bottom:10px">
+        <div><span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span><div><h2 id="sysTitle">System</h2><span class="count" id="systemSummary">ID, location, cells</span></div></div>
+        <span class="pill hidden" id="sysCountPill"><span class="num" id="sysCount">1</span>&nbsp;systems</span>
+      </div>
+      <div class="sys-bar hidden" id="sysBar"><div class="sys-row" id="sysRow"></div></div>
+      <div class="sys-panel">
+        <div class="sys-name hidden" id="sysNameWrap"><label for="f_sysName" style="margin-top:4px">System name</label><input id="f_sysName" autocomplete="off" maxlength="40" /></div>
+        <div class="grid-2">
+          <div><label for="f_systemId" style="margin-top:4px">System ID</label><input id="f_systemId" list="dl_systemId" autocomplete="off" placeholder="N/A" /></div>
+          <div><label for="f_cells" style="margin-top:4px">No. cells</label><input id="f_cells" inputmode="numeric" class="num" /></div>
+        </div>
+        <label for="f_location">Location</label><input id="f_location" list="dl_location" autocomplete="off" />
+      </div>
+    <details class="card sub" id="cardReadings" open>
       <summary>
         <span class="sec-ico"><svg class="ico"><use href="#i-flask"/></svg></span>
-        <div><h2>Readings<span class="sys-tag hidden" data-sys-tag></span></h2></div>
+        <div><h2>Readings</h2></div>
         <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
         <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
@@ -1255,6 +1235,21 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </div>
       <pre class="preview" id="commentsPreview"></pre>
       </div>
+    </details>
+      <div class="sys-foot">
+        <button type="button" class="btn sm ghost" id="btnAddSystemSolo"><svg class="ico sm"><use href="#i-plus"/></svg>Add another system</button>
+        <button type="button" class="btn sm ghost danger hidden" id="btnRemoveSystem">Remove this system</button>
+      </div>
+      <p class="sys-hint" id="sysHint"></p>
+    </section>
+
+    <details class="card" id="cardChecks">
+      <summary>
+        <span class="sec-ico"><svg class="ico"><use href="#i-clip"/></svg></span>
+        <div><h2>Checklists</h2><span class="count" id="checkSummary">Pre-job, customer, post-job</span></div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
+      </summary>
+      <div id="checkLists"></div>
     </details>
 
     <details class="card" id="cardSigs">
@@ -3826,29 +3821,35 @@ function renderSystems() {
   if (!box || !job) return;
   const list = systemsOf(job);
   const labels = list ? list.map((x, i) => systemLabel(job, x, i)) : [];
-  const html = list
-    ? list.map((x, i) => {
-        const n = systemReadingCount(job, x);
-        return `<button type="button" class="chip ${x.id === job.activeSys ? "on" : ""}" data-sys="${x.id}" aria-pressed="${x.id === job.activeSys}"><b>${escapeHtml(labels[i])}</b><small>${n} reading${n === 1 ? "" : "s"}</small></button>`;
-      }).join("") + `<button type="button" class="chip add" id="btnAddSystem">${icon("plus")}Add system</button>`
-    : `<button type="button" class="chip add" id="btnAddSystem">${icon("plus")}Add another system</button>`;
-  if (box.dataset.sig !== html) { box.innerHTML = html; box.dataset.sig = html; }
+  if (list) {
+    const html = list.map((x, i) => {
+      const p = jobProgressOne(systemView(job, x));
+      const done = p.readingsIn;
+      return `<button type="button" class="chip ${x.id === job.activeSys ? "on" : ""}" data-sys="${x.id}" aria-pressed="${x.id === job.activeSys}"><b>${escapeHtml(labels[i])}</b><small>${done ? "✓ " : ""}${p.done}/${p.slots} readings</small></button>`;
+    }).join("") + `<button type="button" class="chip add" id="btnAddSystem" aria-label="Add system">${icon("plus")}Add</button>`;
+    if (box.dataset.sig !== html) {
+      const keep = box.scrollLeft;
+      box.innerHTML = html; box.dataset.sig = html; box.scrollLeft = keep;
+      const on = box.querySelector(".chip.on");
+      if (on && (on.offsetLeft < box.scrollLeft || on.offsetLeft + on.offsetWidth > box.scrollLeft + box.clientWidth)) box.scrollLeft = Math.max(0, on.offsetLeft - 16);
+    }
+  } else box.dataset.sig = "";
+  $("sysBar").classList.toggle("hidden", !list);
+  $("sysNameWrap").classList.toggle("hidden", !list);
+  $("sysCountPill").classList.toggle("hidden", !list);
+  $("btnRemoveSystem").classList.toggle("hidden", !list);
+  $("btnAddSystemSolo").classList.toggle("hidden", !!list);
+  $("sysTitle").textContent = list ? "Systems" : "System";
   $("sysCount").textContent = String(list ? list.length : 1);
-  $("sysActions").classList.toggle("hidden", !list);
+  $("sysHint").textContent = list
+    ? "Customer, site, dates, times, checklists and signatures are shared. System ID, location, cells and readings are per system. Export PDF makes one PDF for each system."
+    : "More than one system in the building? Add each one here instead of making separate jobs. They share the customer info and signatures, and each exports its own PDF.";
   const nameBox = $("f_sysName");
   if (list && nameBox) {
     const ai = list.findIndex((x) => x.id === job.activeSys);
     nameBox.placeholder = job.header.systemId || `System ${ai + 1}`;
     if (document.activeElement !== nameBox) nameBox.value = (list[ai] && list[ai].name) || "";
   }
-  $("sysHint").textContent = list
-    ? "Customer, site, dates, times, checklists and signatures are shared. System ID, location, cells and readings are per system. Export PDF makes one PDF for each system."
-    : "Building with more than one system? Add each system here instead of making separate jobs. They share the customer info and signatures, and each exports its own PDF.";
-  const idx = list ? list.findIndex((x) => x.id === job.activeSys) : -1;
-  document.querySelectorAll("[data-sys-tag]").forEach((t) => {
-    t.classList.toggle("hidden", !list);
-    t.textContent = list && idx >= 0 ? labels[idx] : "";
-  });
   document.querySelectorAll('[data-sn-meta="cardSystems"]').forEach((m) => { m.textContent = list ? String(list.length) : ""; });
 }
 function addSystem() {
@@ -3873,7 +3874,7 @@ function addSystem() {
   fillAll();
   const label = `System ${job.systems.length}`;
   toast(`Added ${label} – fill in its system info`);
-  setTimeout(() => goSection("cardSystem"), 120);
+  setTimeout(() => { goSection("cardSystems"); const f = $("f_systemId"); if (f) f.focus({ preventScroll: true }); }, 150);
 }
 function switchSystem(id) {
   const job = activeJob();
@@ -4094,6 +4095,7 @@ function wire() {
     if (b) return switchSystem(b.dataset.sys);
     if (e.target.closest("#btnAddSystem")) addSystem();
   });
+  $("btnAddSystemSolo").addEventListener("click", addSystem);
   $("f_sysName").addEventListener("input", (e) => renameSystemLive(e.target.value));
   $("btnRemoveSystem").addEventListener("click", removeSystem);
   $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) { if (b.dataset.sys) switchSystem(b.dataset.sys); jumpTo(b.dataset.jump); } });
@@ -4353,7 +4355,7 @@ function wire() {
 }
 
 // ------------------------------------------------------------- app shell (v2)
-const SECTIONS = ["cardHeader", "cardSystems", "cardSystem", "cardChecks", "cardReadings", "cardSigs"];
+const SECTIONS = ["cardHeader", "cardSystems", "cardReadings", "cardChecks", "cardSigs"];
 function checksTally(job) {
   let yes = 0, total = 0;
   CHECKS.forEach((g) => g.items.forEach((i) => { total++; if (job.checks && job.checks[i.id]) yes++; }));
@@ -4408,7 +4410,7 @@ function renderSectionNav(job, jp, ct, sigs) {
   const has = (...k) => k.every((f) => String(h[f] || "").trim());
   const ok = {
     cardHeader: has("customer", "address"),
-    cardSystem: has("systemId", "location", "cells"),
+    cardSystems: (systemsOf(job) || [{ id: job.activeSys }]).every((x) => { const hh = systemView(job, x).header || {}; return String(hh.location || "").trim() && String(hh.cells || "").trim(); }),
     cardChecks: ct.yes > 0,
     cardReadings: jp.readingsIn,
     cardSigs: sigs === 2
@@ -4417,7 +4419,7 @@ function renderSectionNav(job, jp, ct, sigs) {
   document.querySelectorAll(".sn-btn").forEach((b) => b.classList.toggle("ok", !!ok[b.dataset.sec]));
   document.querySelectorAll("[data-sn-meta]").forEach((m) => { m.textContent = meta[m.dataset.snMeta] || ""; });
   const sys = $("systemSummary");
-  if (sys) sys.textContent = [h.systemId, h.location, h.cells ? `${h.cells} cell${h.cells === "1" ? "" : "s"}` : ""].filter(Boolean).join(" · ") || "Tower info and duration";
+  if (sys) sys.textContent = [h.systemId, h.location, h.cells ? `${h.cells} cell${h.cells === "1" ? "" : "s"}` : ""].filter(Boolean).join(" · ") || "ID, location, cells";
 }
 function headerH() {
   const hdr = $("appHeader");
