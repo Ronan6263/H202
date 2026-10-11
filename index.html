@@ -312,7 +312,8 @@ details.card > summary:active { background: var(--hover); }
 details.card > summary h2 { margin: 0; }
 details.card > summary .count { margin-top: 1px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 details.card > summary > div { min-width: 0; flex: 1; }
-details.card > summary .chev { margin-left: auto; color: var(--faint); transition: transform 360ms var(--spring), color 200ms var(--ease); }
+details.card > summary .pill { flex: 0 0 auto; }
+details.card > summary .chev { margin-left: 0; flex: 0 0 auto; color: var(--faint); transition: transform 360ms var(--spring), color 200ms var(--ease); }
 details.card[open] > summary .chev { transform: rotate(180deg); color: var(--muted); }
 details.card > summary + * { padding: 2px 16px 18px; }
 details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
@@ -1196,11 +1197,14 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       <div id="checkLists"></div>
     </details>
 
-    <section class="card" id="cardReadings">
-      <div class="card-head">
-        <div><span class="sec-ico"><svg class="ico"><use href="#i-flask"/></svg></span><h2>Readings</h2></div>
+    <details class="card" id="cardReadings" open>
+      <summary>
+        <span class="sec-ico"><svg class="ico"><use href="#i-flask"/></svg></span>
+        <div><h2>Readings</h2></div>
         <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
-      </div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
+      </summary>
+      <div>
       <div class="tests-row" id="testsRow"></div>
       <div class="progress" id="progress"></div>
       <div id="readingList"></div>
@@ -1216,7 +1220,8 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         <span class="notes-state">Auto</span>
       </div>
       <pre class="preview" id="commentsPreview"></pre>
-    </section>
+      </div>
+    </details>
 
     <details class="card" id="cardSigs">
       <summary>
@@ -3287,6 +3292,7 @@ function jumpTo(target) {
   closePdfReview();
   if (target.startsWith("sig:")) { $("cardSigs").open = true; setTimeout(() => openSig(target.slice(4)), 300); return; }
   if (target === "readings" || target === "btnAddReading") {
+    $("cardReadings").open = true;
     const firstOpen = readingsOf().find((r) => readingStatus(r) !== "done");
     if (firstOpen && target === "readings") { openReadingIds.add(firstOpen.id); renderReadings(); }
     setTimeout(() => {
