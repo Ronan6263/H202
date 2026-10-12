@@ -344,6 +344,8 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
 .sys-bar { position: sticky; top: calc(var(--hdr-h) - 1px); z-index: 6; margin: 0 -8px 12px; padding: 8px; background: var(--panel); border-bottom: 1px solid var(--line); border-radius: 12px; }
 .sys-row { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .sys-row::-webkit-scrollbar { display: none; }
+/* fade the tab row out where more tabs are hidden, instead of cutting them off */
+.sys-row { --fl: 0px; --fr: 0px; -webkit-mask-image: linear-gradient(to right, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%); mask-image: linear-gradient(to right, transparent 0, #000 var(--fl), #000 calc(100% - var(--fr)), transparent 100%); }
 .sys-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
 .sys-bar { display: flex; align-items: center; gap: 8px; }
 .sys-bar .sys-row { flex: 1 1 auto; min-width: 0; }
@@ -3823,6 +3825,13 @@ function totalReadings(job) {
   if (!list) return Array.isArray(job.readings) ? job.readings.length : 0;
   return list.reduce((n, sys) => n + systemReadingCount(job, sys), 0);
 }
+function updateSysFade() {
+  const box = $("sysRow");
+  if (!box) return;
+  const max = box.scrollWidth - box.clientWidth;
+  box.style.setProperty("--fl", box.scrollLeft > 2 ? "32px" : "0px");
+  box.style.setProperty("--fr", max > 2 && box.scrollLeft < max - 2 ? "32px" : "0px");
+}
 function renderSystems() {
   const box = $("sysRow");
   const job = activeJob();
@@ -3842,6 +3851,7 @@ function renderSystems() {
     }
   } else box.dataset.sig = "";
   box.classList.toggle("hidden", !list);
+  updateSysFade();
   $("sysBar").classList.toggle("single", !list);
   $("addSysLabel").textContent = list ? "Add" : "Add another system";
   $("btnAddSystem").setAttribute("aria-label", list ? "Add system" : "Add another system");
@@ -4102,6 +4112,8 @@ function wire() {
     if (b) switchSystem(b.dataset.sys);
   });
   $("btnAddSystem").addEventListener("click", addSystem);
+  $("sysRow").addEventListener("scroll", updateSysFade, { passive: true });
+  window.addEventListener("resize", updateSysFade);
   $("f_sysName").addEventListener("input", (e) => renameSystemLive(e.target.value));
   $("btnRemoveSystem").addEventListener("click", removeSystem);
   $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) { if (b.dataset.sys) switchSystem(b.dataset.sys); jumpTo(b.dataset.jump); } });
