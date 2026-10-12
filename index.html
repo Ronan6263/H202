@@ -905,7 +905,6 @@ html:not([data-theme="light"]):not([data-theme="sand"]):not([data-theme="sun"]) 
 .dock-inner { display: flex; align-items: center; gap: 8px; max-width: 760px; margin: 0 auto; }
 .dock .btn { min-height: 50px; }
 .dock #btnExport { flex: 1 1 auto; }
-.dock #btnExport.locked { background: var(--btn); color: var(--muted); box-shadow: none; border: 1px dashed var(--line-2); filter: none; }
 .dock #btnDockAdd { flex: 0 0 auto; padding: 0 16px; }
 .save-state {
   display: flex; align-items: center; justify-content: center; gap: 7px; height: 50px; padding: 0 14px; overflow: hidden;
@@ -3060,7 +3059,7 @@ function persist() {
   if (activeJob() && !state.listMode) readHeader();
   saveState();
   renderJobs();
-  if (activeJob() && !state.listMode) { updatePreview(); renderSystems(); updateExportLock(); }
+  if (activeJob() && !state.listMode) { updatePreview(); renderSystems(); }
 }
 
 let dragState = null;
@@ -3338,22 +3337,22 @@ function closePdfReview() {
   $("pdfBack").classList.remove("show");
   $("pdfSheet").classList.remove("show");
 }
-// Items marked block:true LOCK the export. Everything else is just a heads-up.
-// SOR # is never required; System ID falls back to "N/A" on the PDF.
+// Missing items are heads-ups only (the PDF can always be exported). SOR # is never checked;
+// System ID falls back to "N/A" on the PDF.
 function exportChecks() {
   const job = activeJob(), h = job.header;
   const items = [];
-  const need = (ok, label, jump, sys, block) => { if (!String(ok == null ? "" : ok).trim() && ok !== true) items.push({ label, jump, sys, block: !!block }); };
+  const need = (ok, label, jump, sys) => { if (!String(ok == null ? "" : ok).trim() && ok !== true) items.push({ label, jump, sys }); };
   [["customer", "Customer name", "f_customer"], ["address", "Site address", "f_address"], ["city", "City", "f_city"],
    ["state", "State", "f_state"], ["zip", "Zip", "f_zip"], ["attention", "Attention", "f_attention"], ["copies", "Copies to", "f_copies"]]
-    .forEach(([k, label, id]) => need(h[k], label, id, "", true));
+    .forEach(([k, label, id]) => need(h[k], label, id, ""));
   const list = systemsOf(job);
   const perSystem = (pre, sys) => {
     const hh = job.header;
-    need(hh.location, pre + "Location", "f_location", sys, true);
-    need(hh.cells, pre + "Number of cells", "f_cells", sys, true);
-    if (!readingsOf().length) items.push({ label: pre + "No readings logged", jump: "btnAddReading", sys, block: false });
-    missingReadingNotes().forEach((m) => items.push({ label: pre + m.charAt(0).toUpperCase() + m.slice(1), jump: "readings", sys, block: false }));
+    need(hh.location, pre + "Location", "f_location", sys);
+    need(hh.cells, pre + "Number of cells", "f_cells", sys);
+    if (!readingsOf().length) items.push({ label: pre + "No readings logged", jump: "btnAddReading", sys });
+    missingReadingNotes().forEach((m) => items.push({ label: pre + m.charAt(0).toUpperCase() + m.slice(1), jump: "readings", sys }));
   };
   if (!list) perSystem("", "");
   else {
@@ -3366,35 +3365,21 @@ function exportChecks() {
       });
     } finally { switchSystemData(job, orig); }
   }
-  need(h.custName, "Customer print name", "f_custName", "", true);
-  need(h.custSig, "Customer signature", "sig:cust", "", true);
-  need(h.nalcoName, "Technician print name", "f_nalcoName", "", true);
-  need(h.nalcoSig, "Technician signature", "sig:nalco", "", true);
+  need(h.custName, "Customer print name", "f_custName", "");
+  need(h.custSig, "Customer signature", "sig:cust", "");
+  need(h.nalcoName, "Technician print name", "f_nalcoName", "");
+  need(h.nalcoSig, "Technician signature", "sig:nalco", "");
   return items;
-}
-function exportBlockers() { return exportChecks().filter((i) => i.block); }
-function updateExportLock() {
-  const b = $("btnExport");
-  const job = activeJob();
-  if (!b || !job) return;
-  const n = exportBlockers().length;
-  b.classList.toggle("locked", n > 0);
-  b.setAttribute("aria-label", n ? `Export PDF locked, ${n} thing${n === 1 ? "" : "s"} missing` : "Export PDF");
-  const use = b.querySelector("use");
-  if (use) use.setAttribute("href", n ? "#i-lock" : "#i-share");
 }
 function renderExportCheck() {
   const items = exportChecks();
-  const blockers = items.filter((i) => i.block);
-  const notes = items.filter((i) => !i.block);
   const box = $("pdfCheck");
-  const row = (it) => `<button type="button" class="check-item ${it.block ? "err" : ""}" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`;
+  const row = (it) => `<button type="button" class="check-item" data-jump="${escapeHtml(it.jump)}" data-sys="${escapeHtml(it.sys || "")}">${icon("alert")}<span>${escapeHtml(it.label)}</span><span class="go">Fix ›</span></button>`;
   box.classList.toggle("ok", !items.length);
   box.innerHTML = items.length
-    ? (blockers.length ? `<div class="check-title err">${icon("lock")} Export is locked – ${blockers.length} required thing${blockers.length === 1 ? "" : "s"} missing</div>${blockers.map(row).join("")}` : "")
-      + (notes.length ? `<div class="check-title">${notes.length} thing${notes.length === 1 ? "" : "s"} worth checking</div>${notes.map(row).join("")}` : "")
+    ? `<div class="check-title">${items.length} thing${items.length === 1 ? "" : "s"} to check before sending</div>${items.map(row).join("")}`
     : `<div class="check-ok">${icon("check")}Everything's filled in – ready to send</div>`;
-  return blockers.length;
+  return items.length;
 }
 function jumpTo(target) {
   closePdfReview();
@@ -3420,16 +3405,7 @@ async function openPdfReview() {
   persist();
   pdfOut = null;
   const pages = $("pdfPages");
-  const blocked = renderExportCheck();
-  if (blocked) {
-    $("pdfShareNote").classList.add("hidden");
-    $("btnPdfShare").disabled = true;
-    $("btnPdfDownload").disabled = true;
-    pages.innerHTML = `<div class="pdf-msg static">The PDF stays locked until the items above are filled in.<br>Tap Fix to jump straight to each one.</div>`;
-    $("pdfBack").classList.add("show");
-    $("pdfSheet").classList.add("show");
-    return;
-  }
+  renderExportCheck();
   const shareable = canShareFiles();
   $("pdfShareNote").classList.toggle("hidden", shareable);
   $("btnPdfShare").disabled = true;
@@ -3978,7 +3954,6 @@ function fillAll() {
     renderReadings();
     updatePreview();
     renderSystems();
-    updateExportLock();
   }
   renderJobs();
   applyMode();
