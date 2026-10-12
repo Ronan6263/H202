@@ -330,6 +330,17 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
   }
   details.card[open]::details-content, details.job-group[open]::details-content { block-size: auto; }
 }
+/* each block gets a faint hue mixed into the theme's own line colour, so it follows every theme */
+#cardHeader { --blk: #6c9bff; }
+#cardSystems { --blk: #2fc19a; }
+#cardReadings { --blk: #4db3e6; }
+#cardChecks { --blk: #e0a43a; }
+#cardSigs { --blk: #a68cff; }
+#cardHeader, #cardSystems, #cardChecks, #cardSigs { border-color: color-mix(in srgb, var(--blk) 42%, var(--line)); }
+#cardReadings.card.sub { border-top-color: color-mix(in srgb, var(--blk) 45%, var(--line)); }
+#cardHeader > summary .sec-ico, #cardSystems > summary .sec-ico, #cardReadings > summary .sec-ico, #cardChecks > summary .sec-ico, #cardSigs > summary .sec-ico {
+  background: color-mix(in srgb, var(--blk) 16%, transparent); color: color-mix(in srgb, var(--blk) 72%, var(--text));
+}
 .sys-bar { position: sticky; top: calc(var(--hdr-h) - 1px); z-index: 6; margin: 0 -8px 12px; padding: 8px; background: var(--panel); border-bottom: 1px solid var(--line); border-radius: 12px; }
 .sys-row { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .sys-row::-webkit-scrollbar { display: none; }
@@ -1197,11 +1208,14 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
       </div>
     </details>
 
-    <section class="card" id="cardSystems">
-      <div class="card-head" style="margin-bottom:10px">
-        <div><span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span><div><h2 id="sysTitle">System</h2><span class="count" id="systemSummary">ID, location, cells</span></div></div>
+    <details class="card" id="cardSystems" open>
+      <summary>
+        <span class="sec-ico"><svg class="ico"><use href="#i-tower"/></svg></span>
+        <div><h2 id="sysTitle">System</h2><span class="count" id="systemSummary">ID, location, cells</span></div>
         <span class="pill hidden" id="sysCountPill"><span class="num" id="sysCount">1</span>&nbsp;systems</span>
-      </div>
+        <svg class="ico chev"><use href="#i-chev"/></svg>
+      </summary>
+      <div>
       <div class="sys-bar hidden" id="sysBar"><div class="sys-row" id="sysRow"></div></div>
       <div class="sys-panel">
         <div class="sys-name hidden" id="sysNameWrap"><label for="f_sysName" style="margin-top:4px">System name</label><input id="f_sysName" autocomplete="off" maxlength="40" /></div>
@@ -1229,11 +1243,13 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         <span class="notes-state">Above readings on PDF</span>
       </div>
       <textarea class="notes-edit" id="notesExtra" rows="3" autocapitalize="sentences" placeholder="Add notes (optional) – e.g. tower drained and flushed"></textarea>
-      <div class="notes-head">
-        <label>From readings</label>
-        <span class="notes-state">Auto</span>
+      <div id="fromReadings" class="hidden">
+        <div class="notes-head">
+          <label>From readings</label>
+          <span class="notes-state">Auto</span>
+        </div>
+        <pre class="preview" id="commentsPreview"></pre>
       </div>
-      <pre class="preview" id="commentsPreview"></pre>
       </div>
     </details>
       <div class="sys-foot">
@@ -1241,7 +1257,8 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         <button type="button" class="btn sm ghost danger hidden" id="btnRemoveSystem">Remove this system</button>
       </div>
       <p class="sys-hint" id="sysHint"></p>
-    </section>
+      </div>
+    </details>
 
     <details class="card" id="cardChecks">
       <summary>
@@ -1915,11 +1932,8 @@ function updatePreview() {
   const el = $("commentsPreview");
   if (el) {
     const auto = buildComments();
-    const metals = ["iron", "copper"].filter((f) => testOn(f)).map((f) => f[0].toUpperCase() + f.slice(1));
-    el.textContent = auto || (metals.length
-      ? `${metals.join(" and ")} readings will appear here once entered.`
-      : "This job only logs turbidity, so no iron or copper comments are added.");
-    el.classList.toggle("empty-preview", !auto);
+    $("fromReadings").classList.toggle("hidden", !auto);
+    if (auto) el.textContent = auto;
   }
   const box = $("notesExtra");
   const job = activeJob();
@@ -3851,6 +3865,7 @@ function renderSystems() {
     if (document.activeElement !== nameBox) nameBox.value = (list[ai] && list[ai].name) || "";
   }
   document.querySelectorAll('[data-sn-meta="cardSystems"]').forEach((m) => { m.textContent = list ? String(list.length) : ""; });
+  if (list && $("systemSummary")) $("systemSummary").textContent = labels.join(" · ");
 }
 function addSystem() {
   const job = activeJob();
@@ -4418,7 +4433,7 @@ function renderSectionNav(job, jp, ct, sigs) {
   const meta = { cardChecks: `${ct.yes}/${ct.total}`, cardReadings: `${jp.done}/${jp.slots}`, cardSigs: `${sigs}/2` };
   document.querySelectorAll(".sn-btn").forEach((b) => b.classList.toggle("ok", !!ok[b.dataset.sec]));
   document.querySelectorAll("[data-sn-meta]").forEach((m) => { m.textContent = meta[m.dataset.snMeta] || ""; });
-  const sys = $("systemSummary");
+  const sys = systemsOf(job) ? null : $("systemSummary");
   if (sys) sys.textContent = [h.systemId, h.location, h.cells ? `${h.cells} cell${h.cells === "1" ? "" : "s"}` : ""].filter(Boolean).join(" · ") || "ID, location, cells";
 }
 function headerH() {
