@@ -337,17 +337,19 @@ details.card[open] > summary + * { animation: fadeIn 320ms var(--ease) both; }
 #cardChecks { --blk: #e0a43a; }
 #cardSigs { --blk: #a68cff; }
 #cardHeader, #cardSystems, #cardChecks, #cardSigs { border-color: color-mix(in srgb, var(--blk) 42%, var(--line)); }
-#cardReadings.card.sub { border-top-color: color-mix(in srgb, var(--blk) 45%, var(--line)); }
-#cardHeader > summary .sec-ico, #cardSystems > summary .sec-ico, #cardReadings > summary .sec-ico, #cardChecks > summary .sec-ico, #cardSigs > summary .sec-ico {
+#cardReadings { margin-top: 16px; padding-top: 14px; border-top: 1px solid color-mix(in srgb, var(--blk) 45%, var(--line)); }
+#cardHeader > summary .sec-ico, #cardSystems > summary .sec-ico, #cardChecks > summary .sec-ico, #cardSigs > summary .sec-ico {
   background: color-mix(in srgb, var(--blk) 16%, transparent); color: color-mix(in srgb, var(--blk) 72%, var(--text));
 }
 .sys-bar { position: sticky; top: calc(var(--hdr-h) - 1px); z-index: 6; margin: 0 -8px 12px; padding: 8px; background: var(--panel); border-bottom: 1px solid var(--line); border-radius: 12px; }
 .sys-row { display: flex; gap: 8px; flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
 .sys-row::-webkit-scrollbar { display: none; }
-.card.sub { background: transparent; border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: none; padding: 0; margin: 18px 0 0; }
-details.card.sub > summary { padding: 14px 0 12px; border-radius: 12px; }
-details.card.sub > summary + * { padding: 2px 0 4px; }
 .sys-foot { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; padding-top: 14px; border-top: 1px solid var(--line); }
+.sys-bar { display: flex; align-items: center; gap: 8px; }
+.sys-bar .sys-row { flex: 1 1 auto; min-width: 0; }
+.sys-bar .chip.add { flex: 0 0 auto; min-height: 46px; padding: 6px 14px; border: 1px dashed var(--line-2); background: transparent; color: var(--accent-text); font-weight: 600; display: inline-flex; align-items: center; gap: 6px; border-radius: 14px; }
+.sys-bar.single { position: static; margin: 0 0 12px; padding: 0; background: none; border: 0; border-radius: 0; }
+.sys-bar.single .chip.add { min-height: 40px; }
 .sys-row .chip { flex: 0 0 auto; width: auto; display: inline-flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 1px; min-height: 46px; padding: 6px 14px; text-align: left; border-radius: 14px; border: 1px solid var(--line-2); background: var(--input); color: var(--text); }
 .sys-row .chip b { font-weight: 600; font-size: 15px; }
 .sys-row .chip small { font-size: 11.5px; font-weight: 500; color: var(--muted); }
@@ -355,7 +357,6 @@ details.card.sub > summary + * { padding: 2px 0 4px; }
 .sys-row .chip.on small { color: inherit; opacity: .8; }
 .sys-row .chip.add { background: transparent; flex-direction: row; min-height: 46px; padding: 6px 14px; align-items: center; gap: 6px; border-style: dashed; color: var(--accent-text); font-weight: 600; }
 .sys-name { margin-bottom: 4px; }
-.sys-hint { margin: 12px 0 0; font-size: 12.5px; color: var(--muted); line-height: 1.5; }
 .sys-tag { font-family: var(--font); font-size: 12px; font-weight: 600; letter-spacing: 0; color: var(--accent-text); background: var(--accent-dim); padding: 2px 9px; border-radius: 999px; margin-left: 8px; vertical-align: 2px; white-space: nowrap; }
 .pdf-sys-head { margin: 14px 4px 8px; font-size: 13px; font-weight: 600; color: var(--muted); }
 .pdf-sys-note { margin: 4px 4px 0; font-size: 12.5px; color: var(--muted); }
@@ -1216,7 +1217,10 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         <svg class="ico chev"><use href="#i-chev"/></svg>
       </summary>
       <div>
-      <div class="sys-bar hidden" id="sysBar"><div class="sys-row" id="sysRow"></div></div>
+      <div class="sys-bar single" id="sysBar">
+        <div class="sys-row hidden" id="sysRow"></div>
+        <button type="button" class="chip add" id="btnAddSystem"><svg class="ico sm" aria-hidden="true"><use href="#i-plus"/></svg><span id="addSysLabel">Add another system</span></button>
+      </div>
       <div class="sys-panel">
         <div class="sys-name hidden" id="sysNameWrap"><label for="f_sysName" style="margin-top:4px">System name</label><input id="f_sysName" autocomplete="off" maxlength="40" /></div>
         <div class="grid-2">
@@ -1225,14 +1229,7 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         </div>
         <label for="f_location">Location</label><input id="f_location" list="dl_location" autocomplete="off" />
       </div>
-    <details class="card sub" id="cardReadings" open>
-      <summary>
-        <span class="sec-ico"><svg class="ico"><use href="#i-flask"/></svg></span>
-        <div><h2>Readings</h2></div>
-        <span class="pill"><span class="num" id="readingCount">0</span>&nbsp;logged</span>
-        <svg class="ico chev"><use href="#i-chev"/></svg>
-      </summary>
-      <div>
+      <div id="cardReadings">
       <div class="tests-row" id="testsRow"></div>
       <div class="progress" id="progress"></div>
       <div id="readingList"></div>
@@ -1251,12 +1248,9 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
         <pre class="preview" id="commentsPreview"></pre>
       </div>
       </div>
-    </details>
-      <div class="sys-foot">
-        <button type="button" class="btn sm ghost" id="btnAddSystemSolo"><svg class="ico sm"><use href="#i-plus"/></svg>Add another system</button>
-        <button type="button" class="btn sm ghost danger hidden" id="btnRemoveSystem">Remove this system</button>
+      <div class="sys-foot hidden" id="sysFoot">
+        <button type="button" class="btn sm ghost danger" id="btnRemoveSystem">Remove this system</button>
       </div>
-      <p class="sys-hint" id="sysHint"></p>
       </div>
     </details>
 
@@ -3404,7 +3398,7 @@ function jumpTo(target) {
   closePdfReview();
   if (target.startsWith("sig:")) { $("cardSigs").open = true; setTimeout(() => openSig(target.slice(4)), 300); return; }
   if (target === "readings" || target === "btnAddReading") {
-    $("cardReadings").open = true;
+    $("cardSystems").open = true;
     const firstOpen = readingsOf().find((r) => readingStatus(r) !== "done");
     if (firstOpen && target === "readings") { openReadingIds.add(firstOpen.id); renderReadings(); }
     setTimeout(() => {
@@ -3838,9 +3832,8 @@ function renderSystems() {
   if (list) {
     const html = list.map((x, i) => {
       const p = jobProgressOne(systemView(job, x));
-      const done = p.readingsIn;
-      return `<button type="button" class="chip ${x.id === job.activeSys ? "on" : ""}" data-sys="${x.id}" aria-pressed="${x.id === job.activeSys}"><b>${escapeHtml(labels[i])}</b><small>${done ? "✓ " : ""}${p.done}/${p.slots} readings</small></button>`;
-    }).join("") + `<button type="button" class="chip add" id="btnAddSystem" aria-label="Add system">${icon("plus")}Add</button>`;
+      return `<button type="button" class="chip ${x.id === job.activeSys ? "on" : ""}" data-sys="${x.id}" aria-pressed="${x.id === job.activeSys}"><b>${escapeHtml(labels[i])}</b><small>${p.readingsIn ? "✓ " : ""}${p.done}/${p.slots} readings</small></button>`;
+    }).join("");
     if (box.dataset.sig !== html) {
       const keep = box.scrollLeft;
       box.innerHTML = html; box.dataset.sig = html; box.scrollLeft = keep;
@@ -3848,16 +3841,15 @@ function renderSystems() {
       if (on && (on.offsetLeft < box.scrollLeft || on.offsetLeft + on.offsetWidth > box.scrollLeft + box.clientWidth)) box.scrollLeft = Math.max(0, on.offsetLeft - 16);
     }
   } else box.dataset.sig = "";
-  $("sysBar").classList.toggle("hidden", !list);
+  box.classList.toggle("hidden", !list);
+  $("sysBar").classList.toggle("single", !list);
+  $("addSysLabel").textContent = list ? "Add" : "Add another system";
+  $("btnAddSystem").setAttribute("aria-label", list ? "Add system" : "Add another system");
   $("sysNameWrap").classList.toggle("hidden", !list);
   $("sysCountPill").classList.toggle("hidden", !list);
-  $("btnRemoveSystem").classList.toggle("hidden", !list);
-  $("btnAddSystemSolo").classList.toggle("hidden", !!list);
+  $("sysFoot").classList.toggle("hidden", !list);
   $("sysTitle").textContent = list ? "Systems" : "System";
   $("sysCount").textContent = String(list ? list.length : 1);
-  $("sysHint").textContent = list
-    ? "Customer, site, dates, times, checklists and signatures are shared. System ID, location, cells and readings are per system. Export PDF makes one PDF for each system."
-    : "More than one system in the building? Add each one here instead of making separate jobs. They share the customer info and signatures, and each exports its own PDF.";
   const nameBox = $("f_sysName");
   if (list && nameBox) {
     const ai = list.findIndex((x) => x.id === job.activeSys);
@@ -4107,10 +4099,9 @@ function wire() {
   // export checklist jumps
   $("sysRow").addEventListener("click", (e) => {
     const b = e.target.closest("[data-sys]");
-    if (b) return switchSystem(b.dataset.sys);
-    if (e.target.closest("#btnAddSystem")) addSystem();
+    if (b) switchSystem(b.dataset.sys);
   });
-  $("btnAddSystemSolo").addEventListener("click", addSystem);
+  $("btnAddSystem").addEventListener("click", addSystem);
   $("f_sysName").addEventListener("input", (e) => renameSystemLive(e.target.value));
   $("btnRemoveSystem").addEventListener("click", removeSystem);
   $("pdfCheck").addEventListener("click", (e) => { const b = e.target.closest("[data-jump]"); if (b) { if (b.dataset.sys) switchSystem(b.dataset.sys); jumpTo(b.dataset.jump); } });
@@ -4446,7 +4437,8 @@ function syncHeaderH() {
 function goSection(id) {
   const el = $(id);
   if (!el) return;
-  if (el.tagName === "DETAILS" && !el.open) el.open = true;
+  const dt = el.tagName === "DETAILS" ? el : el.closest("details");
+  if (dt && !dt.open) dt.open = true;
   const y = el.getBoundingClientRect().top + window.scrollY - headerH() - 10;
   const calm = document.documentElement.classList.contains("calm");
   window.scrollTo({ top: Math.max(0, y), behavior: calm ? "auto" : "smooth" });
@@ -4477,7 +4469,7 @@ function onShellScroll() {
   if (Date.now() < sectionLock) return;
   const line = headerH() + 60;
   let cur = "";
-  SECTIONS.forEach((id) => { const el = $(id); if (el && el.getBoundingClientRect().top <= line) cur = id; });
+  SECTIONS.forEach((id) => { const el = $(id); if (el && el.getClientRects().length && el.getBoundingClientRect().top <= line) cur = id; });
   if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = SECTIONS[SECTIONS.length - 1];
   setActiveSection(cur);
 }
