@@ -3463,7 +3463,7 @@ async function sharePdf() {
   if (!pdfOut) return;
   if (!canShareFiles()) { toast("This browser can't share files – use Save to device"); return; }
   try {
-    await navigator.share({ title: "Peroxide Log", files: (pdfOut.files || [pdfOut]).map((f) => f.file) });
+    await navigator.share({ files: (pdfOut.files || [pdfOut]).map((f) => f.file) });
     closePdfReview();
     toast("PDF shared");
   } catch (e) {
