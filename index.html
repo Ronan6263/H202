@@ -1067,6 +1067,10 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
   .home-hero h2 { font-size: 36px; }
 }
 
+.time-lbl { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+.auto-pill { border: 0; background: var(--accent-dim); color: var(--accent-text); font: inherit; font-size: 11.5px; font-weight: 700; padding: 3px 9px; border-radius: 99px; cursor: pointer; letter-spacing: 0; text-transform: none; }
+.auto-pill.hidden { display: none; }
+.time-hint { margin: 8px 2px 0; font-size: 12.5px; color: var(--faint); line-height: 1.45; }
 </style>
 </head>
 <body class="list-mode">
@@ -1198,9 +1202,10 @@ html.sig-wide, html.sig-wide body { overflow: hidden; }
           <div><label for="f_finishDate">Finish date</label><input id="f_finishDate" type="date" /></div>
         </div>
         <div class="grid-2 dt-row">
-          <div><label for="f_startTime">Start time</label><input id="f_startTime" type="time" /></div>
-          <div><label for="f_finishTime">Finish time</label><input id="f_finishTime" type="time" /></div>
+          <div><label for="f_startTime" class="time-lbl">Start time<button type="button" class="auto-pill hidden" id="autoStart">Set to auto</button></label><input id="f_startTime" type="time" /></div>
+          <div><label for="f_finishTime" class="time-lbl">Finish time<button type="button" class="auto-pill hidden" id="autoFinish">Set to auto</button></label><input id="f_finishTime" type="time" /></div>
         </div>
+        <p class="time-hint" id="timeHint">Follows your first and last reading. Change either one to set it yourself.</p>
         <label>Total disinfection period</label>
         <div class="seg">
           <button type="button" class="chip on" id="dur4">4 hours</button>
@@ -1799,6 +1804,16 @@ function applyAutoTitle() {
     if (input && document.activeElement !== input) input.value = h.title;
   }
 }
+function syncAutoPills() {
+  const job = activeJob();
+  const h = job && job.header;
+  if (!h) return;
+  $("autoStart").classList.toggle("hidden", !h.startManual);
+  $("autoFinish").classList.toggle("hidden", !h.finishManual);
+  $("timeHint").textContent = h.startManual || h.finishManual
+    ? "You set this time yourself, so readings won't change it. Tap “Set to auto” to follow your readings again."
+    : "Follows your first and last reading. Change either one to set it yourself.";
+}
 function applyTimesFromReadings() {
   const job = activeJob();
   const list = readingsOf();
@@ -1815,12 +1830,12 @@ function applyTimesFromReadings() {
   }
   if (!first || !last) return;
   const h = job.header;
-  if (first.time) {
+  if (first.time && !h.startManual) {
     h.startTime = first.time;
     h.startAmpm = first.ampm === "PM" ? "PM" : "AM";
     if ($("f_startTime")) $("f_startTime").value = to24(h.startTime, h.startAmpm);
   }
-  if (last.time) {
+  if (last.time && !h.finishManual) {
     h.finishTime = last.time;
     h.finishAmpm = last.ampm === "PM" ? "PM" : "AM";
     if ($("f_finishTime")) $("f_finishTime").value = to24(h.finishTime, h.finishAmpm);
@@ -2433,6 +2448,7 @@ function fillHeader() {
   set("f_attention", h.attention); set("f_copies", h.copies); set("f_sor", h.sor);
   set("f_startDate", toISODate(h.startDate)); set("f_finishDate", toISODate(h.finishDate));
   set("f_startTime", to24(h.startTime, h.startAmpm)); set("f_finishTime", to24(h.finishTime, h.finishAmpm));
+  syncAutoPills();
   set("f_systemId", h.systemId); set("f_location", h.location); set("f_cells", h.cells);
   set("f_otherHrs", h.otherHrs);
   set("f_custName", h.custName); set("f_custDate", toISODate(h.custDate));
@@ -3966,6 +3982,23 @@ function wire() {
     $(id).addEventListener("input", schedulePersist);
     $(id).addEventListener("change", () => { flushPersist(); persist(); });
     $(id).addEventListener("blur", flushPersist);
+  });
+  [["f_startTime", "startManual", "autoStart"], ["f_finishTime", "finishManual", "autoFinish"]].forEach(([id, flag, pill]) => {
+    $(id).addEventListener("input", () => {
+      const j = activeJob();
+      if (!j || !$(id).value) return;
+      j.header[flag] = true;
+      syncAutoPills();
+    });
+    $(pill).addEventListener("click", () => {
+      const j = activeJob();
+      if (!j) return;
+      j.header[flag] = false;
+      applyTimesFromReadings();
+      syncAutoPills();
+      flushPersist(); persist();
+      toast("Following your readings again");
+    });
   });
   $("dur4").addEventListener("click", () => { $("dur4").classList.add("on"); $("durOther").classList.remove("on"); syncOtherHrs(); persist(); renderProgress(); });
   $("f_otherHrs").addEventListener("input", () => setTimeout(renderProgress, 400));
